@@ -9,10 +9,18 @@ import net.modificationstation.stationapi.api.item.tool.ToolMaterialFactory;
 import java.awt.*;
 import java.util.HashMap;
 
-import static com.github.gtgolden.gtgoldencore.material.MaterialState.*;
-
+/**
+ * Example:
+ * @EventListener
+ * public void registerItems(ItemRegistryEvent event) {
+ *     new GTMaterial.Builder("name")
+ *            .toolProperties(3, 512, 5, 10)
+ *            .color(100, 0, 255)
+ *            .states(ingot, dust, ore)
+ *            .build();
+ * }
+ */
 public class GTMaterial {
-
     public String name;
     private final ToolMaterial toolMaterial;
     private final int color;
@@ -87,7 +95,7 @@ public class GTMaterial {
         }
 
         // mess? maybe..
-        public Builder states(MaterialState ... states) {
+        public Builder states(MaterialState... states) {
             for(MaterialState state: states) {
                 // DynamicItem will be used only for conversion during registry events
                 // TODO: uncomment when DynamicItem is done
@@ -95,33 +103,15 @@ public class GTMaterial {
             }
             return this;
         }
-        public Builder ingot(ItemBase itemBase) {
-            ingot(new ItemInstance(itemBase));
+        public Builder setItem(MaterialState state, ItemBase itemBase) {
+            setItem(state, new ItemInstance(itemBase));
             return this;
         }
-        public Builder ingot(ItemInstance itemInstance) {
-            states.put(ingot, itemInstance);
-            return this;
-        }
-
-        public Builder dust(ItemBase itemBase) {
-            dust(new ItemInstance(itemBase));
-            return this;
-        }
-        public Builder dust(ItemInstance itemInstance) {
-            states.put(dust, itemInstance);
+        public Builder setItem(MaterialState state, ItemInstance itemInstance) {
+            states.put(state, itemInstance);
             return this;
         }
 
-        public Builder ore(ItemBase itemBase) {
-            ore(new ItemInstance(itemBase));
-            return this;
-        }
-        public Builder ore(ItemInstance itemInstance) {
-            states.put(ore, itemInstance);
-            return this;
-        }
-
-        // Todo: fluid, sludge, gas, crystal, etc...
+        // Todo: fluid, sludge, gas, etc...
     }
 }

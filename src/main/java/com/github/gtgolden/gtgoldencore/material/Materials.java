@@ -1,9 +1,5 @@
 package com.github.gtgolden.gtgoldencore.material;
 
-import com.github.gtgolden.gtgoldencore.material.GTMaterial;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.tool.ToolMaterial;
-
 import java.util.HashMap;
 
 public class Materials {
