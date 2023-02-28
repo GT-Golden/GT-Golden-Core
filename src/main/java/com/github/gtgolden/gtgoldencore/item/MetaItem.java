@@ -1,5 +1,6 @@
 package com.github.gtgolden.gtgoldencore.item;
 
+import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -18,6 +19,7 @@ import java.util.Objects;
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {
 
     public static HashMap<String, MetaItem> metaItems = new HashMap<>();
+    public static MetaItem NULL;
 
     public MetaItem(Identifier identifier) {
         super(identifier);
@@ -45,25 +47,29 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
         return convert(MetaItem.get(itemName), material, count);
     }
     public static ItemInstance convert(ItemBase itemBase, String material) {
-        return convert(new ItemInstance(itemBase), material);
+        if (itemBase != NULL)
+            return convert(new ItemInstance(itemBase), material);
+        return null;
     }
     public static ItemInstance convert(ItemBase itemBase, String material, int count) {
-        return convert(new ItemInstance(itemBase), material, count);
+        if (itemBase != NULL)
+            return convert(new ItemInstance(itemBase), material, count);
+        return null;
     }
     public static ItemInstance convert(ItemInstance item, String material) {
-        if (item != null) item.getStationNBT().put("material", material);
+        item.getStationNBT().put("material", material);
         return item;
     }
     public static ItemInstance convert(ItemInstance item, String material, int count) {
-        if (item != null) {
-            item.getStationNBT().put("material", material);
-            item.count = count;
-        }
+        item.getStationNBT().put("material", material);
+        item.count = count;
         return item;
     }
 
     public static MetaItem get(String name) {
-        return MetaItem.metaItems.get(name);
+        MetaItem item = metaItems.get(name);
+        if (item != null) return item;
+        return NULL;
     }
 
     @Override

@@ -11,6 +11,8 @@ import net.modificationstation.stationapi.api.item.tool.ToolMaterialFactory;
 import java.awt.*;
 import java.util.HashMap;
 
+import static com.github.gtgolden.gtgoldencore.item.MetaItem.NULL;
+
 /**
  * Example:
  * @EventListener
@@ -96,23 +98,23 @@ public class GTMaterial {
         // mess? maybe..
         public Builder states(String... states) {
             for(String state: states) {
-                ItemInstance item = MetaItem.convert(state, name);
-                if (item == null) {
+                if (MetaItem.get(state) == NULL) {
                     GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
                     continue;
                 }
+                ItemInstance item = MetaItem.convert(state, name);
                 this.states.put(state, item);
             }
             return this;
         }
         public Builder setItem(String state, ItemBase itemBase) {
-            setItem(state, new ItemInstance(itemBase));
-            return this;
+            return setItem(state, new ItemInstance(itemBase));
         }
         public Builder setItem(String state, ItemInstance itemInstance) {
-            if (MetaItem.get(state) == null)
+            if (MetaItem.get(state) == NULL)
                 GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
-            this.states.put(state, itemInstance);
+            else
+                this.states.put(state, itemInstance);
             return this;
         }
     }
