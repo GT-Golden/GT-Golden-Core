@@ -1,6 +1,8 @@
 package com.github.gtgolden.gtgoldencore.material;
 
+import com.github.gtgolden.gtgoldencore.item.MetaItem;
 import com.github.gtgolden.gtgoldencore.utils.ColorConverter;
+import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
@@ -24,17 +26,16 @@ public class GTMaterial {
     public String name;
     private final ToolMaterial toolMaterial;
     private final int color;
-    private HashMap<MaterialState, ItemInstance> states;
+    private HashMap<String, ItemInstance> states;
 
-    private GTMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<MaterialState, ItemInstance> states) {
+    private GTMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states) {
         this.color = color;
         this.toolMaterial = baseMaterial;
         this.name = name;
         this.states = states;
     }
 
-
-    public static GTMaterial registerNewUniqueMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<MaterialState, ItemInstance> states) {
+    public static GTMaterial registerNewUniqueMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states) {
         GTMaterial material = new GTMaterial(color, baseMaterial, name, states);
         Materials.put(name, material);
         return material;
@@ -48,21 +49,19 @@ public class GTMaterial {
         return color;
     }
 
-    public ItemInstance ingot() {
-        return states.get("ingot");
+    public ItemInstance as(String state) {
+        return states.get(state);
     }
-    public ItemInstance dust() {
-        return states.get("dust");
-    }
-    public ItemInstance ore() {
-        return states.get("ore");
+
+    public String[] states() {
+        return states.keySet().toArray(new String[0]);
     }
 
     public static class Builder {
         private ToolMaterial material;
         private int color;
         private String name;
-        private HashMap<MaterialState, ItemInstance> states;
+        private HashMap<String, ItemInstance> states;
         public Builder(String name) {
             this.name = name;
             this.states = new HashMap<>();
@@ -86,7 +85,7 @@ public class GTMaterial {
         public Builder color(int rgb) {
             return color(new Color(rgb));
         }
-        public Builder color(int r, int g, int b) {
+        public Builder color(short r, short g, short b) {
             return color(new Color(r,g,b));
         }
         public Builder color(Color rgba) {
@@ -95,23 +94,26 @@ public class GTMaterial {
         }
 
         // mess? maybe..
-        public Builder states(MaterialState... states) {
-            for(MaterialState state: states) {
-                // DynamicItem will be used only for conversion during registry events
-                // TODO: uncomment when DynamicItem is done
-                // this.states.put(ingot, DynamicItem.ingot(name));
+        public Builder states(String... states) {
+            for(String state: states) {
+                ItemInstance item = MetaItem.convert(state, name);
+                if (item == null) {
+                    GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
+                    continue;
+                }
+                this.states.put(state, item);
             }
             return this;
         }
-        public Builder setItem(MaterialState state, ItemBase itemBase) {
+        public Builder setItem(String state, ItemBase itemBase) {
             setItem(state, new ItemInstance(itemBase));
             return this;
         }
-        public Builder setItem(MaterialState state, ItemInstance itemInstance) {
-            states.put(state, itemInstance);
+        public Builder setItem(String state, ItemInstance itemInstance) {
+            if (MetaItem.get(state) == null)
+                GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
+            this.states.put(state, itemInstance);
             return this;
         }
-
-        // Todo: fluid, sludge, gas, etc...
     }
 }

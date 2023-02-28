@@ -1,6 +1,9 @@
 package com.github.gtgolden.gtgoldencore.utils;
 
+import com.github.gtgolden.gtgoldencore.material.GTMaterial;
+import com.github.gtgolden.gtgoldencore.material.Materials;
 import net.minecraft.item.ItemInstance;
+import net.minecraft.util.io.CompoundTag;
 
 public class ItemUtil {
     public static boolean compare(ItemInstance filter, ItemInstance item) {
@@ -13,5 +16,9 @@ public class ItemUtil {
             return sameId && sameNBT;
         }
         return sameId;
+    }
+    public static GTMaterial getUniqueMaterial(ItemInstance item) {
+        CompoundTag nbt = item.getStationNBT();
+        return Materials.get(nbt.getString("material"));
     }
 }
