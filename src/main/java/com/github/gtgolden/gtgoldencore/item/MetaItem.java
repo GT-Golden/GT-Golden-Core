@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {
 
-    public static HashMap<String, MetaItem> metaItems;
+    public static HashMap<String, MetaItem> metaItems = new HashMap<>();
 
     public MetaItem(Identifier identifier) {
         super(identifier);
