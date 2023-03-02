@@ -28,19 +28,15 @@ public class GTMaterial {
     public String name;
     private final ToolMaterial toolMaterial;
     private final int color;
+    private final Element element;
     private HashMap<String, ItemInstance> states;
 
-    private GTMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states) {
+    private GTMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states, Element element) {
         this.color = color;
         this.toolMaterial = baseMaterial;
         this.name = name;
         this.states = states;
-    }
-
-    public static GTMaterial registerNewUniqueMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states) {
-        GTMaterial material = new GTMaterial(color, baseMaterial, name, states);
-        Materials.put(name, material);
-        return material;
+        this.element = element;
     }
 
     public ToolMaterial getToolMaterial() {
@@ -59,17 +55,24 @@ public class GTMaterial {
         return states.keySet().toArray(new String[0]);
     }
 
+    public Element getElement() {
+        return element;
+    }
+
     public static class Builder {
-        private ToolMaterial material;
-        private int color;
-        private String name;
-        private HashMap<String, ItemInstance> states;
+        protected ToolMaterial toolMaterial;
+        protected int color;
+        protected String name;
+        protected HashMap<String, ItemInstance> states;
+        private Element element;
         public Builder(String name) {
             this.name = name;
             this.states = new HashMap<>();
         }
         public GTMaterial build() {
-            return GTMaterial.registerNewUniqueMaterial(color, material, name, states);
+            GTMaterial material = new GTMaterial(color, toolMaterial, name, states, element);
+            Materials.put(name, material);
+            return material;
         }
         public Builder toolProperties(ToolMaterial material){
             toolProperties(
@@ -80,7 +83,7 @@ public class GTMaterial {
         }
         public Builder toolProperties(int miningLevel, int durability, float miningSpeed, int attackDamage) {
             // default for diamond is 3, 1561, 8.0, 3
-            material = ToolMaterialFactory
+            toolMaterial = ToolMaterialFactory
                     .create(name, miningLevel, durability, miningSpeed, attackDamage);
             return this;
         }
@@ -115,6 +118,11 @@ public class GTMaterial {
                 GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
             else
                 this.states.put(state, itemInstance);
+            return this;
+        }
+
+        public Builder element(String name) {
+            element=Elements.get(name);
             return this;
         }
     }
