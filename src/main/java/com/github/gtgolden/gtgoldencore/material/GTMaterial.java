@@ -2,7 +2,6 @@ package com.github.gtgolden.gtgoldencore.material;
 
 import com.github.gtgolden.gtgoldencore.item.MetaItem;
 import com.github.gtgolden.gtgoldencore.utils.ColorConverter;
-import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
@@ -12,6 +11,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 import static com.github.gtgolden.gtgoldencore.item.MetaItem.MISSING;
+import static com.github.gtgolden.gtgoldencore.GTGoldenCore.LOGGER;
 
 /**
  * Example:
@@ -60,17 +60,20 @@ public class GTMaterial {
     }
 
     public static class Builder {
-        private ToolMaterial material;
+        private ToolMaterial toolMaterial;
         private int color;
-        private String name;
+        private final String name;
         private HashMap<String, ItemInstance> states;
+
         public Builder(String name) {
             this.name = name;
             this.states = new HashMap<>();
         }
+
         public GTMaterial build() {
-            return GTMaterial.registerNewUniqueMaterial(color, material, name, states);
+            return GTMaterial.registerNewUniqueMaterial(color, toolMaterial, name, states);
         }
+
         public Builder toolProperties(ToolMaterial material){
             toolProperties(
                     material.getMiningLevel(), material.getDurability(),
@@ -80,10 +83,11 @@ public class GTMaterial {
         }
         public Builder toolProperties(int miningLevel, int durability, float miningSpeed, int attackDamage) {
             // default for diamond is 3, 1561, 8.0, 3
-            material = ToolMaterialFactory
+            toolMaterial = ToolMaterialFactory
                     .create(name, miningLevel, durability, miningSpeed, attackDamage);
             return this;
         }
+
         public Builder color(int rgb) {
             return color(new Color(rgb));
         }
@@ -95,24 +99,18 @@ public class GTMaterial {
             return this;
         }
 
-        // mess? maybe..
         public Builder states(String... states) {
-            for(String state: states) {
-                if (MetaItem.get(state) == MISSING) {
-                    GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
-                    continue;
-                }
-                ItemInstance item = MetaItem.convert(state, name);
-                this.states.put(state, item);
-            }
+            for(String state: states)
+                setItem(state, MetaItem.convert(state, name));
             return this;
         }
         public Builder setItem(String state, ItemBase itemBase) {
             return setItem(state, new ItemInstance(itemBase));
         }
         public Builder setItem(String state, ItemInstance itemInstance) {
-            if (MetaItem.get(state) == MISSING)
-                GTGoldenCore.LOGGER.error("Can't find state " + state + " for material " + name);
+            GTMaterial material = Materials.get(name);
+            if (material != null && material.as(state) != null)
+                LOGGER.error("Can't find state " + state + " for material " + name);
             else
                 this.states.put(state, itemInstance);
             return this;
