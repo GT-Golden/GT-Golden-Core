@@ -15,6 +15,8 @@ public class ItemListener {
         LOGGER.info("Registering technical stuff");
         MISSING = new MetaItem(MOD_ID.id("missing"));
 
-        new GTMaterial.Builder("").color(0).build();
+        new GTMaterial.Builder("")
+                .color(0)
+                .build();
     }
 }
