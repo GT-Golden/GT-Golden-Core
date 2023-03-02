@@ -19,6 +19,7 @@ public class ItemUtil {
     }
     public static GTMaterial getUniqueMaterial(ItemInstance item) {
         CompoundTag nbt = item.getStationNBT();
+        if (nbt == null || nbt.getString("material") == null ) return Materials.get("");
         return Materials.get(nbt.getString("material"));
     }
 }

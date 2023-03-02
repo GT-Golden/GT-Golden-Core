@@ -1,6 +1,5 @@
 package com.github.gtgolden.gtgoldencore.item;
 
-import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -8,7 +7,6 @@ import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
 import net.minecraft.util.io.CompoundTag;
 import net.modificationstation.stationapi.api.client.gui.CustomTooltipProvider;
-import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
@@ -19,10 +17,11 @@ import java.util.Objects;
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {
 
     public static HashMap<String, MetaItem> metaItems = new HashMap<>();
-    public static MetaItem NULL;
+    public static MetaItem MISSING;
 
     public MetaItem(Identifier identifier) {
         super(identifier);
+        System.out.println(identifier.toString());
         setTranslationKey(identifier.toString());
         metaItems.put(identifier.id, this);
     }
@@ -47,14 +46,10 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
         return convert(MetaItem.get(itemName), material, count);
     }
     public static ItemInstance convert(ItemBase itemBase, String material) {
-        if (itemBase != NULL)
-            return convert(new ItemInstance(itemBase), material);
-        return null;
+        return convert(new ItemInstance(itemBase), material);
     }
     public static ItemInstance convert(ItemBase itemBase, String material, int count) {
-        if (itemBase != NULL)
-            return convert(new ItemInstance(itemBase), material, count);
-        return null;
+        return convert(new ItemInstance(itemBase), material, count);
     }
     public static ItemInstance convert(ItemInstance item, String material) {
         item.getStationNBT().put("material", material);
@@ -69,7 +64,7 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
     public static MetaItem get(String name) {
         MetaItem item = metaItems.get(name);
         if (item != null) return item;
-        return NULL;
+        return MISSING;
     }
 
     @Override
