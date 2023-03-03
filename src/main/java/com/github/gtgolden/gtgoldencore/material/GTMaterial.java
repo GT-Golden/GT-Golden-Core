@@ -28,7 +28,7 @@ public class GTMaterial {
     public String name;
     private final ToolMaterial toolMaterial;
     private final int color;
-    private HashMap<String, ItemInstance> states;
+    private final HashMap<String, ItemInstance> states;
 
     private GTMaterial(int color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states) {
         this.color = color;
