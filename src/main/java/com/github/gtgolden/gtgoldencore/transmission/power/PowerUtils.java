@@ -7,12 +7,13 @@ import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
 import net.minecraft.tileentity.TileEntityBase;
 import net.minecraft.util.maths.Vec3i;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PowerUtils {
-    public static int attemptChargeItem(ItemInstance item, int availablePower, int drainPower) {
+    public static int attemptChargeItem(@NotNull ItemInstance item, int availablePower, int drainPower) {
         if (!(item.getType() instanceof ItemPowerStorage itemPowerStorage)) {
             return 0;
         }
@@ -23,7 +24,7 @@ public class PowerUtils {
         }
     }
 
-    public static int attemptConsumeItemPower(ItemInstance item, int consumeAmount) {
+    public static int attemptConsumeItemPower(@NotNull ItemInstance item, int consumeAmount) {
         if (!(item.getType() instanceof ItemPowerStorage itemPowerStorage)) {
             return 0;
         }
@@ -34,7 +35,7 @@ public class PowerUtils {
         }
     }
 
-    public static void updateConnectedMachines(Level level, Vec3i pos) {
+    public static void updateConnectedMachines(@NotNull Level level, @NotNull Vec3i pos) {
         System.out.println("Machine updates pushed from " + pos.x + ", " + pos.y + ", " + pos.z + ".");
         List<TilePowered> connectedMachines = PowerUtils.findMachineConnections(level, pos);
         for (TilePowered machine : connectedMachines) {
@@ -42,7 +43,7 @@ public class PowerUtils {
         }
     }
 
-    public static int sendPowerToConnections(List<TilePowered> machines, int availablePower, int drainPower) {
+    public static int sendPowerToConnections(@NotNull List<TilePowered> machines, int availablePower, int drainPower) {
         int powerDrained = 0;
 
         for (TilePowered machine : machines) {
@@ -56,9 +57,9 @@ public class PowerUtils {
         return powerDrained;
     }
 
-    public static List<TilePowered> findMachineConnections(Level level, Vec3i pos) {
+    public static @NotNull List<TilePowered> findMachineConnections(@NotNull Level level, @NotNull Vec3i pos) {
         List<Vec3Facing> allBlockConnections = findPowerConnections(level, pos);
-        allBlockConnections.removeIf(connection -> !checkSide(level, connection.pos(), ConnectionType.power, connection.side()));
+        allBlockConnections.removeIf(connection -> !WorldUtils.checkSide(level, connection.pos(), ConnectionType.power, connection.side()));
 
         List<TilePowered> allConnections = new ArrayList<>();
 
@@ -69,7 +70,7 @@ public class PowerUtils {
         return allConnections;
     }
 
-    public static List<Vec3Facing> findPowerConnections(Level level, Vec3i pos) {
+    public static @NotNull List<Vec3Facing> findPowerConnections(@NotNull Level level, @NotNull Vec3i pos) {
         List<Vec3Facing> blocksChecked = new ArrayList<>();
         List<Vec3Facing> blocksToCheck = checkSurroundingPowerConnection(level, pos);
         blocksChecked.add(new Vec3Facing(pos, 0));
@@ -96,39 +97,7 @@ public class PowerUtils {
         return blocksChecked;
     }
 
-    public static List<Vec3Facing> checkSurroundingPowerConnection(Level level, Vec3i pos) {
-        List<Vec3Facing> foundBlocks = new ArrayList<>();
-        Vec3i check;
-
-        check = new Vec3i(pos.x + 1, pos.y, pos.z);
-        if (checkSide(level, check, ConnectionType.power, 4))
-            foundBlocks.add(new Vec3Facing(check, 4));
-
-        check = new Vec3i(pos.x - 1, pos.y, pos.z);
-        if (checkSide(level, check, ConnectionType.power, 5))
-            foundBlocks.add(new Vec3Facing(check, 5));
-
-        check = new Vec3i(pos.x, pos.y + 1, pos.z);
-        if (checkSide(level, check, ConnectionType.power, 0))
-            foundBlocks.add(new Vec3Facing(check, 0));
-
-        check = new Vec3i(pos.x, pos.y - 1, pos.z);
-        if (checkSide(level, check, ConnectionType.power, 1))
-            foundBlocks.add(new Vec3Facing(check, 1));
-
-        check = new Vec3i(pos.x, pos.y, pos.z + 1);
-        if (checkSide(level, check, ConnectionType.power, 2))
-            foundBlocks.add(new Vec3Facing(check, 2));
-
-        check = new Vec3i(pos.x, pos.y, pos.z - 1);
-        if (checkSide(level, check, ConnectionType.power, 3))
-            foundBlocks.add(new Vec3Facing(check, 3));
-
-
-        return foundBlocks;
-    }
-
-    private static boolean checkSide(Level level, Vec3i pos, ConnectionType type, int side) {
-        return WorldUtils.getBlockCapabilities(level, pos).getConnectionCapability(type).canConnect(level, pos, side);
+    public static @NotNull List<Vec3Facing> checkSurroundingPowerConnection(@NotNull Level level, @NotNull Vec3i pos) {
+        return WorldUtils.checkSurroundingForConnection(level, ConnectionType.power, pos);
     }
 }
