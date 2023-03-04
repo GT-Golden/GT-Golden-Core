@@ -11,9 +11,12 @@ import net.minecraft.util.io.CompoundTag;
 import net.modificationstation.stationapi.api.client.gui.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
+import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {
@@ -73,33 +76,22 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
         CompoundTag nbt = item.getStationNBT();
         String untranslatedName = getTranslationKey();
         untranslatedName = untranslatedName.substring(untranslatedName.indexOf(":") + 1).replace("%s ", "");
-        String modId = Objects.requireNonNull(ItemRegistry.INSTANCE.getId(item.getType())).modID.toString();
+        ModID modId = Objects.requireNonNull(ItemRegistry.INSTANCE.getId(item.getType())).modID;
         String material = nbt.getString("material");
-        String materialName = I18n.translate(String.format("material.%s:%s.name", modId, material));
-        String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId, material, untranslatedName));
+        String materialName = I18n.translate(String.format("material.%s:%s.name", modId.toString(), material));
+        String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId.toString(), material, untranslatedName));
         GTMaterial gtMaterial = Materials.get(material);
-        System.out.println(
-                "\n\ngetTrKey(): " + getTranslationKey() +
-                "\nuntranslatedName: " + untranslatedName +
-                "\nmodId: " + modId +
-                "\nmaterial: " + material +
-                "\nmaterialName: " + materialName +
-                "\nitemName: " + itemName +
-                "\nString.format: " + String.format(originalTooltip, materialName) +
-                "\noriginalTooltip: " + originalTooltip
-        );
-        if (!itemName.contains(".name")) {
-            return new String[] {
-                    itemName,"\n\n",
-                    gtMaterial.getSourceMod(),"\n",
-                    modId
-            };
-        }
 
-        return new String[] {
-                String.format(originalTooltip, materialName),"\n\n",
-                gtMaterial.getSourceMod(),"\n",
-                modId
-        };
+        List<String> output = new ArrayList<>();
+
+        output.add(!itemName.contains(".name") ?
+                itemName :
+                String.format(originalTooltip, materialName));
+        output.add("");
+        if (!Objects.equals(gtMaterial.getSourceMod(), modId.getName()))
+            output.add(gtMaterial.getSourceMod());
+        output.add(modId.getName());
+
+        return output.toArray(new String[0]);
     }
 }

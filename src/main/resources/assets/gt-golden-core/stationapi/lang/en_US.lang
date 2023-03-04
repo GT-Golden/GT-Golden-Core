@@ -2,4 +2,5 @@ item.missing.name = %s Missing
 
 tile.generator.name=Generator
 
+material..name=NULL
 material.missing.name=NULL

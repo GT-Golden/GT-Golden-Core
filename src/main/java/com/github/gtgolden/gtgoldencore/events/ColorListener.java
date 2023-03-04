@@ -25,7 +25,16 @@ public class ColorListener {
     private static void registerItemColours(ItemColorsRegisterEvent event) {
         LOGGER.info("Registering item colours");
         ItemColors itemColors = event.itemColors;
+        for (MetaItem metaItem: MetaItem.metaItems.values())
+            itemColors.register(
+                    (itemInstance, tintIndex) ->
+                            Materials.get("").getMaterialColor(), MetaItem.MISSING
+            );
         for (GTMaterial material : Materials.allMaterials()) {
+            itemColors.register(
+                    (itemInstance, tintIndex) ->
+                            material.getMaterialColor(), MetaItem.MISSING
+            );
             for (String itemName : material.states())
                 itemColors.register(
                         (itemInstance, tintIndex) ->
