@@ -86,17 +86,20 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
                 "\nmaterialName: " + materialName +
                 "\nitemName: " + itemName +
                 "\nString.format: " + String.format(originalTooltip, materialName) +
-                "\noriginalTooltip: " + originalTooltip +
-                "\noriginalTooltip: " + gtMaterial.getSourceMod()
+                "\noriginalTooltip: " + originalTooltip
         );
         if (!itemName.contains(".name")) {
             return new String[] {
-                    itemName
+                    itemName,"\n\n",
+                    gtMaterial.getSourceMod(),"\n",
+                    modId
             };
         }
 
         return new String[] {
-                String.format(originalTooltip, materialName)
+                String.format(originalTooltip, materialName),"\n\n",
+                gtMaterial.getSourceMod(),"\n",
+                modId
         };
     }
 }

@@ -1,6 +1,8 @@
 package com.github.gtgolden.gtgoldencore.events;
 
 import com.github.gtgolden.gtgoldencore.item.MetaItem;
+import com.github.gtgolden.gtgoldencore.material.GTMaterial;
+import com.github.gtgolden.gtgoldencore.material.Materials;
 import com.github.gtgolden.gtgoldencore.utils.ItemUtil;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.color.block.BlockColors;
@@ -23,8 +25,12 @@ public class ColorListener {
     private static void registerItemColours(ItemColorsRegisterEvent event) {
         LOGGER.info("Registering item colours");
         ItemColors itemColors = event.itemColors;
-        for (MetaItem item: MetaItem.metaItems.values()) {
-            itemColors.register((itemInstance, tintIndex) -> ItemUtil.getUniqueMaterial(itemInstance).getMaterialColor(), item);
+        for (GTMaterial material : Materials.allMaterials()) {
+            for (String itemName : material.states())
+                itemColors.register(
+                        (itemInstance, tintIndex) ->
+                                material.getMaterialColor(), MetaItem.get(itemName)
+                );
         }
     }
 }

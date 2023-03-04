@@ -18,8 +18,6 @@ public class ItemListener {
 
         Materials.useModID(MOD_ID);
 
-        new GTMaterial.Builder("")
-                .color(0)
-                .build();
+        new GTMaterial.Builder("missing").build();
     }
 }

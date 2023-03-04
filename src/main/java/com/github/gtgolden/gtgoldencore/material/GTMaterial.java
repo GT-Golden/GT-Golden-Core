@@ -105,6 +105,7 @@ public class GTMaterial {
         private int color;
 
         public Builder(@NotNull String name) {
+            this.name = name;
             this.states = new HashMap<>();
             this.componentList = new ArrayList<>();
         }
