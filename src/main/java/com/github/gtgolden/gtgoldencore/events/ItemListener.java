@@ -2,6 +2,7 @@ package com.github.gtgolden.gtgoldencore.events;
 
 import com.github.gtgolden.gtgoldencore.item.MetaItem;
 import com.github.gtgolden.gtgoldencore.material.GTMaterial;
+import com.github.gtgolden.gtgoldencore.material.Materials;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 
@@ -14,6 +15,8 @@ public class ItemListener {
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering technical stuff");
         MISSING = new MetaItem(MOD_ID.id("missing"));
+
+        Materials.useModID(MOD_ID);
 
         new GTMaterial.Builder("")
                 .color(0)

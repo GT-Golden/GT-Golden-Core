@@ -1,5 +1,7 @@
 package com.github.gtgolden.gtgoldencore.item;
 
+import com.github.gtgolden.gtgoldencore.material.GTMaterial;
+import com.github.gtgolden.gtgoldencore.material.Materials;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -21,7 +23,6 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
 
     public MetaItem(Identifier identifier) {
         super(identifier);
-        System.out.println(identifier.toString());
         setTranslationKey(identifier.toString());
         metaItems.put(identifier.id, this);
     }
@@ -76,6 +77,18 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
         String material = nbt.getString("material");
         String materialName = I18n.translate(String.format("material.%s:%s.name", modId, material));
         String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId, material, untranslatedName));
+        GTMaterial gtMaterial = Materials.get(material);
+        System.out.println(
+                "\n\ngetTrKey(): " + getTranslationKey() +
+                "\nuntranslatedName: " + untranslatedName +
+                "\nmodId: " + modId +
+                "\nmaterial: " + material +
+                "\nmaterialName: " + materialName +
+                "\nitemName: " + itemName +
+                "\nString.format: " + String.format(originalTooltip, materialName) +
+                "\noriginalTooltip: " + originalTooltip +
+                "\noriginalTooltip: " + gtMaterial.getSourceMod()
+        );
         if (!itemName.contains(".name")) {
             return new String[] {
                     itemName
