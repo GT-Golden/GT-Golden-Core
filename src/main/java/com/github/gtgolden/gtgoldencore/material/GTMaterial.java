@@ -7,7 +7,6 @@ import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
 import net.modificationstation.stationapi.api.item.tool.ToolMaterialFactory;
-import org.apache.logging.log4j.message.Message;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +46,6 @@ public class GTMaterial {
             @Nullable ToolMaterial baseMaterial,
             @NotNull HashMap<String, ItemInstance> states
     ) {
-        materialInfo.verifyInfo(materialProperties, true);
         this.materialInfo = materialInfo;
         this.materialProperties = materialProperties;
         this.toolMaterial = baseMaterial;
@@ -70,7 +68,12 @@ public class GTMaterial {
     }
 
     public ItemInstance as(String state) {
-        return states.get(state);
+        return states.get(state).copy();
+    }
+    public ItemInstance as(String state, int amount) {
+        ItemInstance item = states.get(state).copy();
+        item.count = amount;
+        return item;
     }
 
     public String[] states() {
@@ -98,29 +101,25 @@ public class GTMaterial {
     public static class Builder {
         private Element element;
         private final HashMap<String, ItemInstance> states;
-        private final List<MaterialStack> componentList;
+        private final List<MaterialStack> chemList;
         private ToolMaterial toolMaterial;
         private String name;
-        private List<MaterialStack> materialStack;
         private int color;
 
         public Builder(@NotNull String name) {
             this.name = name;
             this.states = new HashMap<>();
-            this.componentList = new ArrayList<>();
+            this.chemList = new ArrayList<>();
         }
 
         public GTMaterial build() {
             GTMaterial material = new GTMaterial(
-                    new MaterialInfo(name, materialStack),
+                    new MaterialInfo(this),
                     new MaterialProperties(),
                     toolMaterial,
                     states
             );
             Materials.put(name, material);
-//            LOGGER.info(material);
-//            LOGGER.info(StackWalker.getInstance().walk(stream -> stream.skip(1).findFirst().get()).toString().split("\\.")[3]);
-//            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
             return material;
         }
 
@@ -151,6 +150,14 @@ public class GTMaterial {
             return this;
         }
 
+        public Builder state(String state, @Nullable int harvestLevel, @Nullable int burnTime) {
+            // todo harvest level & burn time
+            return states(state);
+        }
+
+        /**
+         * @param states names of MetaItem's
+         */
         public Builder states(@NotNull String... states) {
             for (String state : states)
                 setItem(state, MetaItem.convert(state, name));
@@ -184,7 +191,6 @@ public class GTMaterial {
                 LOGGER.trace("Material Components list malformed!");
                 return this;
             }
-            List<MaterialStack> elementStack = new ArrayList<>();
             for (int i = 0; i < components.length; i += 2) {
                 if (components[i].getClass() != GTMaterial.class || components[i+1].getClass() != int.class) {
                     LOGGER.trace(
@@ -194,7 +200,7 @@ public class GTMaterial {
                     );
                     continue;
                 }
-                elementStack.add(new MaterialStack(
+                this.chemList.add(new MaterialStack(
                         (GTMaterial) components[i],
                         (Integer) components[i + 1]
                 ));
@@ -203,12 +209,12 @@ public class GTMaterial {
         }
 
         public Builder components(MaterialStack... components) {
-            componentList.addAll(List.of(components));
+            chemList.addAll(List.of(components));
             return this;
         }
 
-        public Builder components(ImmutableList<MaterialStack> components) {
-            componentList.addAll(components);
+        public Builder components(List<MaterialStack> components) {
+            chemList.addAll(components);
             return this;
         }
     }
@@ -218,54 +224,25 @@ public class GTMaterial {
     }
 
     private static class MaterialInfo {
-        /**
-         * The unlocalized name of this Material.
-         * <p>
-         * Required.
-         */
         private final String name;
-        /**
-         * The mod this material added first.
-         * <p>
-         * Required.
-         */
         private final String sourceMod;
-        /**
-         * The color of this Material.
-         * <p>
-         * Default: 0xFFFFFF if no Components, otherwise it will be the average of Components.
-         */
-        private int color = -1;
-        /**
-         * The color of this Material.
-         * <p>
-         * Default: 0xFFFFFF if no Components, otherwise it will be the average of Components.
-         */
-        private boolean hasFluidColor = true;
-        /**
-         * The components of this Material.
-         * <p>
-         * Default: none.
-         */
+        private int color;
+        private final boolean hasFluidColor = true;
         private final ImmutableList<MaterialStack> componentList;
-        /**
-         * The Element of this Material, if it is a direct Element.
-         * <p>
-         * Default: none.
-         */
-        private Element element;
-        private MaterialInfo(String name, List<MaterialStack> materialStacks) {
-            this.name = name;
+        private final Element element;
+        private MaterialInfo(Builder builder) {
+            this.name = builder.name;
             this.sourceMod = Materials.modID;
-            if (materialStacks == null)
-                materialStacks = new ArrayList<>();
-            this.componentList = ImmutableList.copyOf(materialStacks);
+            this.componentList = ImmutableList.copyOf(builder.chemList);
+            this.element = builder.element;
+            this.color = builder.color;
+            averageColor();
         }
 
-        private void verifyInfo(MaterialProperties p, boolean averageRGB) {
+        private void averageColor() {
             // Verify MaterialRGB
             if (color != -1) return;
-            if (!averageRGB || componentList == null || componentList.isEmpty()) {
+            if (componentList == null || componentList.isEmpty()) {
                 color = 0xFFFFFF;
                 return;
             }

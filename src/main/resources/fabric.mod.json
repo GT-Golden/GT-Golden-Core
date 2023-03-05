@@ -19,7 +19,6 @@
   "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [
-      "com.github.gtgolden.gtgoldencore.events.ColorListener",
       "com.github.gtgolden.gtgoldencore.events.ItemListener",
       "com.github.gtgolden.gtgoldencore.GTGoldenCore"
     ],

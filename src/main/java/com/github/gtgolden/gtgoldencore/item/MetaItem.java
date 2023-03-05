@@ -8,6 +8,7 @@ import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
 import net.minecraft.util.io.CompoundTag;
+import net.modificationstation.stationapi.api.client.color.item.ItemColorProvider;
 import net.modificationstation.stationapi.api.client.gui.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {
+public class MetaItem extends TemplateItemBase implements CustomTooltipProvider, ItemColorProvider {
 
     public static HashMap<String, MetaItem> metaItems = new HashMap<>();
     public static MetaItem MISSING;
@@ -46,22 +47,11 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
     public static ItemInstance convert(String itemName, String material) {
         return convert(MetaItem.get(itemName), material);
     }
-    public static ItemInstance convert(String itemName, String material, int count) {
-        return convert(MetaItem.get(itemName), material, count);
-    }
     public static ItemInstance convert(ItemBase itemBase, String material) {
         return convert(new ItemInstance(itemBase), material);
     }
-    public static ItemInstance convert(ItemBase itemBase, String material, int count) {
-        return convert(new ItemInstance(itemBase), material, count);
-    }
     public static ItemInstance convert(ItemInstance item, String material) {
         item.getStationNBT().put("material", material);
-        return item;
-    }
-    public static ItemInstance convert(ItemInstance item, String material, int count) {
-        item.getStationNBT().put("material", material);
-        item.count = count;
         return item;
     }
 
@@ -93,5 +83,10 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
         output.add(modId.getName());
 
         return output.toArray(new String[0]);
+    }
+
+    @Override
+    public int getColor(ItemInstance item, int tint) {
+        return Materials.get(item.getStationNBT().getString("material")).getMaterialColor();
     }
 }
