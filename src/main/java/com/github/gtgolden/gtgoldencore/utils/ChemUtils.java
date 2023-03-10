@@ -1,6 +1,5 @@
-package com.github.gtgolden.gtgoldencore.material;
+package com.github.gtgolden.gtgoldencore.utils;
 
-import javax.annotation.RegEx;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

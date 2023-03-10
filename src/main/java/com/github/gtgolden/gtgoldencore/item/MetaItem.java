@@ -14,6 +14,7 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
         updateStats(item);
     }
 
-    public void updateStats(ItemInstance item) {
+    public void updateStats(@NotNull ItemInstance item) {
         CompoundTag nbt = item.getStationNBT();
         if (!nbt.containsKey("material")) {
             nbt.put("material", "missingMaterial");
@@ -50,19 +51,19 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
     public static ItemInstance convert(ItemBase itemBase, String material) {
         return convert(new ItemInstance(itemBase), material);
     }
-    public static ItemInstance convert(ItemInstance item, String material) {
+    public static ItemInstance convert(@NotNull ItemInstance item, String material) {
         item.getStationNBT().put("material", material);
         return item;
     }
 
     public static MetaItem get(String name) {
         MetaItem item = metaItems.get(name);
-        if (item != null) return item;
-        return MISSING;
+        if (item == null) return MISSING;
+        return item;
     }
 
     @Override
-    public String[] getTooltip(ItemInstance item, String originalTooltip) {
+    public String[] getTooltip(@NotNull ItemInstance item, String originalTooltip) {
         CompoundTag nbt = item.getStationNBT();
         String untranslatedName = getTranslationKey();
         untranslatedName = untranslatedName.substring(untranslatedName.indexOf(":") + 1).replace("%s ", "");
@@ -86,7 +87,7 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
     }
 
     @Override
-    public int getColor(ItemInstance item, int tint) {
+    public int getColor(@NotNull ItemInstance item, int tint) {
         return Materials.get(item.getStationNBT().getString("material")).getMaterialColor();
     }
 }

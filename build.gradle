@@ -51,7 +51,7 @@ repositories {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
+	// To change the versions see the gradle.property file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.glasslauncher:bin:${project.yarn_mappings}"
 	modImplementation "babric:fabric-loader:${project.loader_version}"

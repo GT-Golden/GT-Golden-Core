@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.material;
+package com.github.gtgolden.gtgoldencore.material.chemistry;
 
 /**
  * This is some kind of Periodic Table, which can be used to determine Properties of the Materials.

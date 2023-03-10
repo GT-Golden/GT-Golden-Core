@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.material;
+package com.github.gtgolden.gtgoldencore.material.chemistry;
 
 import com.google.common.base.CaseFormat;
 
@@ -144,8 +144,8 @@ public class Elements {
     public static final Element Dr = add(120, 180, -1, null, "Duranium", "Dr", false);
     public static final Element Ke = add(125, 198, -1, null, "Trinium", "Ke", false);
     public static final Element Nq = add(174, 352, 140, null, "Naquadah", "Nq", true);
-    public static final Element Nq1 = add(174, 354, 140, null, "NaquadahEnriched", "Nq+", true);
-    public static final Element Nq2 = add(174, 348, 140, null, "Naquadria", "*Nq*", true);
+    public static final Element Nq1 = add(174, 354, 140, null, "NaquadahEnriched", "Nu", true);
+    public static final Element Nq2 = add(174, 348, 140, null, "Naquadria", "Nr", true);
     public static final Element Nt = add(0, 1000, -1, null, "Neutronium", "Nt", false);
     public static final Element Sp = add(1, 0, -1, null, "Space", "Sp", false);
     public static final Element Ma = add(1, 0, -1, null, "Magic", "Ma", false);

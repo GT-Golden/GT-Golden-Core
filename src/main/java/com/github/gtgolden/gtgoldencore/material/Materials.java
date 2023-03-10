@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Materials {
 
-    private static HashMap<String, GTMaterial> materials = new HashMap<>();
+    private static final HashMap<String, GTMaterial> materials = new HashMap<>();
     protected static String modID;
     public static void put(String name, GTMaterial material) {
         materials.put(name, material);
@@ -26,10 +26,10 @@ public class Materials {
     public static GTMaterial get(@NotNull String name) {
         return materials.getOrDefault(name, materials.get("missing"));
     }
-    public static String[] allNames() {
+    public static String @NotNull [] allNames() {
         return materials.keySet().toArray(new String[0]);
     }
-    public static GTMaterial[] allMaterials() {
+    public static GTMaterial @NotNull [] allMaterials() {
         return materials.values().toArray(new GTMaterial[0]);
     }
 }
