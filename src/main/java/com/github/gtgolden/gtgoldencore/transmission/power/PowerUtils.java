@@ -1,6 +1,7 @@
 package com.github.gtgolden.gtgoldencore.transmission.power;
 
 import com.github.gtgolden.gtgoldencore.transmission.ConnectionType;
+import com.github.gtgolden.gtgoldencore.transmission.TileEntityWithCapabilities;
 import com.github.gtgolden.gtgoldencore.utils.Vec3Facing;
 import com.github.gtgolden.gtgoldencore.utils.WorldUtils;
 import net.minecraft.item.ItemInstance;
@@ -37,9 +38,9 @@ public class PowerUtils {
 
     public static void updateConnectedMachines(@NotNull Level level, @NotNull Vec3i pos) {
         System.out.println("Machine updates pushed from " + pos.x + ", " + pos.y + ", " + pos.z + ".");
-        List<TilePowered> connectedMachines = PowerUtils.findMachineConnections(level, pos);
-        for (TilePowered machine : connectedMachines) {
-            machine.markPowerDirty();
+        List<TileEntityWithCapabilities> connectedMachines = PowerUtils.findMachineConnections(level, pos);
+        for (TileEntityWithCapabilities machine : connectedMachines) {
+            machine.markDirty();
         }
     }
 
@@ -57,14 +58,14 @@ public class PowerUtils {
         return powerDrained;
     }
 
-    public static @NotNull List<TilePowered> findMachineConnections(@NotNull Level level, @NotNull Vec3i pos) {
+    public static @NotNull List<TileEntityWithCapabilities> findMachineConnections(@NotNull Level level, @NotNull Vec3i pos) {
         List<Vec3Facing> allBlockConnections = findPowerConnections(level, pos);
         allBlockConnections.removeIf(connection -> !WorldUtils.checkSide(level, connection.pos(), ConnectionType.power, connection.side()));
 
-        List<TilePowered> allConnections = new ArrayList<>();
+        List<TileEntityWithCapabilities> allConnections = new ArrayList<>();
 
         for (Vec3Facing block : allBlockConnections) {
-            allConnections.add((TilePowered) level.getTileEntity(block.pos().x, block.pos().y, block.pos().z));
+            allConnections.add((TileEntityWithCapabilities) level.getTileEntity(block.pos().x, block.pos().y, block.pos().z));
         }
 
         return allConnections;
@@ -77,7 +78,7 @@ public class PowerUtils {
 
         List<Vec3Facing> check;
         while (blocksToCheck.size() > 0) {
-            if (WorldUtils.getBlock(level, blocksToCheck.get(0).pos()) instanceof TilePowerStorage) {
+            if (WorldUtils.getBlock(level, blocksToCheck.get(0).pos()) instanceof TilePowerConnection) {
                 blocksChecked.add(blocksToCheck.get(0));
                 blocksToCheck.remove(0);
                 continue;

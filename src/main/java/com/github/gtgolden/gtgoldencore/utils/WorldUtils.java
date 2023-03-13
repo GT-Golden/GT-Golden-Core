@@ -3,7 +3,7 @@ package com.github.gtgolden.gtgoldencore.utils;
 import com.github.gtgolden.gtgoldencore.transmission.Connection;
 import com.github.gtgolden.gtgoldencore.transmission.ConnectionType;
 import com.github.gtgolden.gtgoldencore.transmission.TileCapabilities;
-import com.github.gtgolden.gtgoldencore.transmission.TileWithCapabilities;
+import com.github.gtgolden.gtgoldencore.transmission.HasCapabilities;
 import net.minecraft.block.BlockBase;
 import net.minecraft.level.BlockView;
 import net.minecraft.level.Level;
@@ -31,8 +31,8 @@ public class WorldUtils {
 
     public static @Nullable TileCapabilities getBlockCapabilities(@NotNull BlockView tileView, int x, int y, int z) {
         BlockBase block = getBlock(tileView, x, y, z);
-        if (block instanceof TileWithCapabilities) {
-            return ((TileWithCapabilities) block).getCapabilities();
+        if (block instanceof HasCapabilities) {
+            return ((HasCapabilities) block).getCapabilities();
         }
         return null;
     }

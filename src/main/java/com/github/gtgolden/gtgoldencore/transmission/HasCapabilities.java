@@ -1,5 +1,5 @@
 package com.github.gtgolden.gtgoldencore.transmission;
 
-public interface TileWithCapabilities {
+public interface HasCapabilities {
     TileCapabilities getCapabilities();
 }

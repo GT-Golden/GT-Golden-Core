@@ -9,10 +9,11 @@ import net.minecraft.util.io.CompoundTag;
 import net.modificationstation.stationapi.api.client.gui.CustomItemOverlay;
 import net.modificationstation.stationapi.api.client.gui.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.util.Colours;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
 public interface ItemPowerStorage extends CustomTooltipProvider, CustomItemOverlay {
-    default int getCurrentPower(ItemInstance item) {
+    default int getCurrentPower(@NotNull ItemInstance item) {
         CompoundTag nbt = item.getStationNBT();
         if (!nbt.containsKey("power")) {
             nbt.put("power", 0);
@@ -22,7 +23,7 @@ public interface ItemPowerStorage extends CustomTooltipProvider, CustomItemOverl
 
     int getMaxPower(ItemInstance item);
 
-    default int charge(ItemInstance item, int chargeAmount, boolean simulate) {
+    default int charge(@NotNull ItemInstance item, int chargeAmount, boolean simulate) {
         ItemPowerStorage poweredItem = ((ItemPowerStorage) item.getType());
         chargeAmount = Math.min(chargeAmount, poweredItem.getMaxPower(item) - poweredItem.getCurrentPower(item));
         if (!simulate) {
@@ -32,7 +33,7 @@ public interface ItemPowerStorage extends CustomTooltipProvider, CustomItemOverl
         return chargeAmount;
     }
 
-    default int consume(ItemInstance item, int consumeAmount, boolean simulate) {
+    default int consume(@NotNull ItemInstance item, int consumeAmount, boolean simulate) {
         if (item.count == 0 || item.itemId == 0 || !(item.getType() instanceof ItemPowerStorage poweredItem)) {
             return 0;
         }
@@ -44,7 +45,7 @@ public interface ItemPowerStorage extends CustomTooltipProvider, CustomItemOverl
         return consumeAmount;
     }
 
-    default String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
+    default String[] getTooltip(@NotNull ItemInstance itemInstance, String originalTooltip) {
         return new String[]{
                 originalTooltip,
                 "" + Colours.RED + ((ItemPowerStorage) itemInstance.getType()).getCurrentPower(itemInstance) + Colours.WHITE + "/" + Colours.DARK_AQUA + ((ItemPowerStorage) itemInstance.getType()).getMaxPower(itemInstance) + Colours.WHITE + " power stored"
@@ -70,7 +71,7 @@ public interface ItemPowerStorage extends CustomTooltipProvider, CustomItemOverl
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    default void method_1485(Tessellator arg, int i, int j, int k, int i1, int i2) {
+    default void method_1485(@NotNull Tessellator arg, int i, int j, int k, int i1, int i2) {
         arg.start();
         arg.colour(i2);
         arg.addVertex(i, j, 0.0D);

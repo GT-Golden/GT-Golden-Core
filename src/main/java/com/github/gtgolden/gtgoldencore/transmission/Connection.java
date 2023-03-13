@@ -9,5 +9,7 @@ public interface Connection {
         return canConnect(tileView, pos.x, pos.y, pos.z, side);
     }
 
-    boolean canConnect(@NotNull BlockView tileView, int x, int y, int z, int side);
+    default boolean canConnect(@NotNull BlockView tileView, int x, int y, int z, int side) {
+        return true;
+    }
 }

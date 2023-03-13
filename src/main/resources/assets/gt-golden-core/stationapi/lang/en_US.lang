@@ -1,5 +1,5 @@
 item.missing.name = %s Missing
 
-tile.generator.name=Generator
+tile.testPowerBlock.name=Test Power Block
 
 material..name=NULL

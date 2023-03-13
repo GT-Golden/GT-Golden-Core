@@ -15,7 +15,7 @@ import net.modificationstation.stationapi.api.world.BlockStateView;
 
 import java.util.Random;
 
-public abstract class Pipe extends TemplateBlockBase implements TileWithCapabilities {
+public abstract class Pipe extends TemplateBlockBase implements HasCapabilities {
     public static final BooleanProperty NORTH = BooleanProperty.of("north");
     public static final BooleanProperty SOUTH = BooleanProperty.of("south");
     public static final BooleanProperty EAST = BooleanProperty.of("east");
