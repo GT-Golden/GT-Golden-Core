@@ -33,6 +33,10 @@ public class TileCapabilities {
         return storage.get(type);
     }
 
+    public @Nullable TilePowerStorage getPowerStorage() {
+        return (TilePowerStorage) storage.get(StorageType.power);
+    }
+
     public void markDirty() {
         dirty = true;
     }
