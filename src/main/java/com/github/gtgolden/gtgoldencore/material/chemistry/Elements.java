@@ -139,7 +139,7 @@ public class Elements {
     public static final Element Ts = add(117, 177, -1, null, "Tennessine", "Ts", false);
     public static final Element Og = add(118, 176, -1, null, "Oganesson", "Og", false);
 
-    //fantasy todo Naquadah element names
+    //fantasy
     public static final Element Tr = add(119, 178, -1, null, "Tritanium", "Tr", false);
     public static final Element Dr = add(120, 180, -1, null, "Duranium", "Dr", false);
     public static final Element Ke = add(125, 198, -1, null, "Trinium", "Ke", false);
@@ -157,7 +157,8 @@ public class Elements {
             return element;
         }
         element = new Element(protons, neutrons, halfLifeSeconds, decayTo, name, symbol, isIsotope);
-        elements.put(name, element);
+        Formulas.add(symbol, name);
+        elements.put(symbol, element);
         return element;
     }
 

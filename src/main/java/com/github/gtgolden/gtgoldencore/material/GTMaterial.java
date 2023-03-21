@@ -3,9 +3,11 @@ package com.github.gtgolden.gtgoldencore.material;
 import com.github.gtgolden.gtgoldencore.item.MetaItem;
 import com.github.gtgolden.gtgoldencore.material.chemistry.Element;
 import com.github.gtgolden.gtgoldencore.material.chemistry.Elements;
+import com.github.gtgolden.gtgoldencore.material.chemistry.Formulas;
 import com.github.gtgolden.gtgoldencore.material.property.MaterialProperties;
 import com.github.gtgolden.gtgoldencore.material.property.MaterialProperty;
 import com.github.gtgolden.gtgoldencore.material.property.properties.ToolProperty;
+import com.github.gtgolden.gtgoldencore.utils.ChemUtils;
 import com.github.gtgolden.gtgoldencore.utils.ColorConverter;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.item.ItemInstance;
@@ -15,9 +17,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static com.github.gtgolden.gtgoldencore.GTGoldenCore.LOGGER;
 
 /**
  * Example:
@@ -36,18 +37,14 @@ public class GTMaterial {
     private final MaterialInfo materialInfo;
     @NotNull
     private final MaterialProperties materialProperties;
-    private final List<String> states;
-    private String chemicalFormula;
 
     @NotNull
     private GTMaterial(
             @NotNull MaterialInfo materialInfo,
-            @NotNull MaterialProperties materialProperties,
-            @NotNull List<String> states
+            @NotNull MaterialProperties materialProperties
     ) {
         this.materialInfo = materialInfo;
         this.materialProperties = materialProperties;
-        this.states = states;
     }
 
     public String getName() {
@@ -58,8 +55,8 @@ public class GTMaterial {
         return materialInfo.sourceMod;
     }
 
-    public MaterialProperty getToolMaterial() {
-        return materialProperties.get("toolProperty");
+    public MaterialProperty getToolProperty() {
+        return materialProperties.get("tool");
     }
 
     public int getMaterialColor() {
@@ -77,47 +74,32 @@ public class GTMaterial {
     }
 
     public List<String> states() {
-        return states;
+        return materialProperties.states;
     }
 
-    public Element getElement() {
-        return materialInfo.element;
-    }
-
-    private String calculateChemicalFormula() {
-        if (chemicalFormula != null) return chemicalFormula;
-        if (materialInfo.element != null) {
-            return materialInfo.element.getSymbol();
-        }
-        if (!materialInfo.componentList.isEmpty()) {
-            StringBuilder components = new StringBuilder();
-            for (MaterialStack component : materialInfo.componentList)
-                components.append(component.toString());
-            return components.toString();
-        }
-        return "";
+    public String getFormula() {
+        return Formulas.get(this.getName());
     }
 
     public static class Builder {
-        private final MaterialProperties materialProperties;
-        private Element element;
         private final List<String> states;
+        private final HashMap<String, MaterialProperty<?>> properties;
         private final List<MaterialStack> chemList;
         private final String name;
+        private String formula;
         private int color;
 
         public Builder(@NotNull String name) {
             this.name = name;
             this.states = new ArrayList<>();
             this.chemList = new ArrayList<>();
-            this.materialProperties = new MaterialProperties(this);
+            this.properties = new HashMap<>();
         }
 
         public GTMaterial build() {
             GTMaterial material = new GTMaterial(
                     new MaterialInfo(this),
-                    materialProperties,
-                    states
+                    new MaterialProperties(properties, states)
             );
             Materials.put(name, material);
             return material;
@@ -130,13 +112,13 @@ public class GTMaterial {
             );
         }
 
-        public Builder setProperty(String name, MaterialProperty<?> materialProperty) {
-            materialProperties.set(name, materialProperty);
-            return this;
-        }
         public Builder toolProperty(int miningLevel, int durability, float miningSpeed, int attackDamage) {
             // default for diamond is 3, 1561, 8.0, 3
-            materialProperties.set("tool", new ToolProperty(miningLevel, durability, miningSpeed, attackDamage));
+            return setProperty("tool", new ToolProperty(miningLevel, durability, miningSpeed, attackDamage));
+        }
+
+        public Builder setProperty(String name, MaterialProperty<?> materialProperty) {
+            properties.put(name, materialProperty);
             return this;
         }
 
@@ -170,41 +152,15 @@ public class GTMaterial {
         }
 
         public Builder element(String name) {
-            element = Elements.get(name);
-            return this;
+            return states(Elements.get(name).symbol);
         }
 
-        /**
-         * @param components: GTMaterial, int, ...
-         */
-        public Builder components(Object @NotNull ... components) {
-            if (components.length % 2 != 0) {
-                LOGGER.warn("Material Components list malformed!");
-                return this;
-            }
-            for (int i = 0; i < components.length; i += 2) {
-                if (components[i].getClass() != GTMaterial.class || components[i + 1].getClass() != int.class) {
-                    LOGGER.warn(
-                            components[i].getClass().getName() + " and " +
-                                    components[i + 1].getClass().getName() +
-                                    " is not GTMaterial and int"
-                    );
-                    continue;
-                }
-                this.chemList.add(new MaterialStack(
-                        (GTMaterial) components[i],
-                        (Integer) components[i + 1]
-                ));
-            }
-            return this;
-        }
+        public Builder components(String chemFormula) {
+            Formulas.add(chemFormula, this.name);
+            Formulas.add(this.name, chemFormula);
 
-        public Builder components(MaterialStack... components) {
-            chemList.addAll(List.of(components));
-            return this;
-        }
+            List<MaterialStack> components = ChemUtils.parse(chemFormula);
 
-        public Builder components(List<MaterialStack> components) {
             chemList.addAll(components);
             return this;
         }
@@ -216,13 +172,11 @@ public class GTMaterial {
         private int color;
         private final boolean hasFluidColor = true;
         private final ImmutableList<MaterialStack> componentList;
-        private final Element element;
 
         private MaterialInfo(@NotNull Builder builder) {
             this.name = builder.name;
             this.sourceMod = Materials.modID;
             this.componentList = ImmutableList.copyOf(builder.chemList);
-            this.element = builder.element;
             this.color = builder.color;
             averageColor();
         }
@@ -237,7 +191,7 @@ public class GTMaterial {
             long colorTemp = 0;
             int divisor = 0;
             for (MaterialStack stack : componentList) {
-                colorTemp += stack.material().materialInfo.color * stack.amount();
+                colorTemp += Materials.get(stack.name()).materialInfo.color * stack.amount();
                 divisor += stack.amount();
             }
             color = (int) (colorTemp / divisor);

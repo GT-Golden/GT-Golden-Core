@@ -1,24 +1,23 @@
 package com.github.gtgolden.gtgoldencore.material.property;
 
 import com.github.gtgolden.gtgoldencore.material.GTMaterial;
+import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MaterialProperties {
-    private HashMap<String, MaterialProperty<?>> properties;
-    protected final GTMaterial.Builder builder;
+    private final HashMap<String, MaterialProperty<?>> properties;
+    public final List<String> states;
 
-    public MaterialProperties(GTMaterial.Builder builder) {
-        this.builder = builder;
-    }
-    public void set(String name, @NotNull MaterialProperty<?> property) {
-        property.verifyProperty(this);
-        properties.put(name, property);
-    }
-    public void ensureStates(String... name) {
-        builder.states(name);
+    public MaterialProperties(HashMap<String, MaterialProperty<?>> properties, List<String> states) {
+        this.states = states;
+        this.properties = properties;
+
+        for(MaterialProperty<?> property: properties.values())
+            property.verifyProperty(this);
     }
     @Nullable
     public MaterialProperty<?> get(String name) {

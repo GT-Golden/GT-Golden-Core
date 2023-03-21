@@ -32,6 +32,9 @@ public class ToolProperty implements MaterialProperty<ToolProperty> {
     }
     @Override
     public void verifyProperty(@NotNull MaterialProperties properties) {
-        properties.ensureStates("ingot", "dust");
+        if (!properties.states.contains("ingot"))
+            properties.states.add("ingot");
+        if (!properties.states.contains("dust"))
+            properties.states.add("dust");
     }
 }

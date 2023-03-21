@@ -19,5 +19,20 @@ public class ItemListener {
         Materials.useModID(MOD_ID);
 
         new GTMaterial.Builder("").build();
+        new GTMaterial.Builder("copper")
+                .element("Cu")
+                .build();
+        new GTMaterial.Builder("oxygen")
+                .element("O")
+                .build();
+        new GTMaterial.Builder("hydrogen")
+                .element("H")
+                .build();
+        new GTMaterial.Builder("cuprous_oxide")
+                .components("Cu2O")
+                .build();
+        new GTMaterial.Builder("copper2_hydroxide")
+                .components("Cu(OH)2")
+                .build();
     }
 }
