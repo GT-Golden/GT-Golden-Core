@@ -157,7 +157,6 @@ public class Elements {
             return element;
         }
         element = new Element(protons, neutrons, halfLifeSeconds, decayTo, name, symbol, isIsotope);
-        Formulas.add(symbol, name);
         elements.put(symbol, element);
         return element;
     }

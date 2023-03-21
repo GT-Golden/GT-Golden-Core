@@ -3,7 +3,6 @@ package com.github.gtgolden.gtgoldencore.material;
 import com.github.gtgolden.gtgoldencore.item.MetaItem;
 import com.github.gtgolden.gtgoldencore.material.chemistry.Element;
 import com.github.gtgolden.gtgoldencore.material.chemistry.Elements;
-import com.github.gtgolden.gtgoldencore.material.chemistry.Formulas;
 import com.github.gtgolden.gtgoldencore.material.property.MaterialProperties;
 import com.github.gtgolden.gtgoldencore.material.property.MaterialProperty;
 import com.github.gtgolden.gtgoldencore.material.property.properties.ToolProperty;
@@ -78,7 +77,7 @@ public class GTMaterial {
     }
 
     public String getFormula() {
-        return Formulas.get(this.getName());
+        return materialInfo.chemFormula;
     }
 
     public static class Builder {
@@ -86,7 +85,7 @@ public class GTMaterial {
         private final HashMap<String, MaterialProperty<?>> properties;
         private final List<MaterialStack> chemList;
         private final String name;
-        private String formula;
+        private String chemFormula;
         private int color;
 
         public Builder(@NotNull String name) {
@@ -152,12 +151,15 @@ public class GTMaterial {
         }
 
         public Builder element(String name) {
-            return states(Elements.get(name).symbol);
+            return components(Elements.get(name).symbol);
+        }
+
+        public Builder element(Element element) {
+            return components(element.symbol);
         }
 
         public Builder setFormula(String chemFormula) {
-            Formulas.add(chemFormula, this.name);
-            Formulas.add(this.name, chemFormula);
+            this.chemFormula = chemFormula;
             return this;
         }
 
@@ -167,16 +169,19 @@ public class GTMaterial {
         }
 
         public Builder components(String chemFormula) {
+            setFormula(chemFormula);
+
             List<MaterialStack> components = ChemUtils.parse(chemFormula);
 
             chemList.addAll(components);
-            return setFormula(chemFormula);
+            return this;
         }
     }
 
     private static class MaterialInfo {
         private final String name;
         private final String sourceMod;
+        private final String chemFormula;
         private int color;
         private final boolean hasFluidColor = true;
         private final ImmutableList<MaterialStack> componentList;
@@ -185,6 +190,7 @@ public class GTMaterial {
             this.name = builder.name;
             this.sourceMod = Materials.modID;
             this.componentList = ImmutableList.copyOf(builder.chemList);
+            this.chemFormula = builder.chemFormula;
             this.color = builder.color;
             averageColor();
         }

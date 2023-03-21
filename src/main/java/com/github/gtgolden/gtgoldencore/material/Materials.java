@@ -9,9 +9,12 @@ import java.util.HashMap;
 public class Materials {
 
     private static final HashMap<String, GTMaterial> materials = new HashMap<>();
+    private static final HashMap<String, String> formulas = new HashMap<>();
     protected static String modID;
     public static void put(String name, GTMaterial material) {
         materials.put(name, material);
+        if (material.getFormula() != null)
+            formulas.put(material.getFormula(), material.getName());
     }
 
     /**
@@ -21,6 +24,9 @@ public class Materials {
         Materials.modID = null;
         if (modID != null)
             Materials.modID = modID.getName();
+    }
+    public static String name(String formula) {
+        return formulas.getOrDefault(formula, "H");
     }
     @NotNull
     public static GTMaterial get(@NotNull String name) {
