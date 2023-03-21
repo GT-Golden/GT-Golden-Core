@@ -155,14 +155,22 @@ public class GTMaterial {
             return states(Elements.get(name).symbol);
         }
 
-        public Builder components(String chemFormula) {
+        public Builder setFormula(String chemFormula) {
             Formulas.add(chemFormula, this.name);
             Formulas.add(this.name, chemFormula);
+            return this;
+        }
 
+        public Builder setComponents(MaterialStack... components) {
+            chemList.addAll(List.of(components));
+            return this;
+        }
+
+        public Builder components(String chemFormula) {
             List<MaterialStack> components = ChemUtils.parse(chemFormula);
 
             chemList.addAll(components);
-            return this;
+            return setFormula(chemFormula);
         }
     }
 

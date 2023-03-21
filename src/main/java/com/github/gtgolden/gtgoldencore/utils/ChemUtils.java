@@ -22,14 +22,12 @@ public class ChemUtils {
 
         while (matcher.find()) {
             String chemFormula = matcher.group(0);
-            components.add(
-                    new MaterialStack(
-                            Formulas.name(chemFormula),
-                            Integer.parseInt(chemFormula.replaceAll("\\(.*\\)|[A-Z][a-z]?", "0"))
-                    )
+            components.add(new MaterialStack(
+                    Formulas.name(chemFormula),
+                    Integer.max(1, Integer.parseInt(chemFormula.replaceAll("\\(.*\\)|[A-Z][a-z]?", "0"))))
             );
         }
 
-        return new ArrayList<>();
+        return components;
     }
 }

@@ -1,5 +1,7 @@
 package com.github.gtgolden.gtgoldencore.material.chemistry;
 
+import com.github.gtgolden.gtgoldencore.material.MaterialStack;
+
 /**
  * This is some kind of Periodic Table, which can be used to determine Properties of the Materials.
  */
@@ -30,6 +32,10 @@ public class Element {
         this.name = name;
         this.symbol = symbol;
         this.isIsotope = isIsotope;
+    }
+
+    public MaterialStack x(int amount) {
+        return new MaterialStack(this.name, amount);
     }
 
     public String getName() {
