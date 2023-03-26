@@ -71,9 +71,9 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
         untranslatedName = untranslatedName.substring(untranslatedName.indexOf(":") + 1).replace("%s ", "");
         ModID modId = Objects.requireNonNull(ItemRegistry.INSTANCE.getId(item.getType())).modID;
         String material = nbt.getString("material");
-        String materialName = I18n.translate(String.format("material.%s:%s.name", modId.toString(), material));
-        String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId.toString(), material, untranslatedName));
         GTMaterial gtMaterial = Materials.get(material);
+        String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId.toString(), material, untranslatedName));
+        String materialName = I18n.translate(String.format("material.%s:%s.name", gtMaterial.getSourceMod(), material));
 
         List<String> output = new ArrayList<>();
 
