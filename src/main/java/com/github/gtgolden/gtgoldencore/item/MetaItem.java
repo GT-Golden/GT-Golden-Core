@@ -73,7 +73,7 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
         String material = nbt.getString("material");
         GTMaterial gtMaterial = Materials.get(material);
         String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId.toString(), material, untranslatedName));
-        String materialName = I18n.translate(String.format("material.%s:%s.name", gtMaterial.getSourceMod(), material));
+        String materialName = I18n.translate(String.format("material.%s:%s.name", gtMaterial.getSourceMod().toString(), material));
 
         List<String> output = new ArrayList<>();
 
@@ -83,8 +83,8 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
 
         output.add(YELLOW + gtMaterial.getFormula());
 
-        if (!Objects.equals(gtMaterial.getSourceMod(), modId.getName()))
-            output.add(GRAY + "Added by: " + RED + gtMaterial.getSourceMod());
+        if (!Objects.equals(gtMaterial.getSourceMod().getName(), modId.getName()))
+            output.add(GRAY + "Added by: " + RED + gtMaterial.getSourceMod().getName());
         output.add(BLUE + modId.getName());
 
         return output.toArray(new String[0]);

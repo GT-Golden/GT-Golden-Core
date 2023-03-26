@@ -4,13 +4,17 @@ import net.modificationstation.stationapi.api.registry.ModID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class Materials {
 
     private static final HashMap<String, GTMaterial> materials = new HashMap<>();
     private static final HashMap<String, String> formulas = new HashMap<>();
-    protected static String modID;
+    protected static List<ModID> modIDs = new ArrayList<>();
+    protected static int modID;
     public static void put(String name, GTMaterial material) {
         materials.put(name, material);
         if (material.getFormula() != null)
@@ -21,9 +25,8 @@ public class Materials {
      * Don't forget to supply MOD_ID of your mod before registering any materials
      */
     public static void useModID(@Nullable ModID modID) {
-        Materials.modID = null;
-        if (modID != null)
-            Materials.modID = modID.getName();
+        Materials.modIDs.add(modID);
+        Materials.modID = Materials.modIDs.size() - 1;
     }
     public static String name(String formula) {
         return formulas.getOrDefault(formula, "H");

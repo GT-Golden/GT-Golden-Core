@@ -11,6 +11,7 @@ import com.github.gtgolden.gtgoldencore.utils.ColorConverter;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
+import net.modificationstation.stationapi.api.registry.ModID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,8 +51,8 @@ public class GTMaterial {
         return materialInfo.name;
     }
 
-    public String getSourceMod() {
-        return materialInfo.sourceMod;
+    public ModID getSourceMod() {
+        return Materials.modIDs.get(materialInfo.sourceModId);
     }
 
     public MaterialProperty getToolProperty() {
@@ -180,7 +181,7 @@ public class GTMaterial {
 
     private static class MaterialInfo {
         private final String name;
-        private final String sourceMod;
+        private final int sourceModId;
         private final String chemFormula;
         private int color;
         private final boolean hasFluidColor = true;
@@ -188,7 +189,7 @@ public class GTMaterial {
 
         private MaterialInfo(@NotNull Builder builder) {
             this.name = builder.name;
-            this.sourceMod = Materials.modID;
+            this.sourceModId = Materials.modID;
             this.componentList = ImmutableList.copyOf(builder.chemList);
             this.chemFormula = builder.chemFormula;
             this.color = builder.color;
