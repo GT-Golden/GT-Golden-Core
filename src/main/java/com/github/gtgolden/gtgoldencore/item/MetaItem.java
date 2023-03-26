@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static net.modificationstation.stationapi.api.util.Colours.*;
+
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider, ItemColorProvider {
 
     public static HashMap<String, MetaItem> metaItems = new HashMap<>();
@@ -78,10 +80,12 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider,
         output.add(!itemName.contains(".name") ?
                 itemName :
                 String.format(originalTooltip, materialName));
-        output.add("");
+
+        output.add(YELLOW + gtMaterial.getFormula());
+
         if (!Objects.equals(gtMaterial.getSourceMod(), modId.getName()))
-            output.add(gtMaterial.getSourceMod());
-        output.add(modId.getName());
+            output.add(GRAY + "Added by: " + RED + gtMaterial.getSourceMod());
+        output.add(BLUE + modId.getName());
 
         return output.toArray(new String[0]);
     }

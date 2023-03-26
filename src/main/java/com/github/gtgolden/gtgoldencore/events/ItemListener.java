@@ -18,6 +18,6 @@ public class ItemListener {
 
         Materials.useModID(MOD_ID);
 
-        new GTMaterial.Builder("").build();
+        new GTMaterial.Builder("").setFormula("Error, please!").build();
     }
 }
