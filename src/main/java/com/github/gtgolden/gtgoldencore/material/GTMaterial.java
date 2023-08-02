@@ -10,7 +10,6 @@ import net.modificationstation.stationapi.api.item.tool.ToolMaterialFactory;
 import java.awt.*;
 import java.util.HashMap;
 
-import static com.github.gtgolden.gtgoldencore.item.MetaItem.MISSING;
 import static com.github.gtgolden.gtgoldencore.GTGoldenCore.LOGGER;
 
 /**

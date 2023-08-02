@@ -1,6 +1,6 @@
 package com.github.gtgolden.gtgoldencore.utils;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ColorConverter {
     public static int colorToInt(Color color) {
