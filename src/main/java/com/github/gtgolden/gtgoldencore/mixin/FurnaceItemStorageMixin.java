@@ -12,23 +12,26 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(TileEntityFurnace.class)
 public abstract class FurnaceItemStorageMixin implements HasItemIO {
     @Override
-    public boolean isItemInput(int side) {
-        return side != Direction.DOWN.getId();
+    public boolean isItemInput(Direction side) {
+        return side != Direction.DOWN;
     }
 
     @Override
-    public boolean isItemOutput(int side) {
-        return side == Direction.DOWN.getId();
+    public boolean isItemOutput(Direction side) {
+        return side == Direction.DOWN;
     }
 
     @Shadow
     public abstract int getInventorySize();
 
-    @Shadow public abstract ItemInstance getInventoryItem(int i);
+    @Shadow
+    public abstract ItemInstance getInventoryItem(int i);
 
-    @Shadow public abstract ItemInstance takeInventoryItem(int i, int j);
+    @Shadow
+    public abstract ItemInstance takeInventoryItem(int i, int j);
 
-    @Shadow public abstract void setInventoryItem(int i, ItemInstance arg);
+    @Shadow
+    public abstract void setInventoryItem(int i, ItemInstance arg);
 
     @Unique
     private static boolean isValidType(SlotType type) {
@@ -38,10 +41,14 @@ public abstract class FurnaceItemStorageMixin implements HasItemIO {
     @Unique
     private static int getTranslatedSlot(SlotType type) {
         return switch (type) {
-            case INPUT: yield 0;
-            case FUEL_INPUT: yield 1;
-            case OUTPUT: yield 2;
-            default: yield -1;
+            case INPUT:
+                yield 0;
+            case FUEL_INPUT:
+                yield 1;
+            case OUTPUT:
+                yield 2;
+            default:
+                yield -1;
         };
     }
 

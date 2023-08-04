@@ -15,7 +15,7 @@ public class DebugMonitorTool extends TemplateItemBase implements CustomTooltipP
 
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
-        return new String[] {
+        return new String[]{
                 originalTooltip,
                 "Point at an object and all",
                 Colours.GOLD + "   Golden Core " + Colours.WHITE + "related details will be shown."

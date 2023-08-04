@@ -14,6 +14,7 @@ public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerSto
     PowerStorage powerStorage = new PowerStorage("cobbleGenPower", 256, 0);
     int timer = 0;
     static final int COOK_TIME = 15;
+
     @Override
     public ItemStorage getItemStorage() {
         return itemStorage;
@@ -74,13 +75,15 @@ public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerSto
 
     @Override
     public void readIdentifyingData(CompoundTag tag) {
-        itemStorage.readIdentifyingData(tag);
-        powerStorage.readIdentifyingData(tag);
+        super.writeIdentifyingData(tag);
+        itemStorage.readData(tag);
+        powerStorage.readData(tag);
     }
 
     @Override
     public void writeIdentifyingData(CompoundTag tag) {
-        itemStorage.writeIdentifyingData(tag);
-        powerStorage.writeIdentifyingData(tag);
+        super.writeIdentifyingData(tag);
+        itemStorage.writeData(tag);
+        powerStorage.writeData(tag);
     }
 }

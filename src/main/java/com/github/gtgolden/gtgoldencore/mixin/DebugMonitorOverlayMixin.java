@@ -2,7 +2,6 @@ package com.github.gtgolden.gtgoldencore.mixin;
 
 import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import com.github.gtgolden.gtgoldencore.machines.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.HasItemStorage;
 import com.github.gtgolden.gtgoldencore.machines.HasPowerStorage;
 import com.github.gtgolden.gtgoldencore.machines.SlotType;
 import net.minecraft.client.Minecraft;
@@ -11,6 +10,7 @@ import net.minecraft.client.render.TextRenderer;
 import net.minecraft.client.util.ScreenScaler;
 import net.minecraft.util.hit.HitResult;
 import net.modificationstation.stationapi.api.util.Colours;
+import net.modificationstation.stationapi.api.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,11 +27,12 @@ public class DebugMonitorOverlayMixin {
     private static final int DEBUG_VERTICAL_OFFSET = 108;
     @Unique
     private static final int TEXT_SPACING = 12;
-    @Shadow private Minecraft minecraft;
+    @Shadow
+    private Minecraft minecraft;
 
     @Inject(
-            method="renderHud(FZII)V",
-            at=@At("RETURN"),
+            method = "renderHud(FZII)V",
+            at = @At("RETURN"),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     private void renderDebugMonitor(float f, boolean flag, int i, int j, CallbackInfo ci, ScreenScaler var5, int var6, int var7, TextRenderer var8) {
@@ -43,18 +44,19 @@ public class DebugMonitorOverlayMixin {
         y += TEXT_SPACING;
         HitResult hit = minecraft.hitResult;
         if (hit == null) return;
-        var8.drawTextWithShadow(Colours.RED + " Looking at side: " + Colours.WHITE + hit.field_1987, 0, y, 0);
+        var side = Direction.values()[hit.field_1987];
+        var8.drawTextWithShadow(Colours.RED + " Looking at side: " + Colours.WHITE + side + "(" + hit.field_1987 + ")", 0, y, 0);
         y += TEXT_SPACING;
         var tileEntity = minecraft.level.getTileEntity(hit.x, hit.y, hit.z);
         if (tileEntity == null) return;
         if (tileEntity instanceof HasPowerStorage powerStorage) {
             var8.drawTextWithShadow(Colours.GREEN + " Power storage found: ", 0, y, 0);
             y += TEXT_SPACING;
-            if (powerStorage.isPowerInput(hit.field_1987)) {
+            if (powerStorage.isPowerInput(side)) {
                 var8.drawTextWithShadow(Colours.RED + "  Is power input ", 0, y, 0);
                 y += TEXT_SPACING;
             }
-            if (powerStorage.isPowerOutput(hit.field_1987)) {
+            if (powerStorage.isPowerOutput(side)) {
                 var8.drawTextWithShadow(Colours.RED + "  Is power output ", 0, y, 0);
                 y += TEXT_SPACING;
             }
@@ -66,15 +68,15 @@ public class DebugMonitorOverlayMixin {
         if (tileEntity instanceof HasItemIO itemStorage) {
             var8.drawTextWithShadow(Colours.GREEN + " Item storage found: ", 0, y, 0);
             y += TEXT_SPACING;
-            if (itemStorage.isItemInput(hit.field_1987)) {
+            if (itemStorage.isItemInput(side)) {
                 var8.drawTextWithShadow(Colours.RED + "  Is item input ", 0, y, 0);
                 y += TEXT_SPACING;
             }
-            if (itemStorage.isItemOutput(hit.field_1987)) {
+            if (itemStorage.isItemOutput(side)) {
                 var8.drawTextWithShadow(Colours.RED + "  Is item output ", 0, y, 0);
                 y += TEXT_SPACING;
             }
-            for (SlotType type: SlotType.values()) {
+            for (SlotType type : SlotType.values()) {
                 int size = itemStorage.getInventorySize(type);
                 if (size <= 0) continue;
                 var8.drawTextWithShadow(Colours.BLUE + "  " + type.name() + Colours.DARK_PURPLE + " (" + size + ")" + ": ", 0, y, 0);

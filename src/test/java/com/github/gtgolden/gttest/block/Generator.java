@@ -17,6 +17,7 @@ import net.modificationstation.stationapi.api.util.math.Direction;
 public class Generator extends TemplateBlockWithEntity {
     public static final EnumProperty<Direction> FACING_PROPERTY = EnumProperty.of("facing", Direction.class);
     public static final BooleanProperty LIT_PROPERTY = BooleanProperty.of("lit");
+
     public Generator(Identifier identifier, Material material) {
         super(identifier, material);
         setTranslationKey(identifier.toString());
@@ -34,7 +35,7 @@ public class Generator extends TemplateBlockWithEntity {
         super.afterPlaced(level, x, y, z, living);
         int direction = MathHelper.floor((double) (living.yaw * 4.0F / 360.0F) + 0.5D) & 3;
         level.setBlockState(x, y, z, getDefaultState().with(FACING_PROPERTY,
-                switch(direction) {
+                switch (direction) {
                     case 0 -> Direction.EAST;
                     case 1 -> Direction.SOUTH;
                     case 2 -> Direction.WEST;

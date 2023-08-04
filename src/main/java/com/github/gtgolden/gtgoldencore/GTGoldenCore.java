@@ -33,6 +33,7 @@ public class GTGoldenCore {
     }
 
     public static ItemBase DEBUG_MONITOR;
+
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering technical stuff");

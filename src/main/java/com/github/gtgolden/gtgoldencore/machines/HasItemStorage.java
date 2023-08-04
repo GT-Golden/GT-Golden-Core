@@ -1,7 +1,6 @@
 package com.github.gtgolden.gtgoldencore.machines;
 
 import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.tileentity.TileEntityBase;
 
@@ -57,7 +56,7 @@ public interface HasItemStorage extends HasItemIO {
             if (tileEntity.level.getTileEntity(tileEntity.x, tileEntity.y, tileEntity.z) != this) {
                 return false;
             } else {
-                return !(arg.squaredDistanceTo((double)tileEntity.x + 0.5, (double)tileEntity.y + 0.5, (double)tileEntity.z + 0.5) > 64.0);
+                return !(arg.squaredDistanceTo((double) tileEntity.x + 0.5, (double) tileEntity.y + 0.5, (double) tileEntity.z + 0.5) > 64.0);
             }
         }
         return true;

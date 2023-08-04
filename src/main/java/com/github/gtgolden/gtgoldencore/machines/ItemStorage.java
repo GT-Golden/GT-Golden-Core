@@ -9,12 +9,12 @@ import uk.co.benjiweber.expressions.tuple.BiTuple;
 import java.util.Arrays;
 import java.util.EnumMap;
 
-public class ItemStorage implements ItemIO {
+public class ItemStorage implements ItemIO, HasSavableData {
     protected final EnumMap<SlotType, Integer> slotTypeSizes = new EnumMap<>(SlotType.class);
     protected final EnumMap<SlotType, Integer> slotTypeIndex = new EnumMap<>(SlotType.class);
     protected ItemInstance[] inventory;
     private String name;
-    
+
     public ItemStorage(String name, int size) {
         inventory = new ItemInstance[size];
         this.name = name;
@@ -107,13 +107,12 @@ public class ItemStorage implements ItemIO {
         return name;
     }
 
-    public void readIdentifyingData(CompoundTag tag) {
-        System.out.println("Reading items");
+    public void readData(CompoundTag tag) {
         ListTag var2 = tag.getListTag(name);
         inventory = new ItemInstance[this.getInventorySize()];
 
-        for(int var3 = 0; var3 < var2.size(); ++var3) {
-            CompoundTag var4 = (CompoundTag)var2.get(var3);
+        for (int var3 = 0; var3 < var2.size(); ++var3) {
+            CompoundTag var4 = (CompoundTag) var2.get(var3);
             int var5 = var4.getByte("Slot") & 255;
             if (var5 < inventory.length) {
                 inventory[var5] = new ItemInstance(var4);
@@ -121,15 +120,13 @@ public class ItemStorage implements ItemIO {
         }
     }
 
-    public void writeIdentifyingData(CompoundTag tag) {
-        System.out.println("Writing items");
-        System.out.println(Arrays.toString(inventory));
+    public void writeData(CompoundTag tag) {
         ListTag var2 = new ListTag();
 
-        for(int var3 = 0; var3 < inventory.length; ++var3) {
+        for (int var3 = 0; var3 < inventory.length; ++var3) {
             if (inventory[var3] != null) {
                 CompoundTag var4 = new CompoundTag();
-                var4.put("Slot", (byte)var3);
+                var4.put("Slot", (byte) var3);
                 inventory[var3].toTag(var4);
                 var2.add(var4);
             }

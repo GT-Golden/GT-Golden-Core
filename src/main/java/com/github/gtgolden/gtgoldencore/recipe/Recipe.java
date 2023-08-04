@@ -9,7 +9,7 @@ public class Recipe {
     private final ItemInstance[] output;
 
     public Recipe(ItemInstance input, ItemInstance output) {
-        this(new ItemInstance[]{ input }, new ItemInstance[]{ output });
+        this(new ItemInstance[]{input}, new ItemInstance[]{output});
     }
 
     public Recipe(ItemInstance[] input, ItemInstance[] output) {
@@ -34,8 +34,8 @@ public class Recipe {
     }
 
     public boolean checkRecipe(ItemInstance[] inputItems) {
-        for(ItemInstance recipeInputItem: input) {
-            for (ItemInstance inputItem: inputItems) {
+        for (ItemInstance recipeInputItem : input) {
+            for (ItemInstance inputItem : inputItems) {
                 if (ItemUtil.compare(recipeInputItem, inputItem)) break;
             }
             return false;

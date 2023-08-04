@@ -9,6 +9,12 @@ import net.modificationstation.stationapi.api.util.math.Direction;
 
 public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
     PowerStorage powerStorage = new PowerStorage("generatorPower", 512, 0);
+
+    @Override
+    public boolean isPowerOutput(Direction side) {
+        return side == Direction.UP;
+    }
+
     @Override
     public PowerStorage getPowerStorage() {
         return powerStorage;
@@ -28,7 +34,7 @@ public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
 
         var tileEntity = level.getTileEntity(x, y + 1, z);
         if (tileEntity != null) {
-            if (tileEntity instanceof HasPowerStorage foundPowerStorage && foundPowerStorage.isPowerInput(Direction.DOWN.getId())) {
+            if (tileEntity instanceof HasPowerStorage foundPowerStorage && foundPowerStorage.isPowerInput(Direction.DOWN)) {
                 powerStorage.discharge(foundPowerStorage.getPowerStorage().charge(Math.min(10, powerStorage.getPower())));
             }
         }
@@ -36,11 +42,13 @@ public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
 
     @Override
     public void readIdentifyingData(CompoundTag tag) {
-        powerStorage.readIdentifyingData(tag);
+        super.writeIdentifyingData(tag);
+        powerStorage.readData(tag);
     }
 
     @Override
     public void writeIdentifyingData(CompoundTag tag) {
-        powerStorage.writeIdentifyingData(tag);
+        super.writeIdentifyingData(tag);
+        powerStorage.writeData(tag);
     }
 }

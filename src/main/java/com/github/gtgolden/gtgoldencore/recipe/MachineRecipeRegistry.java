@@ -11,12 +11,13 @@ abstract public class MachineRecipeRegistry {
     public void addRecipe(ItemInstance input, ItemInstance output) {
         recipes.add(new Recipe(input, output));
     }
+
     public void addRecipe(ItemInstance[] input, ItemInstance[] output) {
         recipes.add(new Recipe(input, output));
     }
 
     public ItemInstance[] getOutput(ItemInstance[] inputItems) {
-        for (Recipe recipe: recipes) {
+        for (Recipe recipe : recipes) {
             if (recipe.checkRecipe(inputItems)) return recipe.getOutput();
         }
 

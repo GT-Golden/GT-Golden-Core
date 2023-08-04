@@ -23,7 +23,7 @@ public class ColorListener {
     private static void registerItemColours(ItemColorsRegisterEvent event) {
         LOGGER.info("Registering item colours");
         ItemColors itemColors = event.itemColors;
-        for (MetaItem item: MetaItem.metaItems.values()) {
+        for (MetaItem item : MetaItem.metaItems.values()) {
             itemColors.register((itemInstance, tintIndex) -> ItemUtil.getUniqueMaterial(itemInstance).getMaterialColor(), item);
         }
     }

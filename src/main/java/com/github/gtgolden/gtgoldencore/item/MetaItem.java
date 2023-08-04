@@ -42,19 +42,24 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
     public static ItemInstance convert(String itemName, String material) {
         return convert(MetaItem.get(itemName), material);
     }
+
     public static ItemInstance convert(String itemName, String material, int count) {
         return convert(MetaItem.get(itemName), material, count);
     }
+
     public static ItemInstance convert(ItemBase itemBase, String material) {
         return convert(new ItemInstance(itemBase), material);
     }
+
     public static ItemInstance convert(ItemBase itemBase, String material, int count) {
         return convert(new ItemInstance(itemBase), material, count);
     }
+
     public static ItemInstance convert(ItemInstance item, String material) {
         item.getStationNBT().put("material", material);
         return item;
     }
+
     public static ItemInstance convert(ItemInstance item, String material, int count) {
         item.getStationNBT().put("material", material);
         item.count = count;
@@ -77,12 +82,12 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
         String materialName = I18n.translate(String.format("material.%s:%s.name", modId, material));
         String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId, material, untranslatedName));
         if (!itemName.contains(".name")) {
-            return new String[] {
+            return new String[]{
                     itemName
             };
         }
 
-        return new String[] {
+        return new String[]{
                 String.format(originalTooltip, materialName)
         };
     }

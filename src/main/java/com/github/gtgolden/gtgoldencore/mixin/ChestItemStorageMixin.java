@@ -9,13 +9,17 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(TileEntityChest.class)
 public abstract class ChestItemStorageMixin implements HasItemIO {
-    @Shadow public abstract int getInventorySize();
+    @Shadow
+    public abstract int getInventorySize();
 
-    @Shadow public abstract ItemInstance getInventoryItem(int i);
+    @Shadow
+    public abstract ItemInstance getInventoryItem(int i);
 
-    @Shadow public abstract ItemInstance takeInventoryItem(int i, int j);
+    @Shadow
+    public abstract ItemInstance takeInventoryItem(int i, int j);
 
-    @Shadow public abstract void setInventoryItem(int i, ItemInstance arg);
+    @Shadow
+    public abstract void setInventoryItem(int i, ItemInstance arg);
 
     @Override
     public int getInventorySize(SlotType type) {

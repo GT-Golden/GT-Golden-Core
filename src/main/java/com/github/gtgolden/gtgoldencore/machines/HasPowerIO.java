@@ -2,12 +2,12 @@ package com.github.gtgolden.gtgoldencore.machines;
 
 import net.modificationstation.stationapi.api.util.math.Direction;
 
-public interface HasItemIO extends ItemIO {
-    default boolean isItemInput(Direction side) {
+public interface HasPowerIO extends PowerIO {
+    default boolean isPowerInput(Direction side) {
         return true;
     }
 
-    default boolean isItemOutput(Direction side) {
+    default boolean isPowerOutput(Direction side) {
         return false;
     }
 }

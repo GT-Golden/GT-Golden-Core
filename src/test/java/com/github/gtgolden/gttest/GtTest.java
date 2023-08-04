@@ -1,11 +1,9 @@
 package com.github.gtgolden.gttest;
 
 import com.github.gtgolden.gttest.block.*;
-import com.github.gtgolden.gtgoldencore.item.DebugMonitorTool;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemBase;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.event.tileentity.TileEntityRegisterEvent;
@@ -41,9 +39,9 @@ public class GtTest {
     @EventListener
     public void registerTileEntities(TileEntityRegisterEvent event) {
         LOGGER.info("Registering tile entities");
-        event.register(GeneratorEntity.class, MOD_ID.id("generator").toString());
-        event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawner").toString());
-        event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGenerator").toString());
+        event.register(GeneratorEntity.class, MOD_ID.id("generatorEntity").toString());
+        event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawnerEntity").toString());
+        event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGeneratorEntity").toString());
     }
 
 

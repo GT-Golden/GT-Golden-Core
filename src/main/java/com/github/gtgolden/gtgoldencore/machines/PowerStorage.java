@@ -2,7 +2,7 @@ package com.github.gtgolden.gtgoldencore.machines;
 
 import net.minecraft.util.io.CompoundTag;
 
-public class PowerStorage {
+public class PowerStorage implements PowerIO, HasSavableData {
     final int maxPower;
     int power;
     String name;
@@ -41,11 +41,11 @@ public class PowerStorage {
         return discharge;
     }
 
-    public void readIdentifyingData(CompoundTag tag) {
+    public void readData(CompoundTag tag) {
         power = tag.getInt(name + "_power");
     }
 
-    public void writeIdentifyingData(CompoundTag tag) {
+    public void writeData(CompoundTag tag) {
         tag.put(name + "_power", power);
     }
 }

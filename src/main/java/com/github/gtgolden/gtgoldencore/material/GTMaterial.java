@@ -14,13 +14,13 @@ import static com.github.gtgolden.gtgoldencore.GTGoldenCore.LOGGER;
 
 /**
  * Example:
- * @EventListener
- * public void registerItems(ItemRegistryEvent event) {
- *     new GTMaterial.Builder("name")
- *            .toolProperties(3, 512, 5, 10)
- *            .color(100, 0, 255)
- *            .states(ingot, dust, ore)
- *            .build();
+ *
+ * @EventListener public void registerItems(ItemRegistryEvent event) {
+ * new GTMaterial.Builder("name")
+ * .toolProperties(3, 512, 5, 10)
+ * .color(100, 0, 255)
+ * .states(ingot, dust, ore)
+ * .build();
  * }
  */
 public class GTMaterial {
@@ -73,13 +73,14 @@ public class GTMaterial {
             return GTMaterial.registerNewUniqueMaterial(color, toolMaterial, name, states);
         }
 
-        public Builder toolProperties(ToolMaterial material){
+        public Builder toolProperties(ToolMaterial material) {
             toolProperties(
                     material.getMiningLevel(), material.getDurability(),
                     material.getMiningSpeed(), material.getAttackDamage()
             );
             return this;
         }
+
         public Builder toolProperties(int miningLevel, int durability, float miningSpeed, int attackDamage) {
             // default for diamond is 3, 1561, 8.0, 3
             toolMaterial = ToolMaterialFactory
@@ -90,22 +91,26 @@ public class GTMaterial {
         public Builder color(int rgb) {
             return color(new Color(rgb));
         }
+
         public Builder color(short r, short g, short b) {
-            return color(new Color(r,g,b));
+            return color(new Color(r, g, b));
         }
+
         public Builder color(Color rgba) {
             color = ColorConverter.colorToInt(rgba);
             return this;
         }
 
         public Builder states(String... states) {
-            for(String state: states)
+            for (String state : states)
                 setItem(state, MetaItem.convert(state, name));
             return this;
         }
+
         public Builder setItem(String state, ItemBase itemBase) {
             return setItem(state, new ItemInstance(itemBase));
         }
+
         public Builder setItem(String state, ItemInstance itemInstance) {
             GTMaterial material = Materials.get(name);
             if (material != null && material.as(state) != null)
