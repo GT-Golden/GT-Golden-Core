@@ -1,5 +1,3 @@
 tile.generator.name=Generator
 tile.appleSpawner.name=Apple Spawner
 tile.cobbleGenerator.name=Cobble Generator
-
-item.debugMonitor.name=Debug Monitor

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "gt-test:item/debugMonitor"
+    "layer0": "gt-golden-core:item/debugMonitor"
   }
 }

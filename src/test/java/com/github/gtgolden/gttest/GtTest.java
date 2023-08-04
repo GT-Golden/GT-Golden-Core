@@ -1,7 +1,7 @@
 package com.github.gtgolden.gttest;
 
 import com.github.gtgolden.gttest.block.*;
-import com.github.gtgolden.gttest.item.DebugMonitorTool;
+import com.github.gtgolden.gtgoldencore.item.DebugMonitorTool;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
@@ -17,10 +17,8 @@ public class GtTest {
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
 
-    public static ItemBase DEBUG_MONITOR;
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
-        DEBUG_MONITOR = new DebugMonitorTool(MOD_ID.id("debugMonitor"));
     }
 
     public static BlockBase GENERATOR;

@@ -10,6 +10,7 @@
   "server": [
   ],
   "client": [
+    "DebugMonitorOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1

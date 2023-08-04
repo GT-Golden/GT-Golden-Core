@@ -1,4 +1,4 @@
-package com.github.gtgolden.gttest.item;
+package com.github.gtgolden.gtgoldencore.item;
 
 import net.minecraft.item.ItemInstance;
 import net.modificationstation.stationapi.api.client.gui.CustomTooltipProvider;

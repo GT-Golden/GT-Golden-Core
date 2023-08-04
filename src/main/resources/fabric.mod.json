@@ -17,12 +17,14 @@
   "entrypoints": {
     "stationapi:event_bus": [
       "com.github.gtgolden.gtgoldencore.events.ColorListener",
-      "com.github.gtgolden.gtgoldencore.events.ItemListener",
       "com.github.gtgolden.gtgoldencore.GTGoldenCore"
     ],
     "stationapi:event_bus_client": [
     ],
     "stationapi:event_bus_server": [
+    ],
+    "gcapi": [
+      "com.github.gtgolden.gtgoldencore.GTGoldenCore"
     ]
   },
   "mixins": [

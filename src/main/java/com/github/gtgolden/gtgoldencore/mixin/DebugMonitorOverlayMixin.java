@@ -1,10 +1,10 @@
-package com.github.gtgolden.gttest.mixin;
+package com.github.gtgolden.gtgoldencore.mixin;
 
+import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import com.github.gtgolden.gtgoldencore.machines.HasItemIO;
 import com.github.gtgolden.gtgoldencore.machines.HasItemStorage;
 import com.github.gtgolden.gtgoldencore.machines.HasPowerStorage;
 import com.github.gtgolden.gtgoldencore.machines.SlotType;
-import com.github.gtgolden.gttest.GtTest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.InGame;
 import net.minecraft.client.render.TextRenderer;
@@ -35,8 +35,9 @@ public class DebugMonitorOverlayMixin {
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     private void renderDebugMonitor(float f, boolean flag, int i, int j, CallbackInfo ci, ScreenScaler var5, int var6, int var7, TextRenderer var8) {
+        if (!GTGoldenCore.config.debugMonitorEnabled) return;
         var heldItem = minecraft.player.getHeldItem();
-        if (heldItem == null || heldItem.getType() != GtTest.DEBUG_MONITOR) return;
+        if (heldItem == null || heldItem.getType() != GTGoldenCore.DEBUG_MONITOR) return;
         int y = this.minecraft.options.debugHud ? DEBUG_VERTICAL_OFFSET : VERTICAL_OFFSET;
         var8.drawTextWithShadow(Colours.GOLD + "Debug Monitor Data:", 0, y, 0);
         y += TEXT_SPACING;

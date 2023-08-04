@@ -1,5 +1,7 @@
+item.debugMonitor.name=Debug Monitor
 item.missing.name = %s Missing
 
 tile.generator.name=Generator
 
 material..name=NULL
+
