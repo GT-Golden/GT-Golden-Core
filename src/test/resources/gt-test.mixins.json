@@ -1,14 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.gtgolden.gtgoldencore.mixin",
+  "package": "com.github.gtgolden.gttest.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ChestItemStorageMixin"
   ],
   "server": [
   ],
   "client": [
+    "DebugMonitorOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1

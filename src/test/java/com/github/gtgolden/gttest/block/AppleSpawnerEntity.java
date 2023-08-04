@@ -16,10 +16,7 @@ public class AppleSpawnerEntity extends TileEntityBase implements HasPowerStorag
 
     @Override
     public void tick() {
-        System.out.println("Apple spawner currently has " + powerStorage.getPower() + " power.");
-
         if (powerStorage.getPower() >= 32) {
-            System.out.println("Spawning an apple!");
             var item = new Item(level, x + .5, y + 1.5, z + .5, new ItemInstance(ItemBase.apple));
             level.spawnEntity(item);
             powerStorage.discharge(32);

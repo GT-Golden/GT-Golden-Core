@@ -10,4 +10,24 @@ public interface HasPowerStorage {
     }
 
     PowerStorage getPowerStorage();
+
+    default int getMaxPower() {
+        return getPowerStorage().getMaxPower();
+    }
+
+    default int getPower() {
+        return getPowerStorage().getPower();
+    }
+
+    default int getMissingPower() {
+        return getPowerStorage().getMissingPower();
+    }
+
+    default int charge(int amount) {
+        return getPowerStorage().charge(amount);
+    }
+
+    default int discharge(int amount) {
+        return getPowerStorage().discharge(amount);
+    }
 }

@@ -19,6 +19,9 @@
       "com.github.gtgolden.gttest.GtTest"
     ]
   },
+  "mixins": [
+    "gt-test.mixins.json"
+  ],
   "depends": {
     "minecraft": "1.0.0-beta.7.3"
   }
