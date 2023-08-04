@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Materials {
 
-    private static HashMap<String, GTMaterial> materials = new HashMap<>();
+    private static final HashMap<String, GTMaterial> materials = new HashMap<>();
 
     public static void put(String name, GTMaterial material) {
         materials.put(name, material);

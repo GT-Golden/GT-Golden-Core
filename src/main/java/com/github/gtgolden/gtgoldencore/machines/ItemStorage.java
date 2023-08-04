@@ -6,14 +6,13 @@ import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.io.ListTag;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 
 public class ItemStorage implements ItemIO, HasSavableData {
     protected final EnumMap<SlotType, Integer> slotTypeSizes = new EnumMap<>(SlotType.class);
     protected final EnumMap<SlotType, Integer> slotTypeIndex = new EnumMap<>(SlotType.class);
     protected ItemInstance[] inventory;
-    private String name;
+    private final String name;
 
     public ItemStorage(String name, int size) {
         inventory = new ItemInstance[size];

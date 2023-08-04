@@ -43,6 +43,4 @@ public class GtTest {
         event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawnerEntity").toString());
         event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGeneratorEntity").toString());
     }
-
-
 }
