@@ -15,11 +15,14 @@ public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
 
     @Override
     public void tick() {
+        var originalBlockState = level.getBlockState(x, y, z);
         if (level.getTileId(x, y - 1, z) == BlockBase.DIAMOND_BLOCK.id) {
             powerStorage.charge(1);
-            level.setBlockState(x, y, z, level.getBlockState(x, y, z).with(Generator.LIT_PROPERTY, true));
-        } else {
-            level.setBlockState(x, y, z, level.getBlockState(x, y, z).with(Generator.LIT_PROPERTY, false));
+            if (!originalBlockState.get(Generator.LIT_PROPERTY)) {
+                level.setBlockState(x, y, z, originalBlockState.with(Generator.LIT_PROPERTY, true));
+            }
+        } else if (originalBlockState.get(Generator.LIT_PROPERTY)) {
+            level.setBlockState(x, y, z, originalBlockState.with(Generator.LIT_PROPERTY, false));
         }
 
         var tileEntity = level.getTileEntity(x, y + 1, z);
