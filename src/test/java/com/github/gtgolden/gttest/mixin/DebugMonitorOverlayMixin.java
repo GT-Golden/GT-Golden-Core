@@ -42,11 +42,21 @@ public class DebugMonitorOverlayMixin {
         y += TEXT_SPACING;
         HitResult hit = minecraft.hitResult;
         if (hit == null) return;
+        var8.drawTextWithShadow(Colours.RED + " Looking at side: " + Colours.WHITE + hit.field_1987, 0, y, 0);
+        y += TEXT_SPACING;
         var tileEntity = minecraft.level.getTileEntity(hit.x, hit.y, hit.z);
         if (tileEntity == null) return;
         if (tileEntity instanceof HasPowerStorage powerStorage) {
             var8.drawTextWithShadow(Colours.GREEN + " Power storage found: ", 0, y, 0);
             y += TEXT_SPACING;
+            if (powerStorage.isPowerInput(hit.field_1987)) {
+                var8.drawTextWithShadow(Colours.RED + "  Is power input ", 0, y, 0);
+                y += TEXT_SPACING;
+            }
+            if (powerStorage.isPowerOutput(hit.field_1987)) {
+                var8.drawTextWithShadow(Colours.RED + "  Is power output ", 0, y, 0);
+                y += TEXT_SPACING;
+            }
             var8.drawTextWithShadow(Colours.BLUE + "  Max power level: " + Colours.WHITE + powerStorage.getMaxPower(), 0, y, 0);
             y += TEXT_SPACING;
             var8.drawTextWithShadow(Colours.BLUE + "  Power level: " + Colours.WHITE + powerStorage.getPower(), 0, y, 0);
@@ -55,6 +65,14 @@ public class DebugMonitorOverlayMixin {
         if (tileEntity instanceof HasItemIO itemStorage) {
             var8.drawTextWithShadow(Colours.GREEN + " Item storage found: ", 0, y, 0);
             y += TEXT_SPACING;
+            if (itemStorage.isItemInput(hit.field_1987)) {
+                var8.drawTextWithShadow(Colours.RED + "  Is item input ", 0, y, 0);
+                y += TEXT_SPACING;
+            }
+            if (itemStorage.isItemOutput(hit.field_1987)) {
+                var8.drawTextWithShadow(Colours.RED + "  Is item output ", 0, y, 0);
+                y += TEXT_SPACING;
+            }
             for (SlotType type: SlotType.values()) {
                 int size = itemStorage.getInventorySize(type);
                 if (size <= 0) continue;
