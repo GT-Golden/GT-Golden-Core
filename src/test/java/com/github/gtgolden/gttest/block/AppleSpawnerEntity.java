@@ -6,9 +6,10 @@ import net.minecraft.entity.Item;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.tileentity.TileEntityBase;
+import net.minecraft.util.io.CompoundTag;
 
 public class AppleSpawnerEntity extends TileEntityBase implements HasPowerStorage {
-    PowerStorage powerStorage = new PowerStorage(128, 0);
+    PowerStorage powerStorage = new PowerStorage("appleSpawnerPower", 128, 0);
     @Override
     public PowerStorage getPowerStorage() {
         return powerStorage;
@@ -21,5 +22,15 @@ public class AppleSpawnerEntity extends TileEntityBase implements HasPowerStorag
             level.spawnEntity(item);
             powerStorage.discharge(32);
         }
+    }
+
+    @Override
+    public void readIdentifyingData(CompoundTag tag) {
+        powerStorage.readIdentifyingData(tag);
+    }
+
+    @Override
+    public void writeIdentifyingData(CompoundTag tag) {
+        powerStorage.writeIdentifyingData(tag);
     }
 }

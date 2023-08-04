@@ -44,10 +44,6 @@ public interface HasItemStorage extends HasItemIO {
         getItemStorage().setInventoryItem(type, slot, itemInstance);
     }
 
-    default String getContainerName() {
-        return getItemStorage().getContainerName();
-    }
-
     default int getMaxItemCount() {
         return getItemStorage().getMaxItemCount();
     }

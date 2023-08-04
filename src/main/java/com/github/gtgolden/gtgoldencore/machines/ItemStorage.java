@@ -108,7 +108,8 @@ public class ItemStorage implements ItemIO {
     }
 
     public void readIdentifyingData(CompoundTag tag) {
-        ListTag var2 = tag.getListTag("Items");
+        System.out.println("Reading items");
+        ListTag var2 = tag.getListTag(name);
         inventory = new ItemInstance[this.getInventorySize()];
 
         for(int var3 = 0; var3 < var2.size(); ++var3) {
@@ -118,10 +119,11 @@ public class ItemStorage implements ItemIO {
                 inventory[var5] = new ItemInstance(var4);
             }
         }
-
     }
 
     public void writeIdentifyingData(CompoundTag tag) {
+        System.out.println("Writing items");
+        System.out.println(Arrays.toString(inventory));
         ListTag var2 = new ListTag();
 
         for(int var3 = 0; var3 < inventory.length; ++var3) {
@@ -133,7 +135,7 @@ public class ItemStorage implements ItemIO {
             }
         }
 
-        tag.put("Items", var2);
+        tag.put(name, var2);
     }
 
     public int getMaxItemCount() {

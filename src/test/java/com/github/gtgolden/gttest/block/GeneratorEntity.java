@@ -4,10 +4,11 @@ import com.github.gtgolden.gtgoldencore.machines.HasPowerStorage;
 import com.github.gtgolden.gtgoldencore.machines.PowerStorage;
 import net.minecraft.block.BlockBase;
 import net.minecraft.tileentity.TileEntityBase;
+import net.minecraft.util.io.CompoundTag;
 import net.modificationstation.stationapi.api.util.math.Direction;
 
 public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
-    PowerStorage powerStorage = new PowerStorage(512, 0);
+    PowerStorage powerStorage = new PowerStorage("generatorPower", 512, 0);
     @Override
     public PowerStorage getPowerStorage() {
         return powerStorage;
@@ -31,5 +32,15 @@ public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
                 powerStorage.discharge(foundPowerStorage.getPowerStorage().charge(Math.min(10, powerStorage.getPower())));
             }
         }
+    }
+
+    @Override
+    public void readIdentifyingData(CompoundTag tag) {
+        powerStorage.readIdentifyingData(tag);
+    }
+
+    @Override
+    public void writeIdentifyingData(CompoundTag tag) {
+        powerStorage.writeIdentifyingData(tag);
     }
 }

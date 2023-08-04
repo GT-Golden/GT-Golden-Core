@@ -1,12 +1,20 @@
 package com.github.gtgolden.gtgoldencore.machines;
 
+import net.minecraft.util.io.CompoundTag;
+
 public class PowerStorage {
     final int maxPower;
     int power;
+    String name;
 
-    public PowerStorage(int maxPower, int startingPower) {
+    public PowerStorage(String name, int maxPower, int startingPower) {
+        this.name = name;
         this.maxPower = maxPower;
         this.power = startingPower;
+    }
+
+    public PowerStorage(String name, int maxPower) {
+        this(name, maxPower, 0);
     }
 
     public int getMaxPower() {
@@ -31,5 +39,13 @@ public class PowerStorage {
         int discharge = Math.min(getPower(), amount);
         power -= discharge;
         return discharge;
+    }
+
+    public void readIdentifyingData(CompoundTag tag) {
+        power = tag.getInt(name + "_power");
+    }
+
+    public void writeIdentifyingData(CompoundTag tag) {
+        tag.put(name + "_power", power);
     }
 }

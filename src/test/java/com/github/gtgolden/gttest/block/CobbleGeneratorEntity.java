@@ -6,11 +6,12 @@ import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.tileentity.TileEntityBase;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.io.CompoundTag;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerStorage, HasItemStorage {
-    ItemStorage itemStorage = new ItemStorage("Cobble Gen", BiTuple.of(SlotType.INPUT, 2), BiTuple.of(SlotType.OUTPUT, 1));
-    PowerStorage powerStorage = new PowerStorage(256, 0);
+    ItemStorage itemStorage = new ItemStorage("cobbleGenItems", BiTuple.of(SlotType.INPUT, 2), BiTuple.of(SlotType.OUTPUT, 1));
+    PowerStorage powerStorage = new PowerStorage("cobbleGenPower", 256, 0);
     int timer = 0;
     static final int COOK_TIME = 15;
     @Override
@@ -64,5 +65,22 @@ public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerSto
                 }
             }
         }
+    }
+
+    @Override
+    public String getContainerName() {
+        return "Cobble Gen";
+    }
+
+    @Override
+    public void readIdentifyingData(CompoundTag tag) {
+        itemStorage.readIdentifyingData(tag);
+        powerStorage.readIdentifyingData(tag);
+    }
+
+    @Override
+    public void writeIdentifyingData(CompoundTag tag) {
+        itemStorage.writeIdentifyingData(tag);
+        powerStorage.writeIdentifyingData(tag);
     }
 }
