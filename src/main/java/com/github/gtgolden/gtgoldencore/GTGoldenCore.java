@@ -1,9 +1,5 @@
 package com.github.gtgolden.gtgoldencore;
 
-import blue.endless.jankson.Comment;
-import com.github.gtgolden.gtgoldencore.item.DebugMonitorTool;
-import com.github.gtgolden.gtgoldencore.materials.api.GTMaterialBuilder;
-import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
 import net.glasslauncher.mods.api.gcapi.api.ConfigName;
 import net.glasslauncher.mods.api.gcapi.api.GConfig;
 import net.glasslauncher.mods.api.gcapi.api.MultiplayerSynced;
@@ -30,22 +26,9 @@ public class GTGoldenCore {
         LOGGER.info("Preparing sauce of golden ages...");
     }
 
-    public static ItemBase DEBUG_MONITOR;
-
-    @EventListener
-    public void registerItems(ItemRegistryEvent event) {
-        LOGGER.info("Registering technical stuff");
-
-        if (config.debugMonitorEnabled) {
-            LOGGER.info("Registering debug monitor");
-            DEBUG_MONITOR = new DebugMonitorTool(MOD_ID.id("debugMonitor"));
-        }
-    }
-
     public static class ConfigFields {
         @MultiplayerSynced
-        @ConfigName("Debug Monitor Enabled")
-        @Comment("You must restart after applying this.")
-        public Boolean debugMonitorEnabled = false;
+        @ConfigName("Show GT: Golden Info in the F3 menu.")
+        public Boolean debugMenuInfo = true;
     }
 }

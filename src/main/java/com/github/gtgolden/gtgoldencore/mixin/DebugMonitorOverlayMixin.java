@@ -2,6 +2,7 @@ package com.github.gtgolden.gtgoldencore.mixin;
 
 import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemIO;
+import com.github.gtgolden.gtgoldencore.machines.api.power.HasPowerIO;
 import com.github.gtgolden.gtgoldencore.machines.api.power.HasPowerStorage;
 import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
 import net.minecraft.client.Minecraft;
@@ -22,73 +23,67 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(InGame.class)
 public class DebugMonitorOverlayMixin {
     @Unique
-    private static final int VERTICAL_OFFSET = 0;
+    private static final int HORIZONTAL_OFFSET = 2;
     @Unique
-    private static final int DEBUG_VERTICAL_OFFSET = 108;
+    private static final int INDENT_OFFSET = 4;
+    @Unique
+    private static final int VERTICAL_OFFSET = 112;
     @Unique
     private static final int TEXT_SPACING = 12;
     @Shadow
     private Minecraft minecraft;
+
+    @Unique
+    private static int y = 0;
 
     @Inject(
             method = "renderHud(FZII)V",
             at = @At("RETURN"),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private void renderDebugMonitor(float f, boolean flag, int i, int j, CallbackInfo ci, ScreenScaler var5, int var6, int var7, TextRenderer var8) {
-        if (!GTGoldenCore.config.debugMonitorEnabled) return;
-        var heldItem = minecraft.player.getHeldItem();
-        if (heldItem == null || heldItem.getType() != GTGoldenCore.DEBUG_MONITOR) return;
-        int y = this.minecraft.options.debugHud ? DEBUG_VERTICAL_OFFSET : VERTICAL_OFFSET;
-        var8.drawTextWithShadow(Colours.GOLD + "Debug Monitor Data:", 0, y, 0);
-        y += TEXT_SPACING;
+    private void renderDebugMonitor(float f, boolean flag, int i, int j, CallbackInfo ci, ScreenScaler screenScaler, int screenWidth, int screenHeight, TextRenderer textRenderer) {
+        if (!GTGoldenCore.config.debugMenuInfo || !minecraft.options.debugHud) return;
+
         HitResult hit = minecraft.hitResult;
         if (hit == null) return;
-        var side = Direction.values()[hit.field_1987];
-        var8.drawTextWithShadow(Colours.RED + " Looking at side: " + Colours.WHITE + side + "(" + hit.field_1987 + ")", 0, y, 0);
-        y += TEXT_SPACING;
+        y = VERTICAL_OFFSET;
         var tileEntity = minecraft.level.getTileEntity(hit.x, hit.y, hit.z);
-        if (tileEntity == null) return;
+        if (!(tileEntity instanceof HasItemIO) && !(tileEntity instanceof HasPowerIO)) return;
+
+        printGTText(textRenderer, 0, Colours.GOLD + "GT-Golden Data:");
+
+        var side = Direction.values()[hit.field_1987];
+        printGTText(textRenderer, 1, Colours.GREEN + "Looking at side: " + Colours.WHITE + side + "(" + hit.field_1987 + ")");
         if (tileEntity instanceof HasPowerStorage powerStorage) {
-            var8.drawTextWithShadow(Colours.GREEN + " Power storage found: ", 0, y, 0);
-            y += TEXT_SPACING;
-            if (powerStorage.isPowerInput(side)) {
-                var8.drawTextWithShadow(Colours.RED + "  Is power input ", 0, y, 0);
-                y += TEXT_SPACING;
-            }
-            if (powerStorage.isPowerOutput(side)) {
-                var8.drawTextWithShadow(Colours.RED + "  Is power output ", 0, y, 0);
-                y += TEXT_SPACING;
-            }
-            var8.drawTextWithShadow(Colours.BLUE + "  Max power level: " + Colours.WHITE + powerStorage.getMaxPower(), 0, y, 0);
-            y += TEXT_SPACING;
-            var8.drawTextWithShadow(Colours.BLUE + "  Power level: " + Colours.WHITE + powerStorage.getPower(), 0, y, 0);
-            y += TEXT_SPACING;
+            printGTText(textRenderer, 1, Colours.GREEN + "Power storage found:");
+            if (powerStorage.isPowerInput(side)) printGTText(textRenderer, 2, Colours.RED + "Is power input");
+            if (powerStorage.isPowerOutput(side)) printGTText(textRenderer, 2, Colours.RED + "Is power output");
+
+            printGTText(textRenderer, 2, Colours.BLUE + "Max power level: " + Colours.WHITE + powerStorage.getMaxPower());
+            printGTText(textRenderer, 2, Colours.BLUE + "Power level: " + Colours.WHITE + powerStorage.getPower());
         }
         if (tileEntity instanceof HasItemIO itemStorage) {
-            var8.drawTextWithShadow(Colours.GREEN + " Item storage found: ", 0, y, 0);
-            y += TEXT_SPACING;
-            if (itemStorage.isItemInput(side)) {
-                var8.drawTextWithShadow(Colours.RED + "  Is item input ", 0, y, 0);
-                y += TEXT_SPACING;
-            }
-            if (itemStorage.isItemOutput(side)) {
-                var8.drawTextWithShadow(Colours.RED + "  Is item output ", 0, y, 0);
-                y += TEXT_SPACING;
-            }
+            printGTText(textRenderer, 1, Colours.GREEN + " Item storage found:");
+            if (itemStorage.isItemInput(side)) printGTText(textRenderer, 2, Colours.RED + "Is item input");
+            if (itemStorage.isItemOutput(side)) printGTText(textRenderer, 2, Colours.RED + "Is item output");
+
             for (SlotType type : SlotType.values()) {
                 int size = itemStorage.getInventorySize(type);
                 if (size <= 0) continue;
-                var8.drawTextWithShadow(Colours.BLUE + "  " + type.name() + Colours.DARK_PURPLE + " (" + size + ")" + ": ", 0, y, 0);
-                y += TEXT_SPACING;
+                printGTText(textRenderer, 2, Colours.BLUE + type.name() + Colours.DARK_PURPLE + " (" + size + ")" + ":");
                 for (int slot = 0; slot < size; slot++) {
                     var item = itemStorage.getInventoryItem(type, slot);
                     if (item != null) {
-                        var8.drawTextWithShadow(Colours.LIGHT_PURPLE + "   " + slot + ". " + Colours.WHITE + item.count + "x" + item.getTranslationKey(), 0, y, 0);
-                        y += TEXT_SPACING;
+                        printGTText(textRenderer, 3, Colours.LIGHT_PURPLE.toString() + slot + ". " + Colours.WHITE + item.count + "x" + item.getTranslationKey());
                     }
                 }
             }
         }
+    }
+
+    @Unique
+    private void printGTText(TextRenderer textRenderer, int indent, String text) {
+        textRenderer.drawTextWithShadow(text, HORIZONTAL_OFFSET + (indent * INDENT_OFFSET), y, 0);
+        y += TEXT_SPACING;
     }
 }
