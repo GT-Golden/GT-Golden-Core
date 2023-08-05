@@ -1,11 +1,11 @@
-package com.github.gtgolden.gtgoldencore.utils;
+package com.github.gtgolden.gtgoldencore.materials.api;
 
-import com.github.gtgolden.gtgoldencore.material.GTMaterial;
-import com.github.gtgolden.gtgoldencore.material.Materials;
+import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterial;
+import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterialRegistry;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.util.io.CompoundTag;
 
-public class ItemUtil {
+public class MaterialUtil {
     public static boolean compare(ItemInstance filter, ItemInstance item) {
         if (item == null || filter == null) return false;
 
@@ -20,7 +20,7 @@ public class ItemUtil {
 
     public static GTMaterial getUniqueMaterial(ItemInstance item) {
         CompoundTag nbt = item.getStationNBT();
-        if (nbt == null || nbt.getString("material") == null) return Materials.get("");
-        return Materials.get(nbt.getString("material"));
+        if (nbt == null || nbt.getString("material") == null) return GTMaterialRegistry.get("");
+        return GTMaterialRegistry.get(nbt.getString("material"));
     }
 }

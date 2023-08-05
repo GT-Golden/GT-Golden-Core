@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines;
+package com.github.gtgolden.gtgoldencore.machines.api.items;
 
 import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;

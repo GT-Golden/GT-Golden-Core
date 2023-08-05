@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines;
+package com.github.gtgolden.gtgoldencore.machines.api.power;
 
 public interface HasPowerStorage extends HasPowerIO {
     PowerStorage getPowerStorage();

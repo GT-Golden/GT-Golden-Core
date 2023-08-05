@@ -1,7 +1,7 @@
 package com.github.gtgolden.gtgoldencore.mixin;
 
-import com.github.gtgolden.gtgoldencore.machines.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemIO;
+import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.tileentity.TileEntityChest;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,9 +1,11 @@
 package com.github.gtgolden.gttest;
 
+import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
 import com.github.gtgolden.gttest.block.*;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBase;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.event.tileentity.TileEntityRegisterEvent;
@@ -22,6 +24,7 @@ public class GtTest {
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering items");
+        new MetaItem(MOD_ID.id("testMetaItem"));
     }
 
     public static BlockBase GENERATOR;

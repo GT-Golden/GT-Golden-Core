@@ -1,6 +1,10 @@
 package com.github.gtgolden.gttest.block;
 
-import com.github.gtgolden.gtgoldencore.machines.*;
+import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.items.ItemStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.power.HasPowerStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.power.PowerStorage;
 import net.minecraft.block.BlockBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;

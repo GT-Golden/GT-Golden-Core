@@ -2,8 +2,8 @@ package com.github.gtgolden.gtgoldencore;
 
 import blue.endless.jankson.Comment;
 import com.github.gtgolden.gtgoldencore.item.DebugMonitorTool;
-import com.github.gtgolden.gtgoldencore.item.MetaItem;
-import com.github.gtgolden.gtgoldencore.material.GTMaterial;
+import com.github.gtgolden.gtgoldencore.materials.api.GTMaterialBuilder;
+import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
 import net.glasslauncher.mods.api.gcapi.api.ConfigName;
 import net.glasslauncher.mods.api.gcapi.api.GConfig;
 import net.glasslauncher.mods.api.gcapi.api.MultiplayerSynced;
@@ -15,8 +15,6 @@ import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
-
-import static com.github.gtgolden.gtgoldencore.item.MetaItem.MISSING;
 
 public class GTGoldenCore {
     @Entrypoint.ModID
@@ -42,10 +40,6 @@ public class GTGoldenCore {
             LOGGER.info("Registering debug monitor");
             DEBUG_MONITOR = new DebugMonitorTool(MOD_ID.id("debugMonitor"));
         }
-
-        MISSING = new MetaItem(MOD_ID.id("missing"));
-
-        new GTMaterial.Builder("").color(0).build();
     }
 
     public static class ConfigFields {

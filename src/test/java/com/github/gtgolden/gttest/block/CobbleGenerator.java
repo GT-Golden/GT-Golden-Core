@@ -1,6 +1,6 @@
 package com.github.gtgolden.gttest.block;
 
-import com.github.gtgolden.gtgoldencore.machines.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;

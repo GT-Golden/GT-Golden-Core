@@ -1,7 +1,7 @@
 package com.github.gtgolden.gttest.block;
 
-import com.github.gtgolden.gtgoldencore.machines.HasPowerStorage;
-import com.github.gtgolden.gtgoldencore.machines.PowerStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.power.HasPowerStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.power.PowerStorage;
 import net.minecraft.entity.Item;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;

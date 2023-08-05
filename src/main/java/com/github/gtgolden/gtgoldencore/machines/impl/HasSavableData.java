@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines;
+package com.github.gtgolden.gtgoldencore.machines.impl;
 
 import net.minecraft.util.io.CompoundTag;
 

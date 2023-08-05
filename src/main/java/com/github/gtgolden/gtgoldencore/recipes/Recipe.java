@@ -1,6 +1,6 @@
-package com.github.gtgolden.gtgoldencore.recipe;
+package com.github.gtgolden.gtgoldencore.recipes;
 
-import com.github.gtgolden.gtgoldencore.utils.ItemUtil;
+import com.github.gtgolden.gtgoldencore.materials.api.MaterialUtil;
 import net.minecraft.item.ItemInstance;
 
 // TODO add time, cost, etc.
@@ -36,7 +36,7 @@ public class Recipe {
     public boolean checkRecipe(ItemInstance[] inputItems) {
         for (ItemInstance recipeInputItem : input) {
             for (ItemInstance inputItem : inputItems) {
-                if (ItemUtil.compare(recipeInputItem, inputItem)) break;
+                if (MaterialUtil.compare(recipeInputItem, inputItem)) break;
             }
             return false;
         }

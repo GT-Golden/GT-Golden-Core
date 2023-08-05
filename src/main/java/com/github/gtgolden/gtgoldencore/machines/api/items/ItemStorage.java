@@ -1,5 +1,6 @@
-package com.github.gtgolden.gtgoldencore.machines;
+package com.github.gtgolden.gtgoldencore.machines.api.items;
 
+import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.util.io.CompoundTag;

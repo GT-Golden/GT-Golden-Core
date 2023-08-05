@@ -1,16 +1,18 @@
-package com.github.gtgolden.gtgoldencore.events;
+package com.github.gtgolden.gtgoldencore.materials;
 
-import com.github.gtgolden.gtgoldencore.item.MetaItem;
-import com.github.gtgolden.gtgoldencore.utils.ItemUtil;
+import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
+import com.github.gtgolden.gtgoldencore.materials.api.MaterialUtil;
+import com.github.gtgolden.gtgoldencore.materials.impl.MetaItemRegistry;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.color.block.BlockColors;
 import net.modificationstation.stationapi.api.client.color.item.ItemColors;
 import net.modificationstation.stationapi.api.client.event.color.block.BlockColorsRegisterEvent;
 import net.modificationstation.stationapi.api.client.event.color.item.ItemColorsRegisterEvent;
+import net.modificationstation.stationapi.api.client.event.render.model.LoadUnbakedModelEvent;
 
 import static com.github.gtgolden.gtgoldencore.GTGoldenCore.LOGGER;
 
-public class ColorListener {
+public class GTMaterialsClient {
     @EventListener
     private static void registerBlockColours(BlockColorsRegisterEvent event) {
         LOGGER.info("Registering block colours");
@@ -23,8 +25,8 @@ public class ColorListener {
     private static void registerItemColours(ItemColorsRegisterEvent event) {
         LOGGER.info("Registering item colours");
         ItemColors itemColors = event.itemColors;
-        for (MetaItem item : MetaItem.metaItems.values()) {
-            itemColors.register((itemInstance, tintIndex) -> ItemUtil.getUniqueMaterial(itemInstance).getMaterialColor(), item);
+        for (MetaItem item : MetaItemRegistry.getAllMetaItems().values()) {
+            itemColors.register((itemInstance, tintIndex) -> MaterialUtil.getUniqueMaterial(itemInstance).getMaterialColor().getRGB(), item);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.recipe;
+package com.github.gtgolden.gtgoldencore.recipes;
 
 import net.minecraft.item.ItemInstance;
 

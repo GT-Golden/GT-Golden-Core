@@ -1,5 +1,6 @@
-package com.github.gtgolden.gtgoldencore.machines;
+package com.github.gtgolden.gtgoldencore.machines.api.power;
 
+import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
 import net.minecraft.util.io.CompoundTag;
 
 public class PowerStorage implements PowerIO, HasSavableData {

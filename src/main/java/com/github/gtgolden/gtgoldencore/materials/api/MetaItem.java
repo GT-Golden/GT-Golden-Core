@@ -1,5 +1,6 @@
-package com.github.gtgolden.gtgoldencore.item;
+package com.github.gtgolden.gtgoldencore.materials.api;
 
+import com.github.gtgolden.gtgoldencore.materials.impl.MetaItemRegistry;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -15,15 +16,16 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {
-
-    public static HashMap<String, MetaItem> metaItems = new HashMap<>();
-    public static MetaItem MISSING;
-
     public MetaItem(Identifier identifier) {
         super(identifier);
-        System.out.println(identifier.toString());
         setTranslationKey(identifier.toString());
-        metaItems.put(identifier.id, this);
+        MetaItemRegistry.put(identifier.id, this);
+    }
+
+    public MetaItem(Identifier identifier, String metaItemName) {
+        super(identifier);
+        setTranslationKey(identifier.toString());
+        MetaItemRegistry.put(metaItemName, this);
     }
 
     @Override
@@ -67,9 +69,7 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
     }
 
     public static MetaItem get(String name) {
-        MetaItem item = metaItems.get(name);
-        if (item != null) return item;
-        return MISSING;
+        return MetaItemRegistry.get(name);
     }
 
     @Override
