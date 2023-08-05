@@ -1,3 +1,4 @@
 tile.generator.name=Generator
 tile.appleSpawner.name=Apple Spawner
 tile.cobbleGenerator.name=Cobble Generator
+tile.itemMover.name=Item Mover

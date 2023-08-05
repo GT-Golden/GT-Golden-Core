@@ -3,6 +3,7 @@ package com.github.gtgolden.gtgoldencore.machines.api.items;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.tileentity.TileEntityBase;
+import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public interface HasItemStorage extends HasItemIO {
     ItemStorage getItemStorage();
@@ -41,6 +42,21 @@ public interface HasItemStorage extends HasItemIO {
     @Override
     default void setInventoryItem(SlotType type, int slot, ItemInstance itemInstance) {
         getItemStorage().setInventoryItem(type, slot, itemInstance);
+    }
+
+    @Override
+    default boolean hasItem(ItemInstance inputItem, SlotType... typesToCheck) {
+        return getItemStorage().hasItem(inputItem, typesToCheck);
+    }
+
+    @Override
+    default BiTuple<Boolean, ItemInstance> attemptSend(ItemInstance inputItem, SlotType... permittedInputTypes) {
+        return getItemStorage().attemptSend(inputItem, permittedInputTypes);
+    }
+
+    @Override
+    default ItemInstance attemptTake(ItemInstance desiredItem, SlotType... typesToCheck) {
+        return getItemStorage().attemptTake(desiredItem, typesToCheck);
     }
 
     default int getMaxItemCount() {

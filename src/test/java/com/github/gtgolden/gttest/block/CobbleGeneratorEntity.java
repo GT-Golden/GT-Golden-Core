@@ -1,5 +1,6 @@
 package com.github.gtgolden.gttest.block;
 
+import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemIO;
 import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemStorage;
 import com.github.gtgolden.gtgoldencore.machines.api.items.ItemStorage;
 import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
@@ -52,23 +53,7 @@ public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerSto
             timer = 0;
         }
         if (cobbleSlot != null && level.getTileEntity(x, y + 1, z) instanceof TileEntityChest chest) {
-            for (int i = 0; i < chest.getInventorySize(); i++) {
-                var itemSlot = chest.getInventoryItem(i);
-                if (itemSlot == null) {
-                    chest.setInventoryItem(i, cobbleSlot);
-                    setInventoryItem(SlotType.OUTPUT, 0, null);
-                    break;
-                } else if (itemSlot.itemId == BlockBase.COBBLESTONE.id && itemSlot.count < 64) {
-                    int increment = Math.min(chest.getMaxItemCount() - itemSlot.count, cobbleSlot.count);
-                    itemSlot.count += increment;
-                    if (increment >= cobbleSlot.count) {
-                        setInventoryItem(SlotType.OUTPUT, 0, null);
-                    } else {
-                        cobbleSlot.count -= increment;
-                    }
-                    break;
-                }
-            }
+            setInventoryItem(SlotType.OUTPUT, 0, ((HasItemIO) chest).attemptSend(cobbleSlot, SlotType.MIXED).two());
         }
     }
 

@@ -30,6 +30,7 @@ public class GtTest {
     public static BlockBase GENERATOR;
     public static BlockBase APPLE_SPAWNER;
     public static BlockBase COBBLE_GEN;
+    public static BlockBase ITEM_MOVER;
 
     @EventListener
     public void registerBlocks(BlockRegistryEvent event) {
@@ -37,13 +38,15 @@ public class GtTest {
         GENERATOR = new Generator(MOD_ID.id("generator"), Material.STONE);
         APPLE_SPAWNER = new AppleSpawner(MOD_ID.id("appleSpawner"), Material.STONE);
         COBBLE_GEN = new CobbleGenerator(MOD_ID.id("cobbleGenerator"), Material.STONE);
+        ITEM_MOVER = new ItemMover(MOD_ID.id("itemMover"), Material.STONE);
     }
 
     @EventListener
     public void registerTileEntities(TileEntityRegisterEvent event) {
         LOGGER.info("Registering tile entities");
-        event.register(GeneratorEntity.class, MOD_ID.id("generatorEntity").toString());
-        event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawnerEntity").toString());
-        event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGeneratorEntity").toString());
+        event.register(GeneratorEntity.class, MOD_ID.id("generator").toString());
+        event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawner").toString());
+        event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGenerator").toString());
+        event.register(ItemMoverEntity.class, MOD_ID.id("itemMover").toString());
     }
 }
