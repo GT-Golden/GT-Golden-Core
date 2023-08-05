@@ -108,31 +108,31 @@ public class ItemStorage implements ItemIO, HasSavableData {
     }
 
     public void readData(CompoundTag tag) {
-        ListTag var2 = tag.getListTag(name);
+        ListTag listTag = tag.getListTag(name);
         inventory = new ItemInstance[this.getInventorySize()];
 
-        for (int var3 = 0; var3 < var2.size(); ++var3) {
-            CompoundTag var4 = (CompoundTag) var2.get(var3);
-            int var5 = var4.getByte("Slot") & 255;
-            if (var5 < inventory.length) {
-                inventory[var5] = new ItemInstance(var4);
+        for (int i = 0; i < listTag.size(); ++i) {
+            CompoundTag compoundTag = (CompoundTag) listTag.get(i);
+            int slot = compoundTag.getByte("Slot") & 255;
+            if (slot < inventory.length) {
+                inventory[slot] = new ItemInstance(compoundTag);
             }
         }
     }
 
     public void writeData(CompoundTag tag) {
-        ListTag var2 = new ListTag();
+        ListTag listTag = new ListTag();
 
-        for (int var3 = 0; var3 < inventory.length; ++var3) {
-            if (inventory[var3] != null) {
-                CompoundTag var4 = new CompoundTag();
-                var4.put("Slot", (byte) var3);
-                inventory[var3].toTag(var4);
-                var2.add(var4);
+        for (int i = 0; i < inventory.length; ++i) {
+            if (inventory[i] != null) {
+                CompoundTag compoundTag = new CompoundTag();
+                compoundTag.put("Slot", (byte) i);
+                inventory[i].toTag(compoundTag);
+                listTag.add(compoundTag);
             }
         }
 
-        tag.put(name, var2);
+        tag.put(name, listTag);
     }
 
     public int getMaxItemCount() {

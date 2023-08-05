@@ -12,7 +12,6 @@ import net.modificationstation.stationapi.api.registry.Identifier;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 public class MetaItem extends TemplateItemBase implements CustomTooltipProvider {

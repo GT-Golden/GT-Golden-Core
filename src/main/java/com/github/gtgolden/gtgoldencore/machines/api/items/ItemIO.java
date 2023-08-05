@@ -4,8 +4,6 @@ import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
-import java.util.Arrays;
-
 public interface ItemIO extends InventoryBase {
     int getInventorySize(SlotType type);
 
@@ -33,7 +31,7 @@ public interface ItemIO extends InventoryBase {
         boolean succeeded = false;
         int amountLeft = maxThroughput;
         int maxStackSize = Math.min(getMaxItemCount(), inputItem.getMaxStackSize());
-        slotTypeLoop: for (SlotType type : permittedInputTypes.length != 0 ? permittedInputTypes : SlotType.values()) {
+        for (SlotType type : permittedInputTypes.length != 0 ? permittedInputTypes : SlotType.values()) {
             for (int i = 0; i < getInventorySize(type); i++) {
                 var existingItem = getInventoryItem(type, i);
                 if (existingItem == null) continue;
@@ -54,7 +52,7 @@ public interface ItemIO extends InventoryBase {
                 if (amountLeft <= 0) return BiTuple.of(true, inputItem);
             }
         }
-        slotTypeEmptyLoop: for (SlotType type : permittedInputTypes.length != 0 ? permittedInputTypes : SlotType.values()) {
+        for (SlotType type : permittedInputTypes.length != 0 ? permittedInputTypes : SlotType.values()) {
             for (int i = 0; i < getInventorySize(type); i++) {
                 var existingItem = getInventoryItem(type, i);
                 if (existingItem == null) {
@@ -85,7 +83,8 @@ public interface ItemIO extends InventoryBase {
         var response = desiredItem.copy();
         response.count = 0;
         int maxStackSize = response.getMaxStackSize();
-        slotTypeLoop: for (SlotType type : typesToCheck.length != 0 ? typesToCheck : SlotType.values()) {
+        slotTypeLoop:
+        for (SlotType type : typesToCheck.length != 0 ? typesToCheck : SlotType.values()) {
             for (int i = 0; i < getInventorySize(type); i++) {
                 var existingItem = getInventoryItem(type, i);
                 if (existingItem == null) continue;

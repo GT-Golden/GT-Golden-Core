@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntityBase;
 
 public class ItemMoverEntity extends TileEntityBase {
     int timer = 0;
+
     @Override
     public void tick() {
         if (timer < 20) {

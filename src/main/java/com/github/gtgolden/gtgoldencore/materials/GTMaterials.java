@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 public class GTMaterials {
     @Entrypoint.Logger("GT-Golden-Materials")
     public static final Logger LOGGER = Null.get();
+
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         GTGoldenCore.LOGGER.info("Registering material items");

@@ -1,14 +1,13 @@
 package com.github.gtgolden.gtgoldencore.materials;
 
-import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
 import com.github.gtgolden.gtgoldencore.materials.api.MaterialUtil;
+import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
 import com.github.gtgolden.gtgoldencore.materials.impl.MetaItemRegistry;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.color.block.BlockColors;
 import net.modificationstation.stationapi.api.client.color.item.ItemColors;
 import net.modificationstation.stationapi.api.client.event.color.block.BlockColorsRegisterEvent;
 import net.modificationstation.stationapi.api.client.event.color.item.ItemColorsRegisterEvent;
-import net.modificationstation.stationapi.api.client.event.render.model.LoadUnbakedModelEvent;
 
 import static com.github.gtgolden.gtgoldencore.GTGoldenCore.LOGGER;
 
