@@ -2,11 +2,17 @@ package com.github.gtgolden.gtgoldencore.machines.api.items;
 
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
+import net.minecraft.level.Level;
 import net.minecraft.tileentity.TileEntityBase;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public interface HasItemStorage extends HasItemIO {
     ItemStorage getItemStorage();
+
+    @Override
+    default SlotType[] getAcceptedTypes() {
+        return getItemStorage().getAcceptedTypes();
+    }
 
     default int getInventorySize() {
         return getItemStorage().getInventorySize();
@@ -65,6 +71,10 @@ public interface HasItemStorage extends HasItemIO {
 
     default void markDirty() {
         getItemStorage().getMaxItemCount();
+    }
+
+    default void dropContents(Level level, int x, int y, int z) {
+        getItemStorage().dropContents(level, x, y, z);
     }
 
     default boolean canPlayerUse(PlayerBase arg) {

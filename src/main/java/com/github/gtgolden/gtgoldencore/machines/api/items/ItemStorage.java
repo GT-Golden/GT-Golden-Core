@@ -1,19 +1,25 @@
 package com.github.gtgolden.gtgoldencore.machines.api.items;
 
 import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
+import net.minecraft.entity.Item;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
+import net.minecraft.level.Level;
 import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.io.ListTag;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Random;
 
 public class ItemStorage implements ItemIO, HasSavableData {
     protected final EnumMap<SlotType, Integer> slotTypeSizes = new EnumMap<>(SlotType.class);
     protected final EnumMap<SlotType, Integer> slotTypeIndex = new EnumMap<>(SlotType.class);
+    protected final SlotType[] acceptedTypes;
     protected ItemInstance[] inventory;
     private final String name;
+    private static final Random rand = new Random();
 
     public ItemStorage(String name, int size) {
         inventory = new ItemInstance[size];
@@ -23,17 +29,27 @@ public class ItemStorage implements ItemIO, HasSavableData {
             slotTypeSizes.put(type, type == SlotType.MISC ? size : 0);
         }
         slotTypeIndex.put(SlotType.MISC, 0);
+        acceptedTypes = new SlotType[]{SlotType.MISC};
     }
 
     public ItemStorage(String name, BiTuple<SlotType, Integer>... storageTypes) {
         this.name = name;
         var size = 0;
-        for (BiTuple<SlotType, Integer> storageType : storageTypes) {
+        var acceptedTypesList = new ArrayList<SlotType>(storageTypes.length);
+        for (int i = 0; i < storageTypes.length; i++) {
+            BiTuple<SlotType, Integer> storageType = storageTypes[i];
             slotTypeIndex.put(storageType.one(), size);
             slotTypeSizes.put(storageType.one(), storageType.two());
             size += storageType.two();
+            acceptedTypesList.add(storageType.one());
         }
         inventory = new ItemInstance[size];
+        acceptedTypes = acceptedTypesList.toArray(new SlotType[storageTypes.length]);
+    }
+
+    @Override
+    public SlotType[] getAcceptedTypes() {
+        return acceptedTypes;
     }
 
     @Override
@@ -61,7 +77,7 @@ public class ItemStorage implements ItemIO, HasSavableData {
             if (inventory[slot].count <= count) {
                 var3 = inventory[slot];
                 inventory[slot] = null;
-                this.markDirty();
+                markDirty();
                 return var3;
             } else {
                 var3 = inventory[slot].split(count);
@@ -69,7 +85,7 @@ public class ItemStorage implements ItemIO, HasSavableData {
                     inventory[slot] = null;
                 }
 
-                this.markDirty();
+                markDirty();
                 return var3;
             }
         } else {
@@ -84,11 +100,11 @@ public class ItemStorage implements ItemIO, HasSavableData {
 
     public void setInventoryItem(int slot, ItemInstance itemInstance) {
         inventory[slot] = itemInstance;
-        if (itemInstance != null && itemInstance.count > this.getMaxItemCount()) {
-            itemInstance.count = this.getMaxItemCount();
+        if (itemInstance != null && itemInstance.count > getMaxItemCount()) {
+            itemInstance.count = getMaxItemCount();
         }
 
-        this.markDirty();
+        markDirty();
     }
 
     @Override
@@ -96,20 +112,43 @@ public class ItemStorage implements ItemIO, HasSavableData {
         if (!slotTypeIndex.containsKey(type) || slot > slotTypeSizes.get(type)) return;
 
         inventory[slotTypeIndex.get(type) + slot] = itemInstance;
-        if (itemInstance != null && itemInstance.count > this.getMaxItemCount()) {
-            itemInstance.count = this.getMaxItemCount();
+        if (itemInstance != null && itemInstance.count > getMaxItemCount()) {
+            itemInstance.count = getMaxItemCount();
         }
 
-        this.markDirty();
+        markDirty();
     }
 
     public String getContainerName() {
         return name;
     }
 
+    public void dropContents(Level level, int x, int y, int z) {
+        for (int i = 0; i < getInventorySize(); ++i) {
+            ItemInstance itemInstance = getInventoryItem(i);
+            if (itemInstance == null) continue;
+            float f = rand.nextFloat() * 0.8f + 0.1f;
+            float f2 = rand.nextFloat() * 0.8f + 0.1f;
+            float f3 = rand.nextFloat() * 0.8f + 0.1f;
+            while (itemInstance.count > 0) {
+                int n = rand.nextInt(21) + 10;
+                if (n > itemInstance.count) {
+                    n = itemInstance.count;
+                }
+                itemInstance.count -= n;
+                Item item = new Item(level, (float) x + f, (float) y + f2, (float) z + f3, new ItemInstance(itemInstance.itemId, n, itemInstance.getDamage()));
+                float f4 = 0.05f;
+                item.velocityX = (float) rand.nextGaussian() * f4;
+                item.velocityY = (float) rand.nextGaussian() * f4 + 0.2f;
+                item.velocityZ = (float) rand.nextGaussian() * f4;
+                level.spawnEntity(item);
+            }
+        }
+    }
+
     public void readData(CompoundTag tag) {
         ListTag listTag = tag.getListTag(name);
-        inventory = new ItemInstance[this.getInventorySize()];
+        inventory = new ItemInstance[getInventorySize()];
 
         for (int i = 0; i < listTag.size(); ++i) {
             CompoundTag compoundTag = (CompoundTag) listTag.get(i);

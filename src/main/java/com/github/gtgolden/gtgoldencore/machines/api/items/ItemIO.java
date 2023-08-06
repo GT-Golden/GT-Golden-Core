@@ -5,6 +5,8 @@ import net.minecraft.item.ItemInstance;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public interface ItemIO extends InventoryBase {
+    SlotType[] getAcceptedTypes();
+
     int getInventorySize(SlotType type);
 
     ItemInstance getInventoryItem(SlotType type, int slot);

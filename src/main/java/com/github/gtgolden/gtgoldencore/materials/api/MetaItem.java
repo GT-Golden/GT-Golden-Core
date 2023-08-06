@@ -1,7 +1,10 @@
 package com.github.gtgolden.gtgoldencore.materials.api;
 
+import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterial;
+import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterialRegistry;
 import com.github.gtgolden.gtgoldencore.materials.impl.MetaItemRegistry;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
@@ -70,24 +73,26 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
     public static MetaItem get(String name) {
         return MetaItemRegistry.get(name);
     }
+    public static GTMaterial getMaterial(ItemInstance item) {
+        return GTMaterialRegistry.get(item.getStationNBT().getString("material"));
+    }
 
     @Override
     public String[] getTooltip(ItemInstance item, String originalTooltip) {
-        CompoundTag nbt = item.getStationNBT();
         String untranslatedName = getTranslationKey();
         untranslatedName = untranslatedName.substring(untranslatedName.indexOf(":") + 1).replace("%s ", "");
         String modId = Objects.requireNonNull(ItemRegistry.INSTANCE.getId(item.getType())).modID.toString();
-        String material = nbt.getString("material");
-        String materialName = I18n.translate(String.format("material.%s:%s.name", modId, material));
-        String itemName = I18n.translate(String.format("item.%s:%s_%s.name", modId, material, untranslatedName));
-        if (!itemName.contains(".name")) {
+        var material = getMaterial(item);
+
+        String uniqueItemName = I18n.translate(String.format("item.%s:%s_%s.name", modId, material.getName(), untranslatedName));
+        if (!uniqueItemName.contains(".name")) {
             return new String[]{
-                    itemName
+                    uniqueItemName
             };
         }
 
         return new String[]{
-                String.format(originalTooltip, materialName)
+                String.format(originalTooltip, material.getTranslatedName())
         };
     }
 }

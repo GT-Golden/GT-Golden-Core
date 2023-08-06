@@ -12,13 +12,18 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(TileEntityFurnace.class)
 public abstract class FurnaceItemStorageMixin implements HasItemIO {
     @Override
-    public boolean isItemInput(Direction side) {
-        return side != Direction.DOWN;
-    }
-
-    @Override
-    public boolean isItemOutput(Direction side) {
-        return side == Direction.DOWN;
+    public SlotType[] getAcceptedTypes(Direction side) {
+        return switch (side) {
+            case DOWN:
+                yield new SlotType[]{SlotType.OUTPUT};
+            case UP:
+                yield new SlotType[]{SlotType.INPUT};
+            case EAST:
+            case WEST:
+            case NORTH:
+            case SOUTH:
+                yield new SlotType[]{SlotType.FUEL_INPUT};
+        };
     }
 
     @Shadow

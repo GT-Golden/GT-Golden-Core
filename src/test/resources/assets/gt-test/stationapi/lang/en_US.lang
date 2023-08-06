@@ -2,3 +2,9 @@ tile.generator.name=Generator
 tile.appleSpawner.name=Apple Spawner
 tile.cobbleGenerator.name=Cobble Generator
 tile.itemMover.name=Item Mover
+
+item.testMetaItem.name=%s Test Item
+item.dirt_testMetaItem.name=Dirty Test Item
+
+material.redstone.name=Redstone
+material.dirt.name=Dirt

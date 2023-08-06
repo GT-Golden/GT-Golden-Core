@@ -1,7 +1,9 @@
 package com.github.gtgolden.gttest;
 
-import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
+import com.github.gtgolden.gtgoldencore.materials.api.GTMaterialBuilder;
+import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterialRegistryEvent;
 import com.github.gtgolden.gttest.block.*;
+import com.github.gtgolden.gttest.item.TestMetaItem;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
@@ -13,6 +15,8 @@ import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
+
 public class GtTest {
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
@@ -23,7 +27,7 @@ public class GtTest {
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering items");
-        new MetaItem(MOD_ID.id("testMetaItem"));
+        new TestMetaItem(MOD_ID.id("testMetaItem"));
     }
 
     public static BlockBase GENERATOR;
@@ -47,5 +51,11 @@ public class GtTest {
         event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawner").toString());
         event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGenerator").toString());
         event.register(ItemMoverEntity.class, MOD_ID.id("itemMover").toString());
+    }
+
+    @EventListener
+    public void registerMaterial(GTMaterialRegistryEvent event) {
+        new GTMaterialBuilder(MOD_ID.id("redstone")).color(Color.RED).build();
+        new GTMaterialBuilder(MOD_ID.id("dirt")).color(new Color(0x665039)).build();
     }
 }

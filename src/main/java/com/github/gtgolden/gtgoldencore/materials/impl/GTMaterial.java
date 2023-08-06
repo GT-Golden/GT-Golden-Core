@@ -1,7 +1,10 @@
 package com.github.gtgolden.gtgoldencore.materials.impl;
 
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
+import net.modificationstation.stationapi.api.registry.Identifier;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -18,15 +21,17 @@ import java.util.HashMap;
  * }
  */
 public class GTMaterial {
-    public String name;
+    private final Identifier identifier;
+    private final String translationKey;
     private final ToolMaterial toolMaterial;
     private final Color color;
     private final HashMap<String, ItemInstance> states;
 
-    public GTMaterial(Color color, ToolMaterial baseMaterial, String name, HashMap<String, ItemInstance> states) {
+    public GTMaterial(Color color, ToolMaterial baseMaterial, Identifier identifier, String translationKey, HashMap<String, ItemInstance> states) {
         this.color = color;
         this.toolMaterial = baseMaterial;
-        this.name = name;
+        this.translationKey = translationKey;
+        this.identifier = identifier;
         this.states = states;
     }
 
@@ -46,7 +51,15 @@ public class GTMaterial {
         return states.keySet().toArray(new String[0]);
     }
 
-    public static class Builder {
+    public String getName() {
+        return identifier.id;
+    }
 
+    public String getTranslationKey() {
+        return translationKey;
+    }
+
+    public String getTranslatedName() {
+        return I18n.translate(translationKey);
     }
 }

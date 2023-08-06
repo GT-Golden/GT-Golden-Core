@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(InGame.class)
-public class DebugMonitorOverlayMixin {
+public class DebugMenuMixin {
     @Unique
     private static final int HORIZONTAL_OFFSET = 2;
     @Unique
@@ -41,7 +41,7 @@ public class DebugMonitorOverlayMixin {
             at = @At("RETURN"),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private void renderDebugMonitor(float f, boolean flag, int i, int j, CallbackInfo ci, ScreenScaler screenScaler, int screenWidth, int screenHeight, TextRenderer textRenderer) {
+    private void renderGTDebugInfo(float f, boolean flag, int i, int j, CallbackInfo ci, ScreenScaler screenScaler, int screenWidth, int screenHeight, TextRenderer textRenderer) {
         if (!GTGoldenCore.config.debugMenuInfo || !minecraft.options.debugHud) return;
 
         HitResult hit = minecraft.hitResult;
