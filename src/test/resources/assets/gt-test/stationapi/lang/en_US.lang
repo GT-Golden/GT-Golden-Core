@@ -1,10 +1,10 @@
 tile.generator.name=Generator
-tile.appleSpawner.name=Apple Spawner
-tile.cobbleGenerator.name=Cobble Generator
-tile.itemMover.name=Item Mover
+tile.apple_spawner.name=Apple Spawner
+tile.cobble_generator.name=Cobble Generator
+tile.item_mover.name=Item Mover
 
-item.testMetaItem.name=%s Test Item
-item.dirt_testMetaItem.name=Dirty Test Item
+item.test_meta_item.name=%s Test Item
+item.dirt_test_meta_item.name=Dirty Test Item
 
 material.redstone.name=Redstone
 material.dirt.name=Dirt

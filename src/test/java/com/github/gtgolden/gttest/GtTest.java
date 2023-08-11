@@ -27,7 +27,7 @@ public class GtTest {
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering items");
-        new TestMetaItem(MOD_ID.id("testMetaItem"));
+        new TestMetaItem(MOD_ID.id("test_meta_item"));
     }
 
     public static BlockBase GENERATOR;
@@ -39,18 +39,18 @@ public class GtTest {
     public void registerBlocks(BlockRegistryEvent event) {
         LOGGER.info("Registering blocks");
         GENERATOR = new Generator(MOD_ID.id("generator"), Material.STONE);
-        APPLE_SPAWNER = new AppleSpawner(MOD_ID.id("appleSpawner"), Material.STONE);
-        COBBLE_GEN = new CobbleGenerator(MOD_ID.id("cobbleGenerator"), Material.STONE);
-        ITEM_MOVER = new ItemMover(MOD_ID.id("itemMover"), Material.STONE);
+        APPLE_SPAWNER = new AppleSpawner(MOD_ID.id("apple_spawner"), Material.STONE);
+        COBBLE_GEN = new CobbleGenerator(MOD_ID.id("cobble_generator"), Material.STONE);
+        ITEM_MOVER = new ItemMover(MOD_ID.id("item_mover"), Material.STONE);
     }
 
     @EventListener
     public void registerTileEntities(TileEntityRegisterEvent event) {
         LOGGER.info("Registering tile entities");
         event.register(GeneratorEntity.class, MOD_ID.id("generator").toString());
-        event.register(AppleSpawnerEntity.class, MOD_ID.id("appleSpawner").toString());
-        event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobbleGenerator").toString());
-        event.register(ItemMoverEntity.class, MOD_ID.id("itemMover").toString());
+        event.register(AppleSpawnerEntity.class, MOD_ID.id("apple_spawner").toString());
+        event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobble_generator").toString());
+        event.register(ItemMoverEntity.class, MOD_ID.id("item_mover").toString());
     }
 
     @EventListener

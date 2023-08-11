@@ -2,7 +2,7 @@
   "parent": "block/cube_bottom_top",
   "textures": {
     "top": "gt-test:block/machine_top",
-    "side": "gt-test:block/cobbleGenerator_side",
+    "side": "gt-test:block/cobble_generator_side",
     "bottom": "gt-test:block/machine_bottom"
   }
 }

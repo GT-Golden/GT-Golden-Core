@@ -4,7 +4,6 @@ import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterial;
 import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterialRegistry;
 import com.github.gtgolden.gtgoldencore.materials.impl.MetaItemRegistry;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
@@ -73,6 +72,7 @@ public class MetaItem extends TemplateItemBase implements CustomTooltipProvider 
     public static MetaItem get(String name) {
         return MetaItemRegistry.get(name);
     }
+
     public static GTMaterial getMaterial(ItemInstance item) {
         return GTMaterialRegistry.get(item.getStationNBT().getString("material"));
     }

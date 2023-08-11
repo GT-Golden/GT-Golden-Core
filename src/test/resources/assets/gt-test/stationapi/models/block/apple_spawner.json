@@ -1,8 +1,8 @@
 {
   "parent": "block/cube_bottom_top",
   "textures": {
-    "top": "gt-test:block/appleSpawner_top",
-    "side": "gt-test:block/appleSpawner_side",
+    "top": "gt-test:block/apple_spawner_top",
+    "side": "gt-test:block/apple_spawner_side",
     "bottom": "gt-test:block/machine_bottom"
   }
 }
