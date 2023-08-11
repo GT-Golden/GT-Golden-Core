@@ -27,7 +27,7 @@ public class AppleSpawnerEntity extends TileEntityBase implements HasPowerStorag
 
     @Override
     public void readIdentifyingData(CompoundTag tag) {
-        super.writeIdentifyingData(tag);
+        super.readIdentifyingData(tag);
         powerStorage.readData(tag);
     }
 

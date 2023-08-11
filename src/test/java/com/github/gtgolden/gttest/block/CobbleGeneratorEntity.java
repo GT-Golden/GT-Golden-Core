@@ -64,7 +64,7 @@ public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerSto
 
     @Override
     public void readIdentifyingData(CompoundTag tag) {
-        super.writeIdentifyingData(tag);
+        super.readIdentifyingData(tag);
         itemStorage.readData(tag);
         powerStorage.readData(tag);
     }

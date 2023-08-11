@@ -42,7 +42,7 @@ public class GeneratorEntity extends TileEntityBase implements HasPowerStorage {
 
     @Override
     public void readIdentifyingData(CompoundTag tag) {
-        super.writeIdentifyingData(tag);
+        super.readIdentifyingData(tag);
         powerStorage.readData(tag);
     }
 
