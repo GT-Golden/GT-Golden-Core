@@ -1,8 +1,5 @@
 package com.github.gtgolden.gtgoldencore.materials;
 
-import com.github.gtgolden.gtgoldencore.materials.api.MaterialUtil;
-import com.github.gtgolden.gtgoldencore.materials.api.MetaItem;
-import com.github.gtgolden.gtgoldencore.materials.impl.MetaItemRegistry;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.modificationstation.stationapi.api.client.color.block.BlockColors;
 import net.modificationstation.stationapi.api.client.color.item.ItemColors;
@@ -24,8 +21,8 @@ public class GTMaterialsClient {
     private static void registerItemColours(ItemColorsRegisterEvent event) {
         LOGGER.info("Registering item colours");
         ItemColors itemColors = event.itemColors;
-        for (MetaItem item : MetaItemRegistry.getAllMetaItems().values()) {
-            itemColors.register((itemInstance, tintIndex) -> MaterialUtil.getUniqueMaterial(itemInstance).getMaterialColor().getRGB(), item);
-        }
+//        for (MetaItem item : MetaItemRegistry.getAllMetaItems().values()) {
+//            itemColors.register((itemInstance, tintIndex) -> MaterialUtil.getUniqueMaterial(itemInstance).getMaterialColor().getRGB(), item);
+//        }
     }
 }

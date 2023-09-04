@@ -17,6 +17,9 @@
   "entrypoints": {
     "stationapi:event_bus": [
       "com.github.gtgolden.gttest.GtTest"
+    ],
+    "stationapi:event_bus_client": [
+      "com.github.gtgolden.gttest.GtTestClient"
     ]
   },
   "depends": {

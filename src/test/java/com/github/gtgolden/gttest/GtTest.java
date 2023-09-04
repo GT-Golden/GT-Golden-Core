@@ -1,12 +1,16 @@
 package com.github.gtgolden.gttest;
 
-import com.github.gtgolden.gtgoldencore.materials.api.GTMaterialBuilder;
-import com.github.gtgolden.gtgoldencore.materials.impl.GTMaterialRegistryEvent;
+import com.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
+import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
+import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
 import com.github.gtgolden.gttest.block.*;
+import com.github.gtgolden.gttest.item.RedstonePickaxe;
 import com.github.gtgolden.gttest.item.TestMetaItem;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBase;
+import net.minecraft.item.ItemInstance;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.event.tileentity.TileEntityRegisterEvent;
@@ -15,20 +19,12 @@ import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-
 public class GtTest {
     @Entrypoint.ModID
     public static final ModID MOD_ID = Null.get();
 
     @Entrypoint.Logger("GT-TEST")
     public static final Logger LOGGER = Null.get();
-
-    @EventListener
-    public void registerItems(ItemRegistryEvent event) {
-        LOGGER.info("Registering items");
-        new TestMetaItem(MOD_ID.id("test_meta_item"));
-    }
 
     public static BlockBase GENERATOR;
     public static BlockBase APPLE_SPAWNER;
@@ -53,9 +49,25 @@ public class GtTest {
         event.register(ItemMoverEntity.class, MOD_ID.id("item_mover").toString());
     }
 
+    public static ItemBase REDSTONE_PICKAXE;
+    public static TestMetaItem TEST_META_ITEM;
+
     @EventListener
-    public void registerMaterial(GTMaterialRegistryEvent event) {
-        new GTMaterialBuilder(MOD_ID.id("redstone")).color(Color.RED).build();
-        new GTMaterialBuilder(MOD_ID.id("dirt")).color(new Color(0x665039)).build();
+    public void registerItems(ItemRegistryEvent event) {
+        LOGGER.info("Registering items");
+        REDSTONE_PICKAXE = new RedstonePickaxe(MOD_ID.id("redstone_pickaxe"));
+        TEST_META_ITEM = new TestMetaItem(MOD_ID.id("test_meta_item"));
+    }
+
+    @EventListener
+    public void registerMaterials(MaterialRegistryEvent event) {
+        LOGGER.info("Registering materials");
+//        event.registerModules("dirt", new FormsModule("block", new ItemInstance(BlockBase.DIRT)));
+//        var redstoneMaterial = ;
+        event.registerModules(
+                "redstone",
+                new ToolMaterialModule("redstone", 3, 4, 14.0F, 0),
+                new ItemFormsModule("pickaxe", new ItemInstance(REDSTONE_PICKAXE))
+        );
     }
 }
