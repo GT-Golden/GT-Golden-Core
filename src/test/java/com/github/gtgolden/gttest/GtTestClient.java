@@ -1,8 +1,7 @@
 package com.github.gtgolden.gttest;
 
-import com.github.gtgolden.gtgoldencore.materials.api.module.ColorModule;
+import com.github.gtgolden.gtgoldencore.materials.api.MetaItemUtils;
 import net.mine_diver.unsafeevents.listener.EventListener;
-import net.modificationstation.stationapi.api.client.color.item.ItemColors;
 import net.modificationstation.stationapi.api.client.event.color.item.ItemColorsRegisterEvent;
 import net.modificationstation.stationapi.api.client.event.texture.TextureRegisterEvent;
 
@@ -14,7 +13,6 @@ public class GtTestClient {
 
     @EventListener
     public void registerItemColors(ItemColorsRegisterEvent event) {
-        ItemColors itemColors = event.itemColors;
-        itemColors.register((itemInstance, tintIndex) -> GtTest.TEST_META_ITEM.getGTMaterial(itemInstance).map(material -> ((ColorModule) material.getModule("color").get()).getRGB()).orElse(0), GtTest.TEST_META_ITEM);
+        MetaItemUtils.registerMaterialColor(event, GtTest.TEST_META_ITEM);
     }
 }
