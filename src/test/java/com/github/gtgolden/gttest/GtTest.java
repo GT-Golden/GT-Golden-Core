@@ -2,6 +2,7 @@ package com.github.gtgolden.gttest;
 
 import com.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
+import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistry;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
 import com.github.gtgolden.gttest.block.*;
 import com.github.gtgolden.gttest.item.RedstonePickaxe;
@@ -69,5 +70,6 @@ public class GtTest {
                 new ToolMaterialModule("redstone", 3, 4, 14.0F, 0),
                 new ItemFormsModule("pickaxe", new ItemInstance(REDSTONE_PICKAXE))
         );
+        MaterialRegistry.getMaterial("redstone").get().registerTranslationProvider(MOD_ID);
     }
 }

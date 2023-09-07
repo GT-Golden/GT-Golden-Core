@@ -53,15 +53,14 @@ public class ItemFormsModule implements Module {
 
     @Override
     public Module combine(Module existingModule) {
-        if (existingModule instanceof ItemFormsModule existingForms) {
-            existingForms.forms.forEach(
-                    (key, itemInstance) -> {
-                        if (!forms.containsKey(key)) {
-                            forms.put(key, itemInstance);
-                        }
+        assert existingModule instanceof ItemFormsModule;
+        ((ItemFormsModule) existingModule).forms.forEach(
+                (key, itemInstance) -> {
+                    if (!forms.containsKey(key)) {
+                        forms.put(key, itemInstance);
                     }
-            );
-        }
+                }
+        );
         return this;
     }
 

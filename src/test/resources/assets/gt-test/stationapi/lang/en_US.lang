@@ -6,6 +6,6 @@ tile.item_mover.name=Item Mover
 item.redstone_pickaxe.name=Redstone Pickaxe
 
 item.test_meta_item.name=%s Test Item
-item.dirt_test_meta_item.name=Dirty Test Item
+item.redstone_test_meta_item.name=Red Item
 
 material.dirt.name=Dirt

@@ -33,7 +33,11 @@ public class TestMetaItem extends TemplateItemBase implements HasNBTBasedGTMater
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
         return new String[] {
-                String.format(originalTooltip, getGTMaterial(itemInstance).map(Material::getTranslatedName).orElse("NULL"))
+                getGTMaterial(itemInstance).map(material ->
+                        material.getTranslatedName(originalTooltip, "test_meta_item")
+                ).orElseGet(() ->
+                        String.format(originalTooltip, "(NULL)")
+                )
         };
     }
 }
