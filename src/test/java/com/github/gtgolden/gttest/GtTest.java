@@ -1,7 +1,9 @@
 package com.github.gtgolden.gttest;
 
+import com.github.gtgolden.gtgoldencore.materials.api.module.ColorModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
+import com.github.gtgolden.gtgoldencore.materials.api.module.TranslationModule;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistry;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
 import com.github.gtgolden.gttest.block.*;
@@ -19,6 +21,8 @@ import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.registry.ModID;
 import net.modificationstation.stationapi.api.util.Null;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
 
 public class GtTest {
     @Entrypoint.ModID
@@ -63,13 +67,12 @@ public class GtTest {
     @EventListener
     public void registerMaterials(MaterialRegistryEvent event) {
         LOGGER.info("Registering materials");
-//        event.registerModules("dirt", new FormsModule("block", new ItemInstance(BlockBase.DIRT)));
-//        var redstoneMaterial = ;
+        event.registerModules("dirt", new ColorModule(new Color(0x332008)), new TranslationModule(MOD_ID.id("dirt")));
         event.registerModules(
                 "redstone",
                 new ToolMaterialModule("redstone", 3, 4, 14.0F, 0),
                 new ItemFormsModule("pickaxe", new ItemInstance(REDSTONE_PICKAXE))
         );
-        MaterialRegistry.getMaterial("redstone").get().registerTranslationProvider(MOD_ID);
+        event.registerTranslationProvider("redstone", MOD_ID);
     }
 }

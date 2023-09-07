@@ -60,7 +60,6 @@ public class TranslationModule implements Module {
     public Optional<String> getUniqueTranslatedName(String form) {
         for (ModID modId : modIds) {
             var searchingFor = "item." + modId + ":" + materialName + "_" + form + ".name";
-            System.out.println(searchingFor);
             var uniqueName = I18n.translate(searchingFor);
             if (!uniqueName.equals(searchingFor)) {
                 return Optional.of(uniqueName);

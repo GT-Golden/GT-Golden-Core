@@ -85,6 +85,8 @@ public class MaterialRegistry {
             materials.put(materialName, defaultMaterials.get(materialName));
             materials.get(materialName).addModule(module);
             return true;
+        } else {
+            materials.put(materialName, new Material(materialName).addModule(module));
         }
         return false;
     }
