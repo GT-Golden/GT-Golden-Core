@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 public class GTMaterials {
     public static final String MATERIAL_NBT_KEY = "gt-golden-core:material";
+
     public GTMaterials() {
         PhaseOrdering.of(ItemRegistryEvent.class).addPhaseOrdering(EventPhases.DEFAULT_PHASE, "gt-golden-core:materials_phase");
     }

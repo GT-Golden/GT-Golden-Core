@@ -12,6 +12,7 @@ public class TranslationModule implements Module {
     protected ModID[] modIds;
     protected String materialName;
     private final String translationKey;
+
     public TranslationModule(Identifier identifier) {
         modIds = new ModID[]{identifier.modID};
         materialName = identifier.id;

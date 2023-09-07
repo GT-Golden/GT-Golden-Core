@@ -39,18 +39,18 @@ public class Material {
     }
 
     public Optional<String> getTranslationKey() {
-        return getModule("translation").map(module -> ((TranslationModule)module).getTranslationKey());
+        return getModule("translation").map(module -> ((TranslationModule) module).getTranslationKey());
     }
 
     public String getTranslatedName() {
-        return getModule("translation").map(module -> ((TranslationModule)module).getTranslatedName()).orElse(name);
+        return getModule("translation").map(module -> ((TranslationModule) module).getTranslatedName()).orElse(name);
     }
 
     public String getTranslatedName(String originalTooltip, String form) {
-        return getModule("translation").map(module -> ((TranslationModule)module).getTranslatedName(originalTooltip, form)).orElse(name);
+        return getModule("translation").map(module -> ((TranslationModule) module).getTranslatedName(originalTooltip, form)).orElse(name);
     }
 
     public Optional<String> getUniqueTranslatedName(String form) {
-        return getModule("translation").flatMap(module -> ((TranslationModule)module).getUniqueTranslatedName(form));
+        return getModule("translation").flatMap(module -> ((TranslationModule) module).getUniqueTranslatedName(form));
     }
 }

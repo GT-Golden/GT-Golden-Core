@@ -1,7 +1,6 @@
 package com.github.gtgolden.gttest.item;
 
 import com.github.gtgolden.gtgoldencore.materials.api.HasNBTBasedGTMaterial;
-import com.github.gtgolden.gtgoldencore.materials.api.Material;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
@@ -35,7 +34,7 @@ public class TestMetaItem extends TemplateItemBase implements HasNBTBasedGTMater
 
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
-        return new String[] {
+        return new String[]{
                 getGTMaterial(itemInstance).map(material ->
                         material.getTranslatedName(originalTooltip, "test_meta_item")
                 ).orElseGet(() ->

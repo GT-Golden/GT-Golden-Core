@@ -4,7 +4,6 @@ import com.github.gtgolden.gtgoldencore.materials.api.module.ColorModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.TranslationModule;
-import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistry;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
 import com.github.gtgolden.gttest.block.*;
 import com.github.gtgolden.gttest.item.RedstonePickaxe;

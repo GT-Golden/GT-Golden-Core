@@ -5,23 +5,18 @@ import com.github.gtgolden.gtgoldencore.materials.api.HasGTMaterial;
 import com.github.gtgolden.gtgoldencore.materials.api.Material;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistry;
-import net.minecraft.block.BlockBase;
 import net.minecraft.entity.EntityBase;
-import net.minecraft.entity.Living;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
-import net.modificationstation.stationapi.api.item.tool.ToolLevel;
-import net.modificationstation.stationapi.api.registry.BlockRegistry;
 import net.modificationstation.stationapi.api.registry.Identifier;
-import net.modificationstation.stationapi.api.tag.TagKey;
-import net.modificationstation.stationapi.api.template.item.TemplateItemBase;
 import net.modificationstation.stationapi.api.template.item.tool.TemplatePickaxe;
 
 import java.util.Optional;
 
 public class RedstonePickaxe extends TemplatePickaxe implements HasGTMaterial {
     private ToolMaterial material;
+
     public RedstonePickaxe(Identifier identifier) {
         super(identifier, GTMaterials.MISSING_TOOL_MATERIAL);
         setTranslationKey(identifier);
