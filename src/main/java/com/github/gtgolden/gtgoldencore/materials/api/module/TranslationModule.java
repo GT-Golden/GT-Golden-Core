@@ -38,8 +38,8 @@ public class TranslationModule implements Module {
     }
 
     @Override
-    public String getModuleType() {
-        return "translation";
+    public Class<? extends Module> getModuleType() {
+        return TranslationModule.class;
     }
 
     public String getTranslationKey() {

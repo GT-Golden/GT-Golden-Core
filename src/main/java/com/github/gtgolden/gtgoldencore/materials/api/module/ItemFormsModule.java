@@ -9,6 +9,8 @@ import uk.co.benjiweber.expressions.tuple.BiTuple;
 import java.util.HashMap;
 import java.util.Optional;
 
+// TODO Decide whether this will be moved into Material itself
+// TODO Mixin vanilla classes so we don't have to use raw objects.
 public class ItemFormsModule implements Module {
     private final HashMap<String, ItemForm> forms = new HashMap<>();
 
@@ -47,8 +49,8 @@ public class ItemFormsModule implements Module {
     }
 
     @Override
-    public String getModuleType() {
-        return "itemForm";
+    public Class<? extends Module> getModuleType() {
+        return ItemFormsModule.class;
     }
 
     @Override

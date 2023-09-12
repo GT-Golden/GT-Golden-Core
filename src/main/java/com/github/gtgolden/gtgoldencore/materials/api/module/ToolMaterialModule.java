@@ -29,7 +29,7 @@ public class ToolMaterialModule implements Module {
     }
 
     @Override
-    public String getModuleType() {
-        return "toolMaterial";
+    public Class<? extends Module> getModuleType() {
+        return ToolMaterialModule.class;
     }
 }

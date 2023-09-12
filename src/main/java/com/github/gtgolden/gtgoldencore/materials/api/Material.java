@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class Material {
     public String name;
-    public HashMap<String, Module> modules = new HashMap<>();
+    public HashMap<Class<? extends Module>, Module> modules = new HashMap<>();
 
     public Material(String name) {
         this.name = name;
@@ -25,32 +25,27 @@ public class Material {
         return this;
     }
 
-    public Optional<Module> getModule(String moduleName) {
-        return modules.containsKey(moduleName) ? Optional.of(modules.get(moduleName)) : Optional.empty();
+    public <T extends Module> Optional<T> getModule(Class<T> moduleName) {
+        return (Optional<T>) Optional.ofNullable(modules.get(moduleName));
     }
 
     public void registerTranslationProvider(ModID modID) {
-        getModule("translation").ifPresent(
-                module -> {
-                    assert module instanceof TranslationModule;
-                    ((TranslationModule) module).addModID(modID);
-                }
-        );
+        getModule(TranslationModule.class).ifPresent(module -> module.addModID(modID));
     }
 
     public Optional<String> getTranslationKey() {
-        return getModule("translation").map(module -> ((TranslationModule) module).getTranslationKey());
+        return getModule(TranslationModule.class).map(TranslationModule::getTranslationKey);
     }
 
     public String getTranslatedName() {
-        return getModule("translation").map(module -> ((TranslationModule) module).getTranslatedName()).orElse(name);
+        return getModule(TranslationModule.class).map(TranslationModule::getTranslatedName).orElse(name);
     }
 
     public String getTranslatedName(String originalTooltip, String form) {
-        return getModule("translation").map(module -> ((TranslationModule) module).getTranslatedName(originalTooltip, form)).orElse(name);
+        return getModule(TranslationModule.class).map(module -> module.getTranslatedName(originalTooltip, form)).orElse(name);
     }
 
     public Optional<String> getUniqueTranslatedName(String form) {
-        return getModule("translation").flatMap(module -> ((TranslationModule) module).getUniqueTranslatedName(form));
+        return getModule(TranslationModule.class).flatMap(module -> module.getUniqueTranslatedName(form));
     }
 }

@@ -22,21 +22,22 @@ public class RedstonePickaxe extends TemplatePickaxe implements HasGTMaterial {
         setTranslationKey(identifier);
     }
 
-    @Override
-    public void inventoryTick(ItemInstance arg, Level arg2, EntityBase arg3, int i, boolean bl) {
+    private void checkMaterial() {
         if (material == null) {
-            material = MaterialRegistry.getMaterialModule("redstone", "toolMaterial", ToolMaterialModule.class).material;
+            material = MaterialRegistry.getMaterialModule("redstone", ToolMaterialModule.class).get().material;
             setDurability(material.getDurability());
         }
+    }
+
+    @Override
+    public void inventoryTick(ItemInstance arg, Level arg2, EntityBase arg3, int i, boolean bl) {
+        checkMaterial();
         super.inventoryTick(arg, arg2, arg3, i, bl);
     }
 
     @Override
     public ToolMaterial getMaterial(ItemInstance itemInstance) {
-        if (material == null) {
-            material = MaterialRegistry.getMaterialModule("redstone", "toolMaterial", ToolMaterialModule.class).material;
-            setDurability(material.getDurability());
-        }
+        checkMaterial();
         return material;
     }
 

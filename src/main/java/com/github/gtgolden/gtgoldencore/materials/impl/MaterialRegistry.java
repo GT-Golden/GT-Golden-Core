@@ -102,16 +102,11 @@ public class MaterialRegistry {
         return Optional.empty();
     }
 
-    public static Optional<Module> getMaterialModule(String materialName, String moduleName) {
+    public static <T extends Module> Optional<T> getMaterialModule(String materialName, Class<T> moduleName) {
         return getMaterial(materialName).flatMap(material -> material.getModule(moduleName));
     }
 
-    // Use if you are confident that this material exist (ex: it is a dependency of your mod or you registered it yourself).
-    public static <T extends Module> T getMaterialModule(String materialName, String moduleName, Class<T> castTo) {
-        return (T) getMaterialModule(materialName, moduleName).orElseThrow();
-    }
-
     public static Optional<ItemInstance> getItemForm(String materialName, String form) {
-        return getMaterialModule(materialName, "itemForm").flatMap(formModule -> ((ItemFormsModule) formModule).getForm(form));
+        return getMaterialModule(materialName, ItemFormsModule.class).flatMap(formModule -> ((ItemFormsModule) formModule).getForm(form));
     }
 }

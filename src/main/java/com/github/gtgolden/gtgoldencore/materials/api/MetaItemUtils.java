@@ -12,10 +12,10 @@ public class MetaItemUtils {
             return;
         }
         event.itemColors.register((itemInstance, tintIndex) ->
-                        ((ColorModule)
+                        (
                                 ((HasGTMaterial) item)
                                         .getGTMaterial(itemInstance)
-                                        .flatMap(material -> material.getModule("color"))
+                                        .flatMap(material -> material.getModule(ColorModule.class))
                                         .orElse(ColorModule.defaultModule))
                                 .getColor(tintIndex)
                                 .getRGB()

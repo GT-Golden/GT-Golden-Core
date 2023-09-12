@@ -12,8 +12,8 @@ public class ColorModule implements Module {
     }
 
     @Override
-    public String getModuleType() {
-        return "color";
+    public Class<? extends Module> getModuleType() {
+        return ColorModule.class;
     }
 
     public Color getColor() {
