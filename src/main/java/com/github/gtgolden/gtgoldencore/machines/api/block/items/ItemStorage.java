@@ -14,12 +14,12 @@ import java.util.EnumMap;
 import java.util.Random;
 
 public class ItemStorage implements ItemIO, HasSavableData {
+    private static final Random rand = new Random();
     protected final EnumMap<SlotType, Integer> slotTypeSizes = new EnumMap<>(SlotType.class);
     protected final EnumMap<SlotType, Integer> slotTypeIndex = new EnumMap<>(SlotType.class);
     protected final SlotType[] acceptedTypes;
-    protected ItemInstance[] inventory;
     private final String name;
-    private static final Random rand = new Random();
+    protected ItemInstance[] inventory;
 
     public ItemStorage(String name, int size) {
         inventory = new ItemInstance[size];

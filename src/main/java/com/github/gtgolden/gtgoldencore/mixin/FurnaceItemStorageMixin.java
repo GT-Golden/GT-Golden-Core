@@ -11,6 +11,25 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(TileEntityFurnace.class)
 public abstract class FurnaceItemStorageMixin implements HasItemIO {
+    @Unique
+    private static boolean isValidType(SlotType type) {
+        return type == SlotType.INPUT || type == SlotType.FUEL_INPUT || type == SlotType.OUTPUT;
+    }
+
+    @Unique
+    private static int getTranslatedSlot(SlotType type) {
+        return switch (type) {
+            case INPUT:
+                yield 0;
+            case FUEL_INPUT:
+                yield 1;
+            case OUTPUT:
+                yield 2;
+            default:
+                yield -1;
+        };
+    }
+
     @Override
     public SlotType[] getAcceptedTypes(Direction side) {
         return switch (side) {
@@ -37,25 +56,6 @@ public abstract class FurnaceItemStorageMixin implements HasItemIO {
 
     @Shadow
     public abstract void setInventoryItem(int i, ItemInstance arg);
-
-    @Unique
-    private static boolean isValidType(SlotType type) {
-        return type == SlotType.INPUT || type == SlotType.FUEL_INPUT || type == SlotType.OUTPUT;
-    }
-
-    @Unique
-    private static int getTranslatedSlot(SlotType type) {
-        return switch (type) {
-            case INPUT:
-                yield 0;
-            case FUEL_INPUT:
-                yield 1;
-            case OUTPUT:
-                yield 2;
-            default:
-                yield -1;
-        };
-    }
 
     @Override
     public int getInventorySize(SlotType type) {

@@ -15,10 +15,10 @@ import net.minecraft.util.io.CompoundTag;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerStorage, HasItemStorage {
+    static final int COOK_TIME = 15;
     ItemStorage itemStorage = new ItemStorage("cobbleGenItems", BiTuple.of(SlotType.INPUT, 2), BiTuple.of(SlotType.OUTPUT, 1));
     PowerStorage powerStorage = new PowerStorage("cobbleGenPower", 256, 0);
     int timer = 0;
-    static final int COOK_TIME = 15;
 
     @Override
     public ItemStorage getItemStorage() {

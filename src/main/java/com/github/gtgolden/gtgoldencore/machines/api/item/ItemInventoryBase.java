@@ -8,8 +8,8 @@ import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.io.ListTag;
 
 public class ItemInventoryBase implements InventoryBase {
-    String name;
     public ItemInstance itemInstance;
+    String name;
     ItemInstance[] inventory;
 
     public ItemInventoryBase() {

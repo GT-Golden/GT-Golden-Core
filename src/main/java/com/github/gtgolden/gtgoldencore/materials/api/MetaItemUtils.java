@@ -29,8 +29,8 @@ public class MetaItemUtils {
         }
 
         event.itemColors.register((itemInstance, tintIndex) -> {
-            for (int i = 0; i < layers.length; i++) {
-                if (layers[i] == tintIndex) {
+            for (int layer : layers) {
+                if (layer == tintIndex) {
                     return (((HasGTMaterial) item)
                             .getGTMaterial(itemInstance)
                             .flatMap(material -> material.getModule(ColorModule.class))

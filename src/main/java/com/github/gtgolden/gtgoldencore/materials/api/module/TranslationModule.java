@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class TranslationModule implements Module {
+    private final String translationKey;
     protected ModID[] modIds;
     protected String materialName;
-    private final String translationKey;
 
     public TranslationModule(Identifier identifier) {
         modIds = new ModID[]{identifier.modID};

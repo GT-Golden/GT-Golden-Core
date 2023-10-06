@@ -10,6 +10,9 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(TileEntityChest.class)
 public abstract class ChestItemStorageMixin implements HasItemIO {
+    @Unique
+    SlotType[] acceptedTypes = new SlotType[]{SlotType.MIXED};
+
     @Shadow
     public abstract int getInventorySize();
 
@@ -21,9 +24,6 @@ public abstract class ChestItemStorageMixin implements HasItemIO {
 
     @Shadow
     public abstract void setInventoryItem(int i, ItemInstance arg);
-
-    @Unique
-    SlotType[] acceptedTypes = new SlotType[]{SlotType.MIXED};
 
     @Override
     public SlotType[] getAcceptedTypes() {

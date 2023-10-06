@@ -30,11 +30,10 @@ public class DebugMenuMixin {
     private static final int VERTICAL_OFFSET = 112;
     @Unique
     private static final int TEXT_SPACING = 12;
-    @Shadow
-    private Minecraft minecraft;
-
     @Unique
     private static int y = 0;
+    @Shadow
+    private Minecraft minecraft;
 
     @Inject(
             method = "renderHud(FZII)V",

@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class MaterialRegistry {
-    private static final HashMap<String, Material> defaultMaterials = new HashMap<>();
     public static final HashMap<String, Material> materials = new HashMap<>();
+    private static final HashMap<String, Material> defaultMaterials = new HashMap<>();
 
     // TODO: Fix these colors
     public static void initDefaults() {
@@ -107,6 +107,6 @@ public class MaterialRegistry {
     }
 
     public static Optional<ItemInstance> getItemForm(String materialName, String form) {
-        return getMaterialModule(materialName, ItemFormsModule.class).flatMap(formModule -> ((ItemFormsModule) formModule).getForm(form));
+        return getMaterialModule(materialName, ItemFormsModule.class).flatMap(formModule -> formModule.getForm(form));
     }
 }

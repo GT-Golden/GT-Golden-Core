@@ -17,15 +17,13 @@ import org.apache.logging.log4j.Logger;
 
 public class GTMaterials {
     public static final String MATERIAL_NBT_KEY = "gt-golden-core:material";
+    @Entrypoint.Logger("GT-Golden-Materials")
+    public static final Logger LOGGER = Null.get();
+    public static ToolMaterial MISSING_TOOL_MATERIAL;
 
     public GTMaterials() {
         PhaseOrdering.of(ItemRegistryEvent.class).addPhaseOrdering(EventPhases.DEFAULT_PHASE, "gt-golden-core:materials_phase");
     }
-
-    @Entrypoint.Logger("GT-Golden-Materials")
-    public static final Logger LOGGER = Null.get();
-
-    public static ToolMaterial MISSING_TOOL_MATERIAL;
 
     @EventListener
     public void earlyInit(PreInitEvent event) {
@@ -38,7 +36,7 @@ public class GTMaterials {
 
     @EventListener(phase = "gt-golden-core:materials_phase")
     public void registerItems(ItemRegistryEvent event) {
-//        GTGoldenCore.LOGGER.info("Registering default material items");
+        GTGoldenCore.LOGGER.info("Registering default material items");
         MaterialRegistry.initDefaults();
         StationAPI.EVENT_BUS.post(new MaterialRegistryEvent());
     }

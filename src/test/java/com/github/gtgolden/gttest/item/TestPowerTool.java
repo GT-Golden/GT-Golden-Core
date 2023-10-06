@@ -26,6 +26,7 @@ import net.modificationstation.stationapi.api.template.item.tool.TemplateToolBas
 import java.util.Optional;
 
 public class TestPowerTool extends TemplateToolBase implements HasGTMaterial, ItemWithPowerStorage, HasPowerBar, HasPowerTooltip, ItemWithItemStorage {
+    private static final int THROUGHPUT = 10;
     private final int powerPerUse = 1;
     private final TagKey<BlockBase> drillEffectiveOn;
     private final TagKey<BlockBase> sawEffectiveOn;
@@ -76,8 +77,6 @@ public class TestPowerTool extends TemplateToolBase implements HasGTMaterial, It
         if (toolMaterialModule.isEmpty()) return GTMaterials.MISSING_TOOL_MATERIAL;
         return toolMaterialModule.get().material;
     }
-
-    private static final int THROUGHPUT = 10;
 
     @Override
     public float getMiningSpeedMultiplier(ItemInstance itemStack, BlockState state) {
