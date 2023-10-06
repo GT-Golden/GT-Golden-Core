@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "gt-test:block/item_mover_top",
+    "side": "gt-test:block/item_mover_side",
+    "bottom": "gt-test:block/item_mover_bottom"
+  }
+}

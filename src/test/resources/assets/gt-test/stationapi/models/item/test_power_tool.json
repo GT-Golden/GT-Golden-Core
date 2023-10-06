@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer1": "gt-test:item/power_tool_handle"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "gt-test:tool": 0
+      },
+      "model": "gt-test:item/drill"
+    },
+    {
+      "predicate": {
+        "gt-test:tool": 1
+      },
+      "model": "gt-test:item/chainsaw"
+    }
+  ]
+}

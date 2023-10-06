@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable_with_bottom",
+  "textures": {
+    "front": "gt-test:block/generator_front_off",
+    "side": "gt-test:block/machine_side",
+    "top": "gt-test:block/machine_top",
+    "bottom": "gt-test:block/machine_bottom"
+  }
+}

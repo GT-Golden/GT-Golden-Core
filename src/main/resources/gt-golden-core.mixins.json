@@ -4,10 +4,13 @@
   "package": "com.github.gtgolden.gtgoldencore.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ChestItemStorageMixin",
+    "FurnaceItemStorageMixin"
   ],
   "server": [
   ],
   "client": [
+    "DebugMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1

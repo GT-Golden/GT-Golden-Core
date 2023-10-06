@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "gt-golden-core",
   "version": "${version}",
-
   "name": "GT: Golden Core",
   "description": "Core APIs for GregTech: Golden, including things such as a standard material API",
   "authors": [
@@ -12,27 +11,30 @@
   "contact": {
     "sources": "https://github.com/GT-Golden/GT-Golden-Core"
   },
-
   "license": "CC0-1.0",
   "icon": "assets/gt-golden-core/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [
-      "com.github.gtgolden.gtgoldencore.events.ColorListener",
-      "com.github.gtgolden.gtgoldencore.events.ItemListener",
-      "com.github.gtgolden.gtgoldencore.GTGoldenCore"
+      "com.github.gtgolden.gtgoldencore.GTGoldenCore",
+      "com.github.gtgolden.gtgoldencore.materials.GTMaterials"
     ],
     "stationapi:event_bus_client": [
+      "com.github.gtgolden.gtgoldencore.materials.GTMaterialsClient"
     ],
     "stationapi:event_bus_server": [
+    ],
+    "gcapi": [
+      "com.github.gtgolden.gtgoldencore.GTGoldenCore"
     ]
   },
   "mixins": [
     "gt-golden-core.mixins.json"
   ],
-
   "depends": {
     "minecraft": "1.0.0-beta.7.3"
+  },
+  "custom": {
+    "modmenu:api": true
   }
 }

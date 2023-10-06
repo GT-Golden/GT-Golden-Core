@@ -1,0 +1,14 @@
+tile.generator.name=Generator
+tile.apple_spawner.name=Apple Spawner
+tile.cobble_generator.name=Cobble Generator
+tile.item_mover.name=Item Mover
+
+item.redstone_pickaxe.name=Redstone Pickaxe
+item.test_power_tool.name=Test Power Tool
+item.battery.name=Battery
+
+item.test_meta_item.name=%s Test Item
+item.redstone_test_meta_item.name=Red Item
+item.dirt_test_meta_item.name=Dirty Test Item
+
+material.dirt.name=Dirt
