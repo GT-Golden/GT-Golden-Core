@@ -32,7 +32,7 @@ public class GtTestClient {
     public void registerItemModelPredicates(ItemModelPredicateProviderRegistryEvent event) {
         event.registry.register(GtTest.TEST_POWER_TOOL, GtTest.MOD_ID.id("tool"),
                 (itemInstance, world, entity, seed) ->
-                    TestPowerTool.getSelectedTool(itemInstance).equals("drill") ? 0 : 1);
+                        TestPowerTool.getSelectedTool(itemInstance).equals("drill") ? 0 : 1);
     }
 
     @Environment(EnvType.CLIENT)

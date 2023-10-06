@@ -14,7 +14,8 @@ public interface ItemWithPowerStorage {
     }
 
     default int getPower(ItemInstance itemInstance) {
-        if (!itemInstance.getStationNBT().containsKey(getPowerStorageTag(itemInstance))) itemInstance.getStationNBT().put(getPowerStorageTag(itemInstance), getDefaultPower(itemInstance));
+        if (!itemInstance.getStationNBT().containsKey(getPowerStorageTag(itemInstance)))
+            itemInstance.getStationNBT().put(getPowerStorageTag(itemInstance), getDefaultPower(itemInstance));
         return itemInstance.getStationNBT().getInt(getPowerStorageTag(itemInstance));
     }
 

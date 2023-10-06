@@ -3,8 +3,6 @@ package com.github.gtgolden.gtgoldencore.materials.api;
 import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ColorModule;
 import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.modificationstation.stationapi.api.client.color.item.ItemColorProvider;
 import net.modificationstation.stationapi.api.client.event.color.item.ItemColorsRegisterEvent;
 
 public class MetaItemUtils {

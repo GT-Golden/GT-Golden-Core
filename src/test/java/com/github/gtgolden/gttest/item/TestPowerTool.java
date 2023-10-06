@@ -3,13 +3,11 @@ package com.github.gtgolden.gttest.item;
 import com.github.gtgolden.gtgoldencore.machines.api.item.*;
 import com.github.gtgolden.gtgoldencore.materials.GTMaterials;
 import com.github.gtgolden.gtgoldencore.materials.api.HasGTMaterial;
-import com.github.gtgolden.gtgoldencore.materials.api.HasNBTBasedGTMaterial;
 import com.github.gtgolden.gtgoldencore.materials.api.Material;
 import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistry;
 import com.github.gtgolden.gttest.GtTest;
 import com.github.gtgolden.gttest.container.ContainerPowerTool;
-import net.fabricmc.loader.FabricLoader;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.EntityBase;
 import net.minecraft.entity.Living;
@@ -31,6 +29,7 @@ public class TestPowerTool extends TemplateToolBase implements HasGTMaterial, It
     private final int powerPerUse = 1;
     private final TagKey<BlockBase> drillEffectiveOn;
     private final TagKey<BlockBase> sawEffectiveOn;
+
     public TestPowerTool(Identifier identifier) {
         super(identifier, 0, GTMaterials.MISSING_TOOL_MATERIAL, new BlockBase[]{});
         setTranslationKey(identifier);

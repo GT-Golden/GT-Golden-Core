@@ -6,12 +6,15 @@ import net.minecraft.util.io.ListTag;
 
 public interface ItemWithItemStorage {
     int getInventorySize(ItemInstance itemInstance);
+
     default String getItemStorageTag(ItemInstance itemInstance) {
         return "gt-golden-core:inventory";
     }
+
     default ListTag getInventoryTag(ItemInstance itemInstance) {
         return itemInstance.getStationNBT().getListTag("gt-golden-core:inventory");
     }
+
     default InventoryBase getInventory(ItemInstance itemInstance) {
         return new ItemInventoryBase(getItemStorageTag(itemInstance), getInventorySize(itemInstance), itemInstance);
     }

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 
 public class ContainerPowerTool extends ContainerBase {
     private final ItemInventoryBase powerToolInventory;
+
     public ContainerPowerTool(PlayerInventory playerInventory, ItemInventoryBase powerToolInventory) {
         this.powerToolInventory = powerToolInventory;
 
