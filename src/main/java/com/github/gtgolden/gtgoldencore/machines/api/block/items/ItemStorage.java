@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines.api.items;
+package com.github.gtgolden.gtgoldencore.machines.api.block.items;
 
 import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
 import net.minecraft.entity.Item;

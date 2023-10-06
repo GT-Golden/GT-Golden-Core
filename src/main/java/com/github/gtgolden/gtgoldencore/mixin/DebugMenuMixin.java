@@ -1,10 +1,10 @@
 package com.github.gtgolden.gtgoldencore.mixin;
 
 import com.github.gtgolden.gtgoldencore.GTGoldenCore;
-import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
-import com.github.gtgolden.gtgoldencore.machines.api.power.HasPowerIO;
-import com.github.gtgolden.gtgoldencore.machines.api.power.HasPowerStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.HasItemIO;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.block.power.HasPowerIO;
+import com.github.gtgolden.gtgoldencore.machines.api.block.power.HasPowerStorage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.InGame;
 import net.minecraft.client.render.TextRenderer;

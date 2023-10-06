@@ -4,6 +4,8 @@ tile.cobble_generator.name=Cobble Generator
 tile.item_mover.name=Item Mover
 
 item.redstone_pickaxe.name=Redstone Pickaxe
+item.test_power_tool.name=Test Power Tool
+item.battery.name=Battery
 
 item.test_meta_item.name=%s Test Item
 item.redstone_test_meta_item.name=Red Item

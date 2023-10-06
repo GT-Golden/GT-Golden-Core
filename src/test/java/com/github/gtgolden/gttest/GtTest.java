@@ -6,8 +6,10 @@ import com.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import com.github.gtgolden.gtgoldencore.materials.api.module.TranslationModule;
 import com.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
 import com.github.gtgolden.gttest.block.*;
+import com.github.gtgolden.gttest.item.Battery;
 import com.github.gtgolden.gttest.item.RedstonePickaxe;
 import com.github.gtgolden.gttest.item.TestMetaItem;
+import com.github.gtgolden.gttest.item.TestPowerTool;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
@@ -56,11 +58,16 @@ public class GtTest {
     public static ItemBase REDSTONE_PICKAXE;
     public static TestMetaItem TEST_META_ITEM;
 
+    public static ItemBase TEST_POWER_TOOL;
+    public static ItemBase BATTERY;
+
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering items");
         REDSTONE_PICKAXE = new RedstonePickaxe(MOD_ID.id("redstone_pickaxe"));
         TEST_META_ITEM = new TestMetaItem(MOD_ID.id("test_meta_item"));
+        TEST_POWER_TOOL = new TestPowerTool(MOD_ID.id("test_power_tool"));
+        BATTERY = new Battery(MOD_ID.id("battery"));
     }
 
     @EventListener

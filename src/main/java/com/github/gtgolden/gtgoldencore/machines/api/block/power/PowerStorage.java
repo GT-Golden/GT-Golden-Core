@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines.api.power;
+package com.github.gtgolden.gtgoldencore.machines.api.block.power;
 
 import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
 import net.minecraft.util.io.CompoundTag;

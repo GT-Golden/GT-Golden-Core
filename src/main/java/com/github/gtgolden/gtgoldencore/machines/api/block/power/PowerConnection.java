@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines.api.power;
+package com.github.gtgolden.gtgoldencore.machines.api.block.power;
 
 import net.modificationstation.stationapi.api.util.math.Direction;
 

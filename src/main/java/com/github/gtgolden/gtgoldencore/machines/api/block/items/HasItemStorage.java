@@ -1,4 +1,4 @@
-package com.github.gtgolden.gtgoldencore.machines.api.items;
+package com.github.gtgolden.gtgoldencore.machines.api.block.items;
 
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;

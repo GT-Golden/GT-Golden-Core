@@ -1,7 +1,7 @@
 package com.github.gtgolden.gttest.block;
 
-import com.github.gtgolden.gtgoldencore.machines.api.items.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.api.items.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.HasItemIO;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.SlotType;
 import net.minecraft.tileentity.TileEntityBase;
 
 public class ItemMoverEntity extends TileEntityBase {

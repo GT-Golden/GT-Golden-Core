@@ -1,5 +1,6 @@
 package com.github.gtgolden.gtgoldencore;
 
+import net.fabricmc.loader.FabricLoader;
 import net.glasslauncher.mods.api.gcapi.api.ConfigName;
 import net.glasslauncher.mods.api.gcapi.api.GConfig;
 import net.glasslauncher.mods.api.gcapi.api.MultiplayerSynced;
@@ -27,6 +28,10 @@ public class GTGoldenCore {
     public static class ConfigFields {
         @MultiplayerSynced
         @ConfigName("Show GT: Golden Info in the F3 menu.")
-        public Boolean debugMenuInfo = true;
+        public Boolean debugMenuInfo = FabricLoader.INSTANCE.isDevelopmentEnvironment();
+
+        @MultiplayerSynced
+        @ConfigName("Enable debug item spawner.")
+        public Boolean debugItemSpawner = FabricLoader.INSTANCE.isDevelopmentEnvironment();
     }
 }
