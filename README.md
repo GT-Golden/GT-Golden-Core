@@ -1,17 +1,17 @@
-# Fabric Example Mod with StationAPI and BIN Mappings for beta 1.7.3 server + client
+# GregTech: Golden Core
 
 ## Setup
 
-[See the StationAPI wiki.](https://github.com/ModificationStation/StationAPI/wiki)
+To add Golden Core to your mod, add this to your `build.gradle`, replacing `v0.3.0-alpha` with the latest version
 
-## Common Issues
-
-**I get "Invalid source release: 17" as an error!**  
-Use Java 17. Open up `File > Project Structure` and change your SDK to Java 17.  
-If you still get the issue, you may need to go into `File > Settings > Build, Execution, Deployment > Build Tools > Gradle` and change the Java that Gradle uses too.
-
-[Here for more issues.](https://github.com/calmilamsy/BIN-fabric-example-mod#common-issues)
+```groovy
+dependencies {
+    modImplementation 'com.github.GT-Golden:GT-Golden-Core:v0.3.0-alpha' {
+        transitive false
+    }
+}
+```
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This mod is licensed under LGPL-3.0
