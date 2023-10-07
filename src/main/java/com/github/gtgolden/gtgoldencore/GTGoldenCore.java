@@ -17,13 +17,13 @@ public class GTGoldenCore {
     @Entrypoint.Logger("GT-Golden-Core")
     public static final Logger LOGGER = Null.get();
 
-    @GConfig(value = "config", visibleName = "GregTech Golden Core Config")
-    public static ConfigFields config = new ConfigFields();
-
     @EventListener
     public void init(InitEvent event) {
         LOGGER.info("Preparing sauce of golden ages...");
     }
+
+    @GConfig(value = "config", visibleName = "GregTech Golden Core Config")
+    public static ConfigFields config = new ConfigFields();
 
     public static class ConfigFields {
         @MultiplayerSynced

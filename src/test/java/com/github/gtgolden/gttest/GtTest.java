@@ -36,10 +36,6 @@ public class GtTest {
     public static BlockBase APPLE_SPAWNER;
     public static BlockBase COBBLE_GEN;
     public static BlockBase ITEM_MOVER;
-    public static ItemBase REDSTONE_PICKAXE;
-    public static TestMetaItem TEST_META_ITEM;
-    public static ItemBase TEST_POWER_TOOL;
-    public static ItemBase BATTERY;
 
     @EventListener
     public void registerBlocks(BlockRegistryEvent event) {
@@ -58,6 +54,11 @@ public class GtTest {
         event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobble_generator").toString());
         event.register(ItemMoverEntity.class, MOD_ID.id("item_mover").toString());
     }
+
+    public static ItemBase REDSTONE_PICKAXE;
+    public static TestMetaItem TEST_META_ITEM;
+    public static ItemBase TEST_POWER_TOOL;
+    public static ItemBase BATTERY;
 
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
