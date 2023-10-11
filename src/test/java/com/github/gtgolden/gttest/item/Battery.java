@@ -11,6 +11,7 @@ public class Battery extends TemplateItemBase implements ItemWithPowerStorage, H
     public Battery(Identifier identifier) {
         super(identifier);
         setTranslationKey(identifier);
+        setMaxStackSize(1);
     }
 
     @Override

@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ChestItemStorageMixin",
-    "FurnaceItemStorageMixin"
+    "FurnaceItemStorageMixin",
+    "SlotAccessor"
   ],
   "server": [
   ],

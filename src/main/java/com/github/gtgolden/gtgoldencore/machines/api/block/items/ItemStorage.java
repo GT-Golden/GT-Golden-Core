@@ -1,73 +1,41 @@
 package com.github.gtgolden.gtgoldencore.machines.api.block.items;
 
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
+import com.github.gtgolden.gtgoldencore.mixin.SlotAccessor;
 import net.minecraft.entity.Item;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
 import net.minecraft.util.io.CompoundTag;
 import net.minecraft.util.io.ListTag;
-import uk.co.benjiweber.expressions.tuple.BiTuple;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
+
 import java.util.Random;
 
 public class ItemStorage implements ItemIO, HasSavableData {
     private static final Random rand = new Random();
-    protected final EnumMap<SlotType, Integer> slotTypeSizes = new EnumMap<>(SlotType.class);
-    protected final EnumMap<SlotType, Integer> slotTypeIndex = new EnumMap<>(SlotType.class);
-    protected final SlotType[] acceptedTypes;
+    protected GTSlot[] slots;
     private final String name;
     protected ItemInstance[] inventory;
 
-    public ItemStorage(String name, int size) {
-        inventory = new ItemInstance[size];
+    public ItemStorage(String name, GTSlot... slots) {
         this.name = name;
-        for (SlotType type :
-                SlotType.values()) {
-            slotTypeSizes.put(type, type == SlotType.MISC ? size : 0);
-        }
-        slotTypeIndex.put(SlotType.MISC, 0);
-        acceptedTypes = new SlotType[]{SlotType.MISC};
-    }
 
-    public ItemStorage(String name, BiTuple<SlotType, Integer>... storageTypes) {
-        this.name = name;
-        var size = 0;
-        var acceptedTypesList = new ArrayList<SlotType>(storageTypes.length);
-        for (int i = 0; i < storageTypes.length; i++) {
-            BiTuple<SlotType, Integer> storageType = storageTypes[i];
-            slotTypeIndex.put(storageType.one(), size);
-            slotTypeSizes.put(storageType.one(), storageType.two());
-            size += storageType.two();
-            acceptedTypesList.add(storageType.one());
+        for (int i = 0; i < slots.length; i++) {
+            var slot = ((SlotAccessor) slots[i]);
+            if (slot.getInventory() != null) continue;
+            slot.setInvSlot(i);
+            slot.setInventory(this);
         }
-        inventory = new ItemInstance[size];
-        acceptedTypes = acceptedTypesList.toArray(new SlotType[storageTypes.length]);
+        this.slots = slots;
+
+        inventory = new ItemInstance[slots.length];
     }
 
     @Override
-    public SlotType[] getAcceptedTypes() {
-        return acceptedTypes;
-    }
-
-    @Override
-    public int getInventorySize() {
-        return inventory.length;
-    }
-
-    public int getInventorySize(SlotType type) {
-        return slotTypeIndex.containsKey(type) ? slotTypeSizes.get(type) : 0;
-    }
-
-    public ItemInstance getInventoryItem(int slot) {
-        return inventory[slot];
-    }
-
-    public ItemInstance getInventoryItem(SlotType type, int slot) {
-        if (!slotTypeIndex.containsKey(type) || slot > slotTypeSizes.get(type)) return null;
-        return inventory[slotTypeIndex.get(type) + slot];
+    public GTSlot[] getSlots() {
+        return slots;
     }
 
     @Override
@@ -93,25 +61,13 @@ public class ItemStorage implements ItemIO, HasSavableData {
         }
     }
 
-    public ItemInstance takeInventoryItem(SlotType type, int slot, int count) {
-        if (!slotTypeIndex.containsKey(type) || slot > slotTypeSizes.get(type)) return null;
-        return inventory[slotTypeIndex.get(type) + slot];
+    @Override
+    public ItemInstance getInventoryItem(int i) {
+        return inventory[i];
     }
 
     public void setInventoryItem(int slot, ItemInstance itemInstance) {
         inventory[slot] = itemInstance;
-        if (itemInstance != null && itemInstance.count > getMaxItemCount()) {
-            itemInstance.count = getMaxItemCount();
-        }
-
-        markDirty();
-    }
-
-    @Override
-    public void setInventoryItem(SlotType type, int slot, ItemInstance itemInstance) {
-        if (!slotTypeIndex.containsKey(type) || slot > slotTypeSizes.get(type)) return;
-
-        inventory[slotTypeIndex.get(type) + slot] = itemInstance;
         if (itemInstance != null && itemInstance.count > getMaxItemCount()) {
             itemInstance.count = getMaxItemCount();
         }

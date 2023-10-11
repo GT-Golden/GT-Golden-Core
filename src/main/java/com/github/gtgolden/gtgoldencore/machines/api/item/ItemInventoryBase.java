@@ -1,6 +1,8 @@
 package com.github.gtgolden.gtgoldencore.machines.api.item;
 
 import com.github.gtgolden.gtgoldencore.GTGoldenCore;
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
+import com.github.gtgolden.gtgoldencore.mixin.SlotAccessor;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
@@ -10,15 +12,40 @@ import net.minecraft.util.io.ListTag;
 public class ItemInventoryBase implements InventoryBase {
     public ItemInstance itemInstance;
     String name;
+    protected GTSlot[] slots;
     ItemInstance[] inventory;
 
     public ItemInventoryBase() {
         GTGoldenCore.LOGGER.error("Created an empty item inventory without any data. This should never be ran!");
     }
 
-    public ItemInventoryBase(String name, int inventorySize, ItemInstance itemInstance) {
+//    public ItemInventoryBase(String name, int inventorySize, ItemInstance itemInstance) {
+//        this.name = name;
+//        inventory = new ItemInstance[inventorySize];
+//
+//        this.itemInstance = itemInstance;
+//        ListTag tag = itemInstance.getStationNBT().getListTag(name);
+//
+//        for (int i = 0; i < tag.size(); ++i) {
+//            CompoundTag compoundTag = (CompoundTag) tag.get(i);
+//            int slot = compoundTag.getByte("Slot") & 255;
+//            if (slot < inventory.length) {
+//                inventory[slot] = new ItemInstance(compoundTag);
+//            }
+//        }
+//    }
+
+    public ItemInventoryBase(String name, ItemInstance itemInstance, GTSlot... slots) {
         this.name = name;
-        inventory = new ItemInstance[inventorySize];
+
+        for (int i = 0; i < slots.length; i++) {
+            var slot = ((SlotAccessor) slots[i]);
+            slot.setInvSlot(i);
+            slot.setInventory(this);
+        }
+        this.slots = slots;
+
+        inventory = new ItemInstance[slots.length];
 
         this.itemInstance = itemInstance;
         ListTag tag = itemInstance.getStationNBT().getListTag(name);
