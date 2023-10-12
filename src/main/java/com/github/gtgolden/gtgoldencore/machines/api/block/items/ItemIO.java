@@ -46,6 +46,7 @@ public interface ItemIO extends InventoryBase {
     }
 
     default ItemInstance attemptSendItem(Direction side, ItemInstance inputItem) {
+        if (inputItem == null) return null;
         return attemptSendItem(side, inputItem, inputItem.count);
     }
 
@@ -54,6 +55,7 @@ public interface ItemIO extends InventoryBase {
     }
 
     default ItemInstance attemptSendItem(ItemInstance inputItem) {
+        if (inputItem == null) return null;
         return attemptSendItem(inputItem, inputItem.count);
     }
 

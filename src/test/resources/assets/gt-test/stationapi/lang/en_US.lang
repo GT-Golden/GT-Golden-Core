@@ -2,6 +2,7 @@ tile.generator.name=Generator
 tile.apple_spawner.name=Apple Spawner
 tile.cobble_generator.name=Cobble Generator
 tile.item_mover.name=Item Mover
+tile.storage_block.name=Storage Block
 
 item.redstone_pickaxe.name=Redstone Pickaxe
 item.test_power_tool.name=Test Power Tool

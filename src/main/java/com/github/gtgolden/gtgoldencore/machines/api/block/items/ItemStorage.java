@@ -1,5 +1,6 @@
 package com.github.gtgolden.gtgoldencore.machines.api.block.items;
 
+import com.github.gtgolden.gtgoldencore.GTGoldenCore;
 import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import com.github.gtgolden.gtgoldencore.machines.impl.HasSavableData;
 import com.github.gtgolden.gtgoldencore.mixin.SlotAccessor;
@@ -18,6 +19,11 @@ public class ItemStorage implements ItemIO, HasSavableData {
     protected GTSlot[] slots;
     private final String name;
     protected ItemInstance[] inventory;
+
+    public ItemStorage() {
+        GTGoldenCore.LOGGER.error("Created an empty inventory storage without any data. This should never be ran!");
+        name = null;
+    }
 
     public ItemStorage(String name, GTSlot... slots) {
         this.name = name;

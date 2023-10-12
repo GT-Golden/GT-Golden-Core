@@ -7,11 +7,9 @@ import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.entity.player.PlayerInventory;
 
 public class SimpleGTContainer extends ContainerBase {
-    private boolean renderSlots = false;
-
-    public SimpleGTContainer(PlayerInventory playerInventory, ItemStorage powerToolInventory) {
-        for (Object slot : slots) {
-            addSlot((Slot) slot);
+    public SimpleGTContainer(PlayerInventory playerInventory, ItemStorage itemStorage) {
+        for (Slot slot : itemStorage.getSlots()) {
+            addSlot(slot);
         }
 
         // Player Inventory
@@ -30,6 +28,6 @@ public class SimpleGTContainer extends ContainerBase {
 
     @Override
     public boolean canUse(PlayerBase arg) {
-        return false;
+        return true;
     }
 }

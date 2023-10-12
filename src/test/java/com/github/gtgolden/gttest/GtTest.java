@@ -36,6 +36,7 @@ public class GtTest {
     public static BlockBase APPLE_SPAWNER;
     public static BlockBase COBBLE_GEN;
     public static BlockBase ITEM_MOVER;
+    public static BlockBase STORAGE_BLOCK;
 
     @EventListener
     public void registerBlocks(BlockRegistryEvent event) {
@@ -44,6 +45,7 @@ public class GtTest {
         APPLE_SPAWNER = new AppleSpawner(MOD_ID.id("apple_spawner"), Material.STONE);
         COBBLE_GEN = new CobbleGenerator(MOD_ID.id("cobble_generator"), Material.STONE);
         ITEM_MOVER = new ItemMover(MOD_ID.id("item_mover"), Material.STONE);
+        STORAGE_BLOCK = new StorageBlock(MOD_ID.id("storage_block"), Material.METAL);
     }
 
     @EventListener
@@ -53,6 +55,7 @@ public class GtTest {
         event.register(AppleSpawnerEntity.class, MOD_ID.id("apple_spawner").toString());
         event.register(CobbleGeneratorEntity.class, MOD_ID.id("cobble_generator").toString());
         event.register(ItemMoverEntity.class, MOD_ID.id("item_mover").toString());
+        event.register(StorageEntity.class, MOD_ID.id("storage_block").toString());
     }
 
     public static ItemBase REDSTONE_PICKAXE;
