@@ -48,4 +48,8 @@ public class Material {
     public Optional<String> getUniqueTranslatedName(String form) {
         return getModule(TranslationModule.class).flatMap(module -> module.getUniqueTranslatedName(form));
     }
+
+    public String getAffix() {
+        return getModule(TranslationModule.class).map(TranslationModule::getAffix).orElse(getTranslatedName());
+    }
 }
