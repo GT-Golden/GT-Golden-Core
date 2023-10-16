@@ -52,8 +52,8 @@ public class TranslationModule implements Module {
     }
 
     public String getAffix() {
-        var translation = I18n.translate("material_affix." + identifier + ".name");
-        if (Objects.equals(translation, "material_affix." + identifier + ".name")) {
+        var translation = I18n.translate("material." + identifier + ".affix");
+        if (Objects.equals(translation, "material." + identifier + ".affix")) {
             return getTranslatedName();
         } else {
             return translation;

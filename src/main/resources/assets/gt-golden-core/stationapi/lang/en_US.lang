@@ -3,7 +3,7 @@ item.missing.name = %s Missing
 tile.generator.name=Generator
 
 material.wood.name=Wood
-material_affix.wood.name=Wooden
+material.wood.affix=Wooden
 material.stone.name=Stone
 material.iron.name=Iron
 material.gold.name=Gold
