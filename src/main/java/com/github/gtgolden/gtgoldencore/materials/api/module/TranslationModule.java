@@ -6,17 +6,18 @@ import net.modificationstation.stationapi.api.registry.ModID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 public class TranslationModule implements Module {
-    private final String translationKey;
+    private final Identifier identifier;
     protected ModID[] modIds;
     protected String materialName;
 
     public TranslationModule(Identifier identifier) {
         modIds = new ModID[]{identifier.modID};
         materialName = identifier.id;
-        translationKey = "material." + identifier + ".name";
+        this.identifier = identifier;
     }
 
     public void addModID(ModID modID) {
@@ -43,16 +44,25 @@ public class TranslationModule implements Module {
     }
 
     public String getTranslationKey() {
-        return translationKey;
+        return "material." + identifier + ".name";
     }
 
     public String getTranslatedName() {
         return I18n.translate(getTranslationKey());
     }
 
+    public String getAffix() {
+        var translation = I18n.translate("material_affix." + identifier + ".name");
+        if (Objects.equals(translation, "material_affix." + identifier + ".name")) {
+            return getTranslatedName();
+        } else {
+            return translation;
+        }
+    }
+
     public String getTranslatedName(String originalTooltip, String form) {
         var uniqueForm = getUniqueTranslatedName(form);
-        return uniqueForm.orElseGet(() -> String.format(originalTooltip, getTranslatedName()));
+        return uniqueForm.orElseGet(() -> originalTooltip.formatted(getAffix()));
     }
 
     /**

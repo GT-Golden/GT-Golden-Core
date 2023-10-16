@@ -9,7 +9,7 @@ public class GTOutputSlot extends GTSlot {
     }
 
     @Override
-    public boolean canInsert(ItemInstance arg) {
-        return super.canInsert(arg);
+    public boolean canPlayerInsert(ItemInstance item) {
+        return false;
     }
 }

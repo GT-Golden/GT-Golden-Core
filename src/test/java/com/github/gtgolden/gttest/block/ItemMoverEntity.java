@@ -23,7 +23,7 @@ public class ItemMoverEntity extends TileEntityBase {
                 if (!aboveConnection.isItemInput(Direction.DOWN)) return;
                 if (!belowConnection.isItemOutput(Direction.UP)) return;
                 for (GTSlot slot : belowStorage.getSlots()) {
-                    if (slot.getItem() == null || !slot.canTake()) continue;
+                    if (slot.getItem() == null || !slot.canMachineTake(slot.getItem())) continue;
                     var wantingToTake = slot.getItem().copy();
                     wantingToTake.count = 64;
                     var taken = belowStorage.attemptTake(wantingToTake);

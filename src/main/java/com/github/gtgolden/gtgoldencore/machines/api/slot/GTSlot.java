@@ -29,12 +29,23 @@ public class GTSlot extends Slot {
         return Optional.ofNullable(label);
     }
 
-    public boolean canTake() {
-        return canTake(getItem());
+    public boolean canMachineInsert(ItemInstance item) {
+        return true;
+    }
+    public boolean canMachineTake(ItemInstance item) {
+        return true;
     }
 
-    public boolean canTake(ItemInstance inputItem) {
+    public boolean canPlayerInsert(ItemInstance item) {
         return true;
+    }
+    public boolean canPlayerTake(ItemInstance item) {
+        return true;
+    }
+
+    @Override
+    public boolean canInsert(ItemInstance arg) {
+        return canPlayerInsert(arg);
     }
 
     public ItemInstance attemptSendItem(ItemInstance inputItem) {
@@ -42,7 +53,7 @@ public class GTSlot extends Slot {
     }
 
     public ItemInstance attemptSendItem(ItemInstance inputItem, int maxSend) {
-        if (!canInsert(inputItem)) return inputItem;
+        if (!canMachineInsert(inputItem)) return inputItem;
 
         var existingItem = getItem();
         if (existingItem == null) {

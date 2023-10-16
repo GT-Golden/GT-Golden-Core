@@ -9,7 +9,7 @@ public class GTInputSlot extends GTSlot {
     }
 
     @Override
-    public boolean canTake(ItemInstance inputItem) {
+    public boolean canMachineTake(ItemInstance item) {
         return false;
     }
 }
