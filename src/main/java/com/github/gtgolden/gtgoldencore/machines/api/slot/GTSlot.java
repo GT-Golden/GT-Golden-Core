@@ -32,6 +32,14 @@ public class GTSlot extends Slot {
     public boolean canMachineInsert(ItemInstance item) {
         return true;
     }
+
+    /**
+     * @return Whether you can take the current item inside of the slot.
+     */
+    public boolean canMachineTake() {
+        return canMachineTake(getItem());
+    }
+
     public boolean canMachineTake(ItemInstance item) {
         return true;
     }
