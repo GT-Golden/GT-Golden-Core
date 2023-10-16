@@ -19,7 +19,7 @@ public class TestMetaItem extends TemplateItemBase implements HasNBTBasedGTMater
     @Override
     public ItemInstance use(ItemInstance itemInstance, Level level, PlayerBase player) {
         var material = getGTMaterial(itemInstance);
-        if (material.isEmpty() || Objects.equals(material.get().name, "dirt")) {
+        if (material.isEmpty() || Objects.equals(material.get().name, "wood")) {
             player.swingHand();
             setGTMaterial(itemInstance, "diamond");
         } else if (Objects.equals(material.get().name, "diamond")) {
@@ -28,6 +28,9 @@ public class TestMetaItem extends TemplateItemBase implements HasNBTBasedGTMater
         } else if (Objects.equals(material.get().name, "redstone")) {
             player.swingHand();
             setGTMaterial(itemInstance, "dirt");
+        }else if (Objects.equals(material.get().name, "dirt")) {
+            player.swingHand();
+            setGTMaterial(itemInstance, "wood");
         }
         return super.use(itemInstance, level, player);
     }
