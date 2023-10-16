@@ -1,6 +1,5 @@
 package com.github.gtgolden.gttest.block;
 
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.SlotType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -24,20 +23,20 @@ public class CobbleGenerator extends TemplateBlockWithEntity {
     public boolean canUse(Level level, int x, int y, int z, PlayerBase player) {
         var entity = (CobbleGeneratorEntity) level.getTileEntity(x, y, z);
         if (player.getHeldItem() == null) {
-            var cobblestoneSlot = entity.getInventoryItem(SlotType.OUTPUT, 0);
+            var cobblestoneSlot = entity.getInventoryItem("cobble").foundItem();
             if (cobblestoneSlot == null) return super.canUse(level, x, y, z, player);
             player.inventory.setInventoryItem(player.inventory.selectedHotbarSlot, cobblestoneSlot);
-            entity.setInventoryItem(SlotType.OUTPUT, 0, null);
+            entity.setInventoryItem("cobble", null);
             return true;
         } else if (player.getHeldItem().itemId == ItemBase.waterBucket.id) {
-            if (entity.getInventoryItem(SlotType.INPUT, 0) == null) {
-                entity.setInventoryItem(SlotType.INPUT, 0, player.getHeldItem());
+            if (entity.getInventoryItem("water").foundItem() == null) {
+                entity.setInventoryItem("water", player.getHeldItem());
                 player.inventory.setInventoryItem(player.inventory.selectedHotbarSlot, null);
                 return true;
             }
         } else if (player.getHeldItem().itemId == ItemBase.lavaBucket.id) {
-            if (entity.getInventoryItem(SlotType.INPUT, 1) == null) {
-                entity.setInventoryItem(SlotType.INPUT, 1, player.getHeldItem());
+            if (entity.getInventoryItem("lava").foundItem() == null) {
+                entity.setInventoryItem("lava", player.getHeldItem());
                 player.inventory.setInventoryItem(player.inventory.selectedHotbarSlot, null);
                 return true;
             }

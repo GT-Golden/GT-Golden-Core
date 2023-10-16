@@ -1,6 +1,8 @@
 package com.github.gtgolden.gttest.item;
 
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import com.github.gtgolden.gtgoldencore.machines.api.item.*;
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlotBuilder;
 import com.github.gtgolden.gtgoldencore.materials.GTMaterials;
 import com.github.gtgolden.gtgoldencore.materials.api.HasGTMaterial;
 import com.github.gtgolden.gtgoldencore.materials.api.Material;
@@ -26,6 +28,11 @@ import net.modificationstation.stationapi.api.template.item.tool.TemplateToolBas
 import java.util.Optional;
 
 public class TestPowerTool extends TemplateToolBase implements HasGTMaterial, ItemWithPowerStorage, HasPowerBar, HasPowerTooltip, ItemWithItemStorage {
+    private static final GTSlot[] slots = {
+            new GTSlotBuilder(GTSlot::new).build(),
+            new GTSlotBuilder(GTSlot::new).build(),
+            new GTSlotBuilder(GTSlot::new).build()
+    };
     private static final int THROUGHPUT = 10;
     private final int powerPerUse = 1;
     private final TagKey<BlockBase> drillEffectiveOn;
@@ -111,8 +118,8 @@ public class TestPowerTool extends TemplateToolBase implements HasGTMaterial, It
     }
 
     @Override
-    public int getInventorySize(ItemInstance itemInstance) {
-        return 3;
+    public GTSlot[] getSlots(ItemInstance itemInstance) {
+        return slots;
     }
 
     @Override

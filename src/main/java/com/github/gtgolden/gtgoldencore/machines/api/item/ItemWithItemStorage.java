@@ -1,12 +1,19 @@
 package com.github.gtgolden.gtgoldencore.machines.api.item;
 
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.util.io.ListTag;
 
 public interface ItemWithItemStorage {
-    int getInventorySize(ItemInstance itemInstance);
+    GTSlot[] getSlots(ItemInstance itemInstance);
 
+    default GTSlot getSlot(ItemInstance itemInstance, int i) {
+        return getSlots(itemInstance)[i];
+    }
+    default int getInventorySize(ItemInstance itemInstance) {
+        return getSlots(itemInstance).length;
+    }
     default String getItemStorageTag(ItemInstance itemInstance) {
         return "gt-golden-core:inventory";
     }
@@ -16,7 +23,7 @@ public interface ItemWithItemStorage {
     }
 
     default InventoryBase getInventory(ItemInstance itemInstance) {
-        return new ItemInventoryBase(getItemStorageTag(itemInstance), getInventorySize(itemInstance), itemInstance);
+        return new ItemInventoryBase(getItemStorageTag(itemInstance), itemInstance, getSlots(itemInstance).clone());
     }
 
     default ItemInstance getInventoryItem(ItemInstance itemInstance, int i) {

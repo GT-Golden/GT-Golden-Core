@@ -1,68 +1,33 @@
 package com.github.gtgolden.gtgoldencore.machines.api.block.items;
 
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.level.Level;
 import net.minecraft.tileentity.TileEntityBase;
-import uk.co.benjiweber.expressions.tuple.BiTuple;
 
-public interface HasItemStorage extends HasItemIO {
+public interface HasItemStorage extends ItemIO {
     ItemStorage getItemStorage();
 
     @Override
-    default SlotType[] getAcceptedTypes() {
-        return getItemStorage().getAcceptedTypes();
+    default GTSlot[] getSlots() {
+        return getItemStorage().getSlots();
     }
 
     default int getInventorySize() {
         return getItemStorage().getInventorySize();
     }
 
-    @Override
-    default int getInventorySize(SlotType type) {
-        return getItemStorage().getInventorySize(type);
-    }
-
     default ItemInstance getInventoryItem(int slot) {
         return getItemStorage().getInventoryItem(slot);
-    }
-
-    @Override
-    default ItemInstance getInventoryItem(SlotType type, int slot) {
-        return getItemStorage().getInventoryItem(type, slot);
     }
 
     default ItemInstance takeInventoryItem(int slot, int count) {
         return getItemStorage().takeInventoryItem(slot, count);
     }
 
-    @Override
-    default ItemInstance takeInventoryItem(SlotType type, int slot, int count) {
-        return getItemStorage().takeInventoryItem(type, slot, count);
-    }
-
     default void setInventoryItem(int slot, ItemInstance itemInstance) {
         getItemStorage().setInventoryItem(slot, itemInstance);
-    }
-
-    @Override
-    default void setInventoryItem(SlotType type, int slot, ItemInstance itemInstance) {
-        getItemStorage().setInventoryItem(type, slot, itemInstance);
-    }
-
-    @Override
-    default boolean hasItem(ItemInstance inputItem, SlotType... typesToCheck) {
-        return getItemStorage().hasItem(inputItem, typesToCheck);
-    }
-
-    @Override
-    default BiTuple<Boolean, ItemInstance> attemptSend(ItemInstance inputItem, SlotType... permittedInputTypes) {
-        return getItemStorage().attemptSend(inputItem, permittedInputTypes);
-    }
-
-    @Override
-    default ItemInstance attemptTake(ItemInstance desiredItem, SlotType... typesToCheck) {
-        return getItemStorage().attemptTake(desiredItem, typesToCheck);
     }
 
     default int getMaxItemCount() {

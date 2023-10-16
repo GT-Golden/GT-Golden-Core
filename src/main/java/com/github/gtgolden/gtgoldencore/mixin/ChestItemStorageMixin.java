@@ -1,66 +1,59 @@
 package com.github.gtgolden.gtgoldencore.mixin;
 
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.SlotType;
-import net.minecraft.item.ItemInstance;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.ItemConnection;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.ItemIO;
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import net.minecraft.tileentity.TileEntityChest;
+import net.modificationstation.stationapi.api.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(TileEntityChest.class)
-public abstract class ChestItemStorageMixin implements HasItemIO {
+public abstract class ChestItemStorageMixin implements ItemIO, ItemConnection {
     @Unique
-    SlotType[] acceptedTypes = new SlotType[]{SlotType.MIXED};
+    GTSlot[] slots;
 
     @Shadow
     public abstract int getInventorySize();
 
-    @Shadow
-    public abstract ItemInstance getInventoryItem(int i);
+    @Inject(
+            method = "<init>()V",
+            at = @At("RETURN"),
+            locals = LocalCapture.CAPTURE_FAILHARD
+    )
+    private void addSlots(CallbackInfo ci) {
+        slots = new GTSlot[getInventorySize()];
 
-    @Shadow
-    public abstract ItemInstance takeInventoryItem(int i, int j);
+        int rows = getInventorySize() / 9;
 
-    @Shadow
-    public abstract void setInventoryItem(int i, ItemInstance arg);
-
-    @Override
-    public SlotType[] getAcceptedTypes() {
-        return acceptedTypes;
-    }
-
-    @Override
-    public int getInventorySize(SlotType type) {
-        if (type != SlotType.MIXED) {
-            return 0;
-        } else {
-            return getInventorySize();
+        int i = 0;
+        int var4;
+        int var5;
+        for(var4 = 0; var4 < rows; ++var4) {
+            for(var5 = 0; var5 < 9; ++var5) {
+                slots[i] = new GTSlot(this, var5 + var4 * 9, 8 + var5 * 18, 18 + var4 * 18);
+                i++;
+            }
         }
     }
 
     @Override
-    public ItemInstance getInventoryItem(SlotType type, int slot) {
-        if (type != SlotType.MIXED) {
-            return null;
-        } else {
-            return getInventoryItem(slot);
-        }
+    public boolean isItemInput(Direction side) {
+        return true;
     }
 
     @Override
-    public ItemInstance takeInventoryItem(SlotType type, int slot, int count) {
-        if (type != SlotType.MIXED) {
-            return null;
-        } else {
-            return takeInventoryItem(type, slot, count);
-        }
+    public boolean isItemOutput(Direction side) {
+        return true;
     }
 
     @Override
-    public void setInventoryItem(SlotType type, int slot, ItemInstance itemInstance) {
-        if (type == SlotType.MIXED) {
-            setInventoryItem(slot, itemInstance);
-        }
+    public GTSlot[] getSlots() {
+        return slots;
     }
 }

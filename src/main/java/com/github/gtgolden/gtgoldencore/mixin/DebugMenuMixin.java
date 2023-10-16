@@ -1,10 +1,11 @@
 package com.github.gtgolden.gtgoldencore.mixin;
 
 import com.github.gtgolden.gtgoldencore.GTGoldenCore;
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.ItemConnection;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.ItemIO;
 import com.github.gtgolden.gtgoldencore.machines.api.block.power.HasPowerIO;
 import com.github.gtgolden.gtgoldencore.machines.api.block.power.HasPowerStorage;
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.InGame;
 import net.minecraft.client.render.TextRenderer;
@@ -47,7 +48,7 @@ public class DebugMenuMixin {
         if (hit == null) return;
         y = VERTICAL_OFFSET;
         var tileEntity = minecraft.level.getTileEntity(hit.x, hit.y, hit.z);
-        if (!(tileEntity instanceof HasItemIO) && !(tileEntity instanceof HasPowerIO)) return;
+        if (!(tileEntity instanceof ItemIO) && !(tileEntity instanceof ItemConnection) && !(tileEntity instanceof HasPowerIO)) return;
 
         printGTText(textRenderer, 0, Colours.GOLD + "GT-Golden Data:");
 
@@ -61,21 +62,19 @@ public class DebugMenuMixin {
             printGTText(textRenderer, 2, Colours.BLUE + "Max power level: " + Colours.WHITE + powerStorage.getMaxPower());
             printGTText(textRenderer, 2, Colours.BLUE + "Power level: " + Colours.WHITE + powerStorage.getPower());
         }
-        if (tileEntity instanceof HasItemIO itemStorage) {
+        if (tileEntity instanceof ItemConnection itemConnection) {
+            printGTText(textRenderer, 1, Colours.GREEN + " Item connections found:");
+            if (itemConnection.isItemInput(side)) printGTText(textRenderer, 2, Colours.RED + "Is item input");
+            if (itemConnection.isItemOutput(side)) printGTText(textRenderer, 2, Colours.RED + "Is item output");
+        }
+        if (tileEntity instanceof ItemIO itemStorage) {
             printGTText(textRenderer, 1, Colours.GREEN + " Item storage found:");
-            if (itemStorage.isItemInput(side)) printGTText(textRenderer, 2, Colours.RED + "Is item input");
-            if (itemStorage.isItemOutput(side)) printGTText(textRenderer, 2, Colours.RED + "Is item output");
-
-            for (SlotType type : SlotType.values()) {
-                int size = itemStorage.getInventorySize(type);
-                if (size <= 0) continue;
-                printGTText(textRenderer, 2, Colours.BLUE + type.name() + Colours.DARK_PURPLE + " (" + size + ")" + ":");
-                for (int slot = 0; slot < size; slot++) {
-                    var item = itemStorage.getInventoryItem(type, slot);
-                    if (item != null) {
-                        printGTText(textRenderer, 3, Colours.LIGHT_PURPLE.toString() + slot + ". " + Colours.WHITE + item.count + "x" + item.getTranslationKey());
-                    }
-                }
+            GTSlot[] slots = itemStorage.getSlots();
+            for (int k = 0, slotsLength = slots.length; k < slotsLength; k++) {
+                GTSlot slot = slots[k];
+                var item = slot.getItem();
+                if (item == null) continue;
+                printGTText(textRenderer, 3, Colours.LIGHT_PURPLE.toString() + k + ". " + Colours.WHITE + item.count + "x" + item.getTranslationKey());
             }
         }
     }

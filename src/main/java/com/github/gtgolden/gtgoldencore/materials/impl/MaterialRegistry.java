@@ -32,6 +32,7 @@ public class MaterialRegistry {
                         .addModule(new ToolMaterialModule(
                                 ToolMaterial.field_1688
                         ))
+                        .addModule(new TranslationModule(GTGoldenCore.MOD_ID.id("wood")))
         );
         defaultMaterials.put(
                 "stone",

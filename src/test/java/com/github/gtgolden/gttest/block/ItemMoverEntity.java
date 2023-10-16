@@ -1,8 +1,10 @@
 package com.github.gtgolden.gttest.block;
 
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.HasItemIO;
-import com.github.gtgolden.gtgoldencore.machines.api.block.items.SlotType;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.ItemConnection;
+import com.github.gtgolden.gtgoldencore.machines.api.block.items.ItemIO;
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import net.minecraft.tileentity.TileEntityBase;
+import net.modificationstation.stationapi.api.util.math.Direction;
 
 public class ItemMoverEntity extends TileEntityBase {
     int timer = 0;
@@ -16,35 +18,16 @@ public class ItemMoverEntity extends TileEntityBase {
         timer = 0;
         var aboveEntity = level.getTileEntity(x, y + 1, z);
         var belowEntity = level.getTileEntity(x, y - 1, z);
-        if (aboveEntity instanceof HasItemIO aboveStorage && belowEntity instanceof HasItemIO belowStorage) {
-            for (int i = 0; i < belowStorage.getInventorySize(SlotType.OUTPUT); i++) {
-                var item = belowStorage.getInventoryItem(SlotType.OUTPUT, i);
-                if (item == null) continue;
-                var result = aboveStorage.attemptSend(item, 5, SlotType.INPUT, SlotType.MIXED);
-                if (result.one()) {
-                    belowStorage.setInventoryItem(SlotType.OUTPUT, i, result.two());
-                    return;
-                } else {
-                    result = aboveStorage.attemptSend(item, SlotType.MIXED, SlotType.MIXED);
-                    if (result.one()) {
-                        belowStorage.setInventoryItem(SlotType.OUTPUT, i, result.two());
-                        return;
-                    }
-                }
-            }
-            for (int i = 0; i < belowStorage.getInventorySize(SlotType.MIXED); i++) {
-                var item = belowStorage.getInventoryItem(SlotType.MIXED, i);
-                if (item == null) continue;
-                var result = aboveStorage.attemptSend(item, 5, SlotType.INPUT, SlotType.MIXED);
-                if (result.one()) {
-                    belowStorage.setInventoryItem(SlotType.MIXED, i, result.two());
-                    return;
-                } else {
-                    result = aboveStorage.attemptSend(item, SlotType.MIXED, SlotType.MIXED);
-                    if (result.one()) {
-                        belowStorage.setInventoryItem(SlotType.MIXED, i, result.two());
-                        return;
-                    }
+        if (aboveEntity instanceof ItemIO aboveStorage && belowEntity instanceof ItemIO belowStorage) {
+            if (aboveEntity instanceof ItemConnection aboveConnection && belowEntity instanceof ItemConnection belowConnection) {
+                if (!aboveConnection.isItemInput(Direction.DOWN)) return;
+                if (!belowConnection.isItemOutput(Direction.UP)) return;
+                for (GTSlot slot : belowStorage.getSlots()) {
+                    if (slot.getItem() == null || !slot.canMachineTake(slot.getItem())) continue;
+                    var wantingToTake = slot.getItem().copy();
+                    wantingToTake.count = 64;
+                    var taken = belowStorage.attemptTake(wantingToTake);
+                    aboveStorage.attemptSendItem(taken);
                 }
             }
         }

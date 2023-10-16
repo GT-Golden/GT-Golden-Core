@@ -20,7 +20,8 @@
       "com.github.gtgolden.gtgoldencore.materials.GTMaterials"
     ],
     "stationapi:event_bus_client": [
-      "com.github.gtgolden.gtgoldencore.materials.GTMaterialsClient"
+      "com.github.gtgolden.gtgoldencore.materials.GTMaterialsClient",
+      "com.github.gtgolden.gtgoldencore.machines.GTMachinesClient"
     ],
     "stationapi:event_bus_server": [
     ],

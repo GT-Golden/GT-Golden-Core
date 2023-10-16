@@ -1,110 +1,103 @@
 package com.github.gtgolden.gtgoldencore.machines.api.block.items;
 
+import com.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
+import com.github.gtgolden.gtgoldencore.machines.impl.ItemRetrievalResult;
 import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
-import uk.co.benjiweber.expressions.tuple.BiTuple;
+import net.modificationstation.stationapi.api.util.math.Direction;
+
+import java.util.Optional;
 
 public interface ItemIO extends InventoryBase {
-    SlotType[] getAcceptedTypes();
+    GTSlot[] getSlots();
 
-    int getInventorySize(SlotType type);
-
-    ItemInstance getInventoryItem(SlotType type, int slot);
-
-    ItemInstance takeInventoryItem(SlotType type, int slot, int count);
-
-    void setInventoryItem(SlotType type, int slot, ItemInstance itemInstance);
-
-    default boolean hasItem(ItemInstance inputItem, SlotType... typesToCheck) {
-        for (SlotType type : typesToCheck.length != 0 ? typesToCheck : SlotType.values()) {
-            for (int i = 0; i < getInventorySize(type); i++) {
-                var existingItem = getInventoryItem(type, i);
-                if (existingItem == null) continue;
-                if (existingItem.isDamageAndIDIdentical(inputItem)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    default GTSlot getSlot(int i) {
+        return getSlots()[i];
     }
 
-    default BiTuple<Boolean, ItemInstance> attemptSend(ItemInstance inputItem, int maxThroughput, SlotType... permittedInputTypes) {
-        if (inputItem == null) return BiTuple.of(false, null);
-        boolean succeeded = false;
-        int amountLeft = maxThroughput;
-        int maxStackSize = Math.min(getMaxItemCount(), inputItem.getMaxStackSize());
-        for (SlotType type : permittedInputTypes.length != 0 ? permittedInputTypes : SlotType.values()) {
-            for (int i = 0; i < getInventorySize(type); i++) {
-                var existingItem = getInventoryItem(type, i);
-                if (existingItem == null) continue;
-
-                if (existingItem.isDamageAndIDIdentical(inputItem)) {
-                    if (existingItem.count < maxStackSize) {
-                        int increment = Math.min(amountLeft, Math.min(maxStackSize - existingItem.count, inputItem.count));
-                        existingItem.count += increment;
-                        amountLeft -= increment;
-                        succeeded = true;
-                        if (increment >= inputItem.count) {
-                            return BiTuple.of(true, null);
-                        } else {
-                            inputItem.count -= increment;
-                        }
-                    }
-                }
-                if (amountLeft <= 0) return BiTuple.of(true, inputItem);
+    default Optional<GTSlot> getSlot(String label) {
+        for (GTSlot slot : getSlots()) {
+            if (slot.getLabel().isPresent()) {
+                if (slot.getLabel().get().equals(label)) return Optional.of(slot);
             }
         }
-        for (SlotType type : permittedInputTypes.length != 0 ? permittedInputTypes : SlotType.values()) {
-            for (int i = 0; i < getInventorySize(type); i++) {
-                var existingItem = getInventoryItem(type, i);
-                if (existingItem == null) {
-                    int toMove = Math.min(amountLeft, inputItem.count);
-                    amountLeft -= toMove;
-                    if (toMove >= inputItem.count) {
-                        setInventoryItem(type, i, inputItem);
-                        return BiTuple.of(true, null);
-                    } else {
-                        var newItem = inputItem.copy();
-                        newItem.count = toMove;
-                        setInventoryItem(type, i, newItem);
-                        inputItem.count -= toMove;
-                    }
-                }
-                if (amountLeft <= 0) return BiTuple.of(true, inputItem);
+
+        return Optional.empty();
+    }
+    @Override
+    default int getInventorySize() {
+        return getSlots().length;
+    }
+
+    default ItemRetrievalResult getInventoryItem(String label) {
+        return getSlot(label)
+                .map(
+                        slot -> new ItemRetrievalResult(true, slot.getItem()))
+                .orElseGet(
+                        () -> new ItemRetrievalResult(false, null)
+                );
+    }
+
+    default boolean setInventoryItem(String label, ItemInstance arg) {
+        var slot = getSlot(label);
+        if (slot.isEmpty()) return false;
+        slot.get().setStack(arg);
+        return true;
+    }
+
+    default ItemInstance attemptSendItem(Direction side, ItemInstance inputItem) {
+        if (inputItem == null) return null;
+        return attemptSendItem(side, inputItem, inputItem.count);
+    }
+
+    default ItemInstance attemptSendItem(Direction side, ItemInstance inputItem, int maxThroughput) {
+        return attemptSendItem(inputItem, maxThroughput);
+    }
+
+    default ItemInstance attemptSendItem(ItemInstance inputItem) {
+        if (inputItem == null) return null;
+        return attemptSendItem(inputItem, inputItem.count);
+    }
+
+    default ItemInstance attemptSendItem(ItemInstance itemInstance, int maxThroughput) {
+        if (itemInstance == null) return null;
+        int startingCount = itemInstance.count;
+        int alreadySent = 0;
+        ItemInstance currentItem = null;
+        for (GTSlot slot : getSlots()) {
+            currentItem = slot.attemptSendItem(itemInstance, maxThroughput - alreadySent);
+
+            if (currentItem != null) {
+                alreadySent += startingCount - currentItem.count;
             }
+            if (currentItem == null || alreadySent >= maxThroughput) break;
         }
-        return BiTuple.of(succeeded, inputItem);
+        return currentItem;
     }
 
-    default BiTuple<Boolean, ItemInstance> attemptSend(ItemInstance inputItem, SlotType... permittedInputTypes) {
-        return attemptSend(inputItem, Integer.MAX_VALUE, permittedInputTypes);
-    }
-
-    default ItemInstance attemptTake(ItemInstance desiredItem, SlotType... typesToCheck) {
+    default ItemInstance attemptTake(ItemInstance desiredItem) {
         if (desiredItem == null) return null;
         var response = desiredItem.copy();
         response.count = 0;
         int maxStackSize = response.getMaxStackSize();
-        slotTypeLoop:
-        for (SlotType type : typesToCheck.length != 0 ? typesToCheck : SlotType.values()) {
-            for (int i = 0; i < getInventorySize(type); i++) {
-                var existingItem = getInventoryItem(type, i);
-                if (existingItem == null) continue;
+        for (GTSlot slot : getSlots()) {
+            var existingItem = slot.getItem();
+            if (existingItem == null) continue;
 
-                if (existingItem.isDamageAndIDIdentical(response)) {
-                    if (existingItem.count < maxStackSize) {
-                        int increment = Math.min(maxStackSize - response.count, existingItem.count);
+            if (existingItem.isDamageAndIDIdentical(response)) {
+                if (existingItem.count < maxStackSize) {
+                    int increment = Math.min(maxStackSize - response.count, existingItem.count);
 
-                        response.count += increment;
-                        if (increment >= existingItem.count) {
-                            setInventoryItem(type, i, null);
-                        } else {
-                            existingItem.count -= increment;
-                        }
+                    response.count += increment;
+                    if (increment >= existingItem.count) {
+                        slot.setStack(null);
+                    } else {
+                        existingItem.count -= increment;
                     }
                 }
-                if (response.count >= maxStackSize) break slotTypeLoop;
             }
+
+            if (response.count >= maxStackSize) break;
         }
         return response.count != 0 ? response : null;
     }
