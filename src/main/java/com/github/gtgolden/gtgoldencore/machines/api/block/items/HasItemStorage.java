@@ -14,14 +14,17 @@ public interface HasItemStorage extends ItemIO {
         return getItemStorage().getSlots();
     }
 
+    @Override
     default int getInventorySize() {
         return getItemStorage().getInventorySize();
     }
 
+    @Override
     default ItemInstance getInventoryItem(int slot) {
         return getItemStorage().getInventoryItem(slot);
     }
 
+    @Override
     default ItemInstance takeInventoryItem(int slot, int count) {
         return getItemStorage().takeInventoryItem(slot, count);
     }
@@ -30,10 +33,12 @@ public interface HasItemStorage extends ItemIO {
         getItemStorage().setInventoryItem(slot, itemInstance);
     }
 
+    @Override
     default int getMaxItemCount() {
         return getItemStorage().getMaxItemCount();
     }
 
+    @Override
     default void markDirty() {
         getItemStorage().getMaxItemCount();
     }
@@ -42,6 +47,7 @@ public interface HasItemStorage extends ItemIO {
         getItemStorage().dropContents(level, x, y, z);
     }
 
+    @Override
     default boolean canPlayerUse(PlayerBase arg) {
         if (this instanceof TileEntityBase tileEntity) {
             if (tileEntity.level.getTileEntity(tileEntity.x, tileEntity.y, tileEntity.z) != this) {
