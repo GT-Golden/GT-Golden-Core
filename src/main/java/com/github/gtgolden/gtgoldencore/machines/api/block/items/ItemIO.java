@@ -79,14 +79,15 @@ public interface ItemIO extends InventoryBase {
         if (desiredItem == null) return null;
         var response = desiredItem.copy();
         response.count = 0;
-        int maxStackSize = response.getMaxStackSize();
+        int maxCount = Math.min(response.getMaxStackSize(), desiredItem.count);
         for (GTSlot slot : getSlots()) {
+            if (!slot.canMachineTake()) continue;
             var existingItem = slot.getItem();
             if (existingItem == null) continue;
 
             if (existingItem.isDamageAndIDIdentical(response)) {
-                if (existingItem.count < maxStackSize) {
-                    int increment = Math.min(maxStackSize - response.count, existingItem.count);
+                if (existingItem.count < maxCount) {
+                    int increment = Math.min(maxCount - response.count, existingItem.count);
 
                     response.count += increment;
                     if (increment >= existingItem.count) {
@@ -97,7 +98,7 @@ public interface ItemIO extends InventoryBase {
                 }
             }
 
-            if (response.count >= maxStackSize) break;
+            if (response.count >= maxCount) break;
         }
         return response.count != 0 ? response : null;
     }
