@@ -38,11 +38,6 @@ public interface HasItemStorage extends ItemIO {
         return getItemStorage().getMaxItemCount();
     }
 
-    @Override
-    default void markDirty() {
-        getItemStorage().getMaxItemCount();
-    }
-
     default void dropContents(Level level, int x, int y, int z) {
         getItemStorage().dropContents(level, x, y, z);
     }
