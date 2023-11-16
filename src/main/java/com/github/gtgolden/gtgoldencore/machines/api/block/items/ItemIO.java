@@ -86,7 +86,7 @@ public interface ItemIO extends InventoryBase {
             if (existingItem == null) continue;
 
             if (existingItem.isDamageAndIDIdentical(response)) {
-                if (existingItem.count < maxCount) {
+                if (response.count < maxCount) {
                     int increment = Math.min(maxCount - response.count, existingItem.count);
 
                     response.count += increment;
