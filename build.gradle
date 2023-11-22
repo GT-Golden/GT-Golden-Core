@@ -1,5 +1,5 @@
 plugins {
-	id 'babric-loom' version '1.1.7'
+	id 'babric-loom' version '1.4.2'
 	id 'maven-publish'
 }
 
@@ -85,9 +85,9 @@ dependencies {
 	modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") {
 		transitive false
 	}
-	modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {
-		transitive false
-	}
+//	modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {
+//		transitive false
+//	}
 }
 
 // add test tasks
@@ -156,5 +156,5 @@ loom {
 
 task testJar(type: Jar) {
 	from sourceSets.test.output
-	classifier 'test'
+//	classifier("test")
 }

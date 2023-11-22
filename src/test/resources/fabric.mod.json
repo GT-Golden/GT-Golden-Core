@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [
-      "com.github.gtgolden.gttest.GtTest"
+      "io.github.gtgolden.gttest.GtTest"
     ],
     "stationapi:event_bus_client": [
-      "com.github.gtgolden.gttest.GtTestClient"
+      "io.github.gtgolden.gttest.GtTestClient"
     ]
   },
   "depends": {

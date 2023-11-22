@@ -16,17 +16,17 @@
   "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [
-      "com.github.gtgolden.gtgoldencore.GTGoldenCore",
-      "com.github.gtgolden.gtgoldencore.materials.GTMaterials"
+      "io.github.gtgolden.gtgoldencore.GTGoldenCore",
+      "io.github.gtgolden.gtgoldencore.materials.GTMaterials"
     ],
     "stationapi:event_bus_client": [
-      "com.github.gtgolden.gtgoldencore.materials.GTMaterialsClient",
-      "com.github.gtgolden.gtgoldencore.machines.GTMachinesClient"
+      "io.github.gtgolden.gtgoldencore.materials.GTMaterialsClient",
+      "io.github.gtgolden.gtgoldencore.machines.GTMachinesClient"
     ],
     "stationapi:event_bus_server": [
     ],
     "gcapi": [
-      "com.github.gtgolden.gtgoldencore.GTGoldenCore"
+      "io.github.gtgolden.gtgoldencore.GTGoldenCore"
     ]
   },
   "mixins": [
