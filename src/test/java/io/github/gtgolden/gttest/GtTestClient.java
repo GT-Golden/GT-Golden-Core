@@ -19,18 +19,18 @@ import uk.co.benjiweber.expressions.tuple.BiTuple;
 public class GtTestClient {
     @EventListener
     public void registerTextures(TextureRegisterEvent event) {
-        GtTest.REDSTONE_PICKAXE.setTexture(GtTest.NAMESPACE.id("item/redstone_pickaxe"));
+        GtTest.redstonePickaxe.setTexture(GtTest.NAMESPACE.id("item/redstone_pickaxe"));
     }
 
     @EventListener
     public void registerItemColors(ItemColorsRegisterEvent event) {
-        MetaItemUtils.registerMaterialColor(event, GtTest.TEST_META_ITEM);
-        MetaItemUtils.registerMaterialColor(event, GtTest.TEST_POWER_TOOL, 0);
+        MetaItemUtils.registerMaterialColor(event, GtTest.testMetaItem);
+        MetaItemUtils.registerMaterialColor(event, GtTest.testPowerTool, 0);
     }
 
     @EventListener
     public void registerItemModelPredicates(ItemModelPredicateProviderRegistryEvent event) {
-        event.registry.register(GtTest.TEST_POWER_TOOL, GtTest.NAMESPACE.id("tool"),
+        event.registry.register(GtTest.testPowerTool, GtTest.NAMESPACE.id("tool"),
                 (itemInstance, world, entity, seed) ->
                         TestPowerTool.getSelectedTool(itemInstance).equals("drill") ? 0 : 1);
     }

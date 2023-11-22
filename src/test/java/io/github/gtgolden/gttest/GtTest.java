@@ -5,11 +5,11 @@ import io.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
 import io.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import io.github.gtgolden.gtgoldencore.materials.api.module.TranslationModule;
 import io.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
+import io.github.gtgolden.gttest.block.*;
 import io.github.gtgolden.gttest.item.Battery;
 import io.github.gtgolden.gttest.item.RedstonePickaxe;
 import io.github.gtgolden.gttest.item.TestMetaItem;
 import io.github.gtgolden.gttest.item.TestPowerTool;
-import io.github.gtgolden.gttest.block.*;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.BlockBase;
 import net.minecraft.block.material.Material;
@@ -32,20 +32,20 @@ public class GtTest {
     @Entrypoint.Logger("GT-TEST")
     public static final Logger LOGGER = Null.get();
 
-    public static BlockBase GENERATOR;
-    public static BlockBase APPLE_SPAWNER;
-    public static BlockBase COBBLE_GEN;
-    public static BlockBase ITEM_MOVER;
-    public static BlockBase STORAGE_BLOCK;
+    public static BlockBase generator;
+    public static BlockBase appleSpawner;
+    public static BlockBase cobbleGen;
+    public static BlockBase itemMover;
+    public static BlockBase storageBlock;
 
     @EventListener
     public void registerBlocks(BlockRegistryEvent event) {
         LOGGER.info("Registering blocks");
-        GENERATOR = new Generator(NAMESPACE.id("generator"), Material.STONE);
-        APPLE_SPAWNER = new AppleSpawner(NAMESPACE.id("apple_spawner"), Material.STONE);
-        COBBLE_GEN = new CobbleGenerator(NAMESPACE.id("cobble_generator"), Material.STONE);
-        ITEM_MOVER = new ItemMover(NAMESPACE.id("item_mover"), Material.STONE);
-        STORAGE_BLOCK = new StorageBlock(NAMESPACE.id("storage_block"), Material.METAL);
+        generator = new Generator(NAMESPACE.id("generator"), Material.STONE);
+        appleSpawner = new AppleSpawner(NAMESPACE.id("apple_spawner"), Material.STONE);
+        cobbleGen = new CobbleGenerator(NAMESPACE.id("cobble_generator"), Material.STONE);
+        itemMover = new ItemMover(NAMESPACE.id("item_mover"), Material.STONE);
+        storageBlock = new StorageBlock(NAMESPACE.id("storage_block"), Material.METAL);
     }
 
     @EventListener
@@ -58,18 +58,18 @@ public class GtTest {
         event.register(StorageEntity.class, NAMESPACE.id("storage_block").toString());
     }
 
-    public static ItemBase REDSTONE_PICKAXE;
-    public static TestMetaItem TEST_META_ITEM;
-    public static ItemBase TEST_POWER_TOOL;
-    public static ItemBase BATTERY;
+    public static ItemBase redstonePickaxe;
+    public static TestMetaItem testMetaItem;
+    public static ItemBase testPowerTool;
+    public static ItemBase battery;
 
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
         LOGGER.info("Registering items");
-        REDSTONE_PICKAXE = new RedstonePickaxe(NAMESPACE.id("redstone_pickaxe"));
-        TEST_META_ITEM = new TestMetaItem(NAMESPACE.id("test_meta_item"));
-        TEST_POWER_TOOL = new TestPowerTool(NAMESPACE.id("test_power_tool"));
-        BATTERY = new Battery(NAMESPACE.id("battery"));
+        redstonePickaxe = new RedstonePickaxe(NAMESPACE.id("redstone_pickaxe"));
+        testMetaItem = new TestMetaItem(NAMESPACE.id("test_meta_item"));
+        testPowerTool = new TestPowerTool(NAMESPACE.id("test_power_tool"));
+        battery = new Battery(NAMESPACE.id("battery"));
     }
 
     @EventListener
@@ -79,7 +79,7 @@ public class GtTest {
         event.registerModules(
                 "redstone",
                 new ToolMaterialModule("redstone", 3, 4, 14.0F, 0),
-                new ItemFormsModule("pickaxe", new ItemInstance(REDSTONE_PICKAXE))
+                new ItemFormsModule("pickaxe", new ItemInstance(redstonePickaxe))
         );
         event.registerTranslationProvider("redstone", NAMESPACE);
     }

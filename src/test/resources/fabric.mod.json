@@ -20,6 +20,9 @@
     ],
     "stationapi:event_bus_client": [
       "io.github.gtgolden.gttest.GtTestClient"
+    ],
+    "bhcreative:event_bus": [
+      "io.github.gtgolden.gttest.compat.BHCreativeCompat"
     ]
   },
   "depends": {

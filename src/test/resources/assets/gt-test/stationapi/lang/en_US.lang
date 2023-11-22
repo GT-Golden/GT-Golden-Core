@@ -13,3 +13,5 @@ item.redstone_test_meta_item.name=Red Item
 item.dirt_test_meta_item.name=Dirty Test Item
 
 material.dirt.name=Dirt
+
+tab.items.name=GT: Golden-Core Test
