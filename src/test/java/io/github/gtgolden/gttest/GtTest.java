@@ -3,7 +3,6 @@ package io.github.gtgolden.gttest;
 import io.github.gtgolden.gtgoldencore.materials.api.module.ColorModule;
 import io.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
 import io.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
-import io.github.gtgolden.gtgoldencore.materials.api.module.TranslationModule;
 import io.github.gtgolden.gtgoldencore.materials.impl.MaterialRegistryEvent;
 import io.github.gtgolden.gttest.block.*;
 import io.github.gtgolden.gttest.item.Battery;
@@ -75,7 +74,8 @@ public class GtTest {
     @EventListener
     public void registerMaterials(MaterialRegistryEvent event) {
         LOGGER.info("Registering materials");
-        event.registerModules("dirt", new ColorModule(new Color(0x332008)), new TranslationModule(NAMESPACE.id("dirt")));
+        event.registerModules("dirt", new ColorModule(new Color(0x332008)));
+        event.registerTranslationProvider("dirt", GtTest.NAMESPACE);
         event.registerModules(
                 "redstone",
                 new ToolMaterialModule("redstone", 3, 4, 14.0F, 0),

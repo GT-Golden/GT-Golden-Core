@@ -1,18 +1,24 @@
 package io.github.gtgolden.gtgoldencore.materials.api;
 
+import io.github.gtgolden.gtgoldencore.GTGoldenCore;
+import io.github.gtgolden.gtgoldencore.materials.GTMaterials;
 import io.github.gtgolden.gtgoldencore.materials.api.module.Module;
-import io.github.gtgolden.gtgoldencore.materials.api.module.TranslationModule;
+import net.minecraft.client.resource.language.I18n;
+import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.Namespace;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
 public class Material {
+    @NotNull
     public String name;
     public HashMap<Class<? extends Module>, Module> modules = new HashMap<>();
 
-    public Material(String name) {
+    public Material(@NotNull String name) {
         this.name = name;
+        identifier = GTGoldenCore.NAMESPACE.id(name);
     }
 
     public Material addModule(Module module) {
@@ -29,27 +35,65 @@ public class Material {
         return (Optional<T>) Optional.ofNullable(modules.get(moduleName));
     }
 
-    public void registerTranslationProvider(Namespace namespace) {
-        getModule(TranslationModule.class).ifPresent(module -> module.addNamespace(namespace));
+    protected Namespace[] translationProviders = new Namespace[]{};
+    protected Identifier identifier;
+
+    public @NotNull Material registerTranslationProvider(Namespace namespace) {
+        var newTranslationProviders = new ArrayList<>(List.of(translationProviders));
+        if (!newTranslationProviders.contains(namespace)) {
+            newTranslationProviders.add(namespace);
+            translationProviders = newTranslationProviders.toArray(Namespace[]::new);
+        }
+        return this;
     }
 
-    public Optional<String> getTranslationKey() {
-        return getModule(TranslationModule.class).map(TranslationModule::getTranslationKey);
+    public @NotNull Material overrideIdentifier(Identifier identifier) {
+        GTMaterials.LOGGER.info("Material " + name + "'s identifier has been overriden to " + identifier.toString());
+        this.identifier = identifier;
+        return this;
     }
 
-    public String getTranslatedName() {
-        return getModule(TranslationModule.class).map(TranslationModule::getTranslatedName).orElse(name);
+    public @NotNull Identifier getIdentifier() {
+        return identifier;
     }
 
-    public String getTranslatedName(String originalTooltip, String form) {
-        return getModule(TranslationModule.class).map(module -> module.getTranslatedName(originalTooltip, form)).orElse(name);
+    public @NotNull String getTranslationKey() {
+        return "material." + identifier + ".name";
     }
 
-    public Optional<String> getUniqueTranslatedName(String form) {
-        return getModule(TranslationModule.class).flatMap(module -> module.getUniqueTranslatedName(form));
+    public @NotNull String getTranslatedName() {
+        return I18n.translate(getTranslationKey());
     }
 
-    public String getAffix() {
-        return getModule(TranslationModule.class).map(TranslationModule::getAffix).orElse(getTranslatedName());
+    /**
+     * @return Returns empty if there isn't a unique translated name for this form. Present optional represents a full translated string.
+     */
+    public @Nullable String getUniqueTranslatedName(String form) {
+        for (Namespace namespace : translationProviders) {
+            var searchingFor = "item." + namespace + ":" + name + "_" + form + ".name";
+            var uniqueName = I18n.translate(searchingFor);
+            if (!uniqueName.equals(searchingFor)) {
+                return uniqueName;
+            }
+        }
+        return null;
+    }
+
+    public @NotNull String getTranslatedName(String originalTooltip, String form) {
+        var uniqueForm = getUniqueTranslatedName(form);
+        if (uniqueForm == null) {
+            return originalTooltip.formatted(getAffix());
+        } else {
+            return uniqueForm;
+        }
+    }
+
+    public @NotNull String getAffix() {
+        var translation = I18n.translate("material." + identifier + ".affix");
+        if (Objects.equals(translation, "material." + identifier + ".affix")) {
+            return getTranslatedName();
+        } else {
+            return translation;
+        }
     }
 }

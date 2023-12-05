@@ -3,8 +3,10 @@ package io.github.gtgolden.gtgoldencore.materials.impl;
 import io.github.gtgolden.gtgoldencore.GTGoldenCore;
 import io.github.gtgolden.gtgoldencore.materials.GTMaterials;
 import io.github.gtgolden.gtgoldencore.materials.api.Material;
-import io.github.gtgolden.gtgoldencore.materials.api.module.*;
+import io.github.gtgolden.gtgoldencore.materials.api.module.ColorModule;
+import io.github.gtgolden.gtgoldencore.materials.api.module.ItemFormsModule;
 import io.github.gtgolden.gtgoldencore.materials.api.module.Module;
+import io.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
@@ -32,7 +34,7 @@ public class MaterialRegistry {
                         .addModule(new ToolMaterialModule(
                                 ToolMaterial.field_1688
                         ))
-                        .addModule(new TranslationModule(GTGoldenCore.NAMESPACE.id("wood")))
+                        .registerTranslationProvider(GTGoldenCore.NAMESPACE)
         );
         defaultMaterials.put(
                 "stone",
@@ -42,7 +44,7 @@ public class MaterialRegistry {
                         .addModule(new ToolMaterialModule(
                                 ToolMaterial.field_1689
                         ))
-                        .addModule(new TranslationModule(GTGoldenCore.NAMESPACE.id("stone")))
+                        .registerTranslationProvider(GTGoldenCore.NAMESPACE)
         );
         defaultMaterials.put(
                 "iron",
@@ -50,7 +52,7 @@ public class MaterialRegistry {
                         .addModule(new ItemFormsModule("ingot", ItemBase.ironIngot))
                         .addModule(new ColorModule(new Color(0xFFFFFF)))
                         .addModule(new ToolMaterialModule(ToolMaterial.field_1690))
-                        .addModule(new TranslationModule(GTGoldenCore.NAMESPACE.id("iron")))
+                        .registerTranslationProvider(GTGoldenCore.NAMESPACE)
         );
         defaultMaterials.put(
                 "gold",
@@ -58,7 +60,7 @@ public class MaterialRegistry {
                         .addModule(new ItemFormsModule("ingot", ItemBase.goldIngot))
                         .addModule(new ColorModule(new Color(0xFFCC00)))
                         .addModule(new ToolMaterialModule(ToolMaterial.field_1692))
-                        .addModule(new TranslationModule(GTGoldenCore.NAMESPACE.id("gold")))
+                        .registerTranslationProvider(GTGoldenCore.NAMESPACE)
         );
         defaultMaterials.put(
                 "diamond",
@@ -66,14 +68,14 @@ public class MaterialRegistry {
                         .addModule(new ItemFormsModule("gem", ItemBase.diamond))
                         .addModule(new ColorModule(new Color(0x61B6A8)))
                         .addModule(new ToolMaterialModule(ToolMaterial.field_1691))
-                        .addModule(new TranslationModule(GTGoldenCore.NAMESPACE.id("diamond")))
+                        .registerTranslationProvider(GTGoldenCore.NAMESPACE)
         );
         defaultMaterials.put(
                 "redstone",
                 new Material("redstone")
                         .addModule(new ItemFormsModule("dust", ItemBase.redstoneDust))
                         .addModule(new ColorModule(new Color(0xFF0000)))
-                        .addModule(new TranslationModule(GTGoldenCore.NAMESPACE.id("redstone")))
+                        .registerTranslationProvider(GTGoldenCore.NAMESPACE)
         );
     }
 
