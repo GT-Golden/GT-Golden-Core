@@ -5,6 +5,7 @@ import io.github.gtgolden.gtgoldencore.machines.api.block.items.ItemIO;
 import io.github.gtgolden.gtgoldencore.machines.api.block.items.ItemStorage;
 import io.github.gtgolden.gtgoldencore.machines.api.block.power.HasPowerStorage;
 import io.github.gtgolden.gtgoldencore.machines.api.block.power.PowerStorage;
+import io.github.gtgolden.gtgoldencore.machines.api.slot.GTSlot;
 import io.github.gtgolden.gtgoldencore.machines.api.slot.GTSlotBuilder;
 import net.minecraft.block.BlockBase;
 import net.minecraft.item.ItemBase;
@@ -15,10 +16,14 @@ import net.minecraft.util.io.CompoundTag;
 
 public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerStorage, HasItemStorage {
     static final int COOK_TIME = 15;
+    GTSlot cobbleSlot = new GTSlotBuilder().withLabel("cobble").build();
+    GTSlot waterSlot = new GTSlotBuilder().withLabel("water").build();
+    GTSlot lavaSlot = new GTSlotBuilder().withLabel("lava").build();
     ItemStorage itemStorage = new ItemStorage("cobbleGenItems",
-            new GTSlotBuilder().withLabel("cobble").build(),
-            new GTSlotBuilder().withLabel("water").build(),
-            new GTSlotBuilder().withLabel("lava").build());
+            cobbleSlot,
+            waterSlot,
+            lavaSlot
+    );
     PowerStorage powerStorage = new PowerStorage("cobbleGenPower", 256, 0);
     int timer = 0;
 
@@ -34,24 +39,24 @@ public class CobbleGeneratorEntity extends TileEntityBase implements HasPowerSto
 
     @Override
     public void tick() {
-        var cobbleSlot = getInventoryItem("cobble").foundItem();
-        var waterBucketSlot = getInventoryItem("water").foundItem();
-        var lavaBucketSlot = getInventoryItem("lava").foundItem();
+        var cobbleSlotItem = cobbleSlot.getItem();
+        var waterSlotItem = waterSlot.getItem();
+        var lavaSlotItem = lavaSlot.getItem();
         if (getPower() > 0 &&
-                waterBucketSlot != null && waterBucketSlot.itemId == ItemBase.waterBucket.id &&
-                lavaBucketSlot != null && lavaBucketSlot.itemId == ItemBase.lavaBucket.id &&
-                (cobbleSlot == null || (cobbleSlot.itemId == BlockBase.COBBLESTONE.id && cobbleSlot.count < 64))) {
+                waterSlotItem != null && waterSlotItem.itemId == ItemBase.waterBucket.id &&
+                lavaSlotItem != null && lavaSlotItem.itemId == ItemBase.lavaBucket.id &&
+                (cobbleSlotItem == null || (cobbleSlotItem.itemId == BlockBase.COBBLESTONE.id && cobbleSlotItem.count < 64))) {
             if (timer >= COOK_TIME) {
                 timer = 0;
-                getSlot("cobble").get().attemptSendItem(new ItemInstance(BlockBase.COBBLESTONE));
+                cobbleSlot.attemptSendItem(new ItemInstance(BlockBase.COBBLESTONE));
             } else {
                 timer++;
             }
         } else {
             timer = 0;
         }
-        if (cobbleSlot != null && level.getTileEntity(x, y + 1, z) instanceof TileEntityChest chest) {
-            setInventoryItem("cobble", ((ItemIO) chest).attemptSendItem(cobbleSlot));
+        if (cobbleSlotItem != null && level.getTileEntity(x, y + 1, z) instanceof TileEntityChest chest) {
+            cobbleSlot.setStack(((ItemIO) chest).attemptSendItem(cobbleSlotItem));
         }
     }
 

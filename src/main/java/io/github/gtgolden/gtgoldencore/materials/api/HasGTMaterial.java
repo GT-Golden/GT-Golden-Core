@@ -1,9 +1,8 @@
 package io.github.gtgolden.gtgoldencore.materials.api;
 
 import net.minecraft.item.ItemInstance;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public interface HasGTMaterial {
-    Optional<Material> getGTMaterial(ItemInstance itemInstance);
+    @Nullable Material getGTMaterial(ItemInstance itemInstance);
 }

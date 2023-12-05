@@ -11,8 +11,7 @@ import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
 import net.modificationstation.stationapi.api.template.item.TemplatePickaxeItem;
 import net.modificationstation.stationapi.api.util.Identifier;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public class RedstonePickaxe extends TemplatePickaxeItem implements HasGTMaterial {
     private ToolMaterial material;
@@ -22,9 +21,10 @@ public class RedstonePickaxe extends TemplatePickaxeItem implements HasGTMateria
         setTranslationKey(identifier);
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private void checkMaterial() {
         if (material == null) {
-            material = MaterialRegistry.getMaterialModule("redstone", ToolMaterialModule.class).get().material;
+            material = MaterialRegistry.getMaterialModule("redstone", ToolMaterialModule.class).material;
             setDurability(material.getDurability());
         }
     }
@@ -41,8 +41,9 @@ public class RedstonePickaxe extends TemplatePickaxeItem implements HasGTMateria
         return material;
     }
 
+
     @Override
-    public Optional<Material> getGTMaterial(ItemInstance itemInstance) {
+    public @Nullable Material getGTMaterial(ItemInstance itemInstance) {
         return MaterialRegistry.getMaterial("redstone");
     }
 }

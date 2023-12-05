@@ -9,7 +9,10 @@ import net.modificationstation.stationapi.api.util.Namespace;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class Material {
     @NotNull
@@ -31,8 +34,13 @@ public class Material {
         return this;
     }
 
-    public <T extends Module> Optional<T> getModule(Class<T> moduleName) {
-        return (Optional<T>) Optional.ofNullable(modules.get(moduleName));
+    public <T extends Module> boolean hasModule(Class<T> module) {
+        return modules.containsKey(module);
+    }
+
+    public <T extends Module> @Nullable T getModule(Class<T> module) {
+        //noinspection unchecked
+        return (T) modules.get(module);
     }
 
     protected Namespace[] translationProviders = new Namespace[]{};
@@ -66,7 +74,7 @@ public class Material {
     }
 
     /**
-     * @return Returns empty if there isn't a unique translated name for this form. Present optional represents a full translated string.
+     * @return Returns null if there isn't a unique translated name for this form.
      */
     public @Nullable String getUniqueTranslatedName(String form) {
         for (Namespace namespace : translationProviders) {

@@ -3,8 +3,7 @@ package io.github.gtgolden.gtgoldencore.machines.api.slot;
 import net.minecraft.container.slot.Slot;
 import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public class GTSlot extends Slot {
     String label;
@@ -13,6 +12,7 @@ public class GTSlot extends Slot {
         super(arg, i, j, k);
         this.label = label;
     }
+
     public GTSlot(InventoryBase arg, int i, int j, int k) {
         super(arg, i, j, k);
     }
@@ -25,8 +25,8 @@ public class GTSlot extends Slot {
         super(null, -1, 0, 0);
     }
 
-    public Optional<String> getLabel() {
-        return Optional.ofNullable(label);
+    public @Nullable String getLabel() {
+        return label;
     }
 
     public boolean canMachineInsert(ItemInstance item) {
@@ -47,6 +47,7 @@ public class GTSlot extends Slot {
     public boolean canPlayerInsert(ItemInstance item) {
         return true;
     }
+
     public boolean canPlayerTake(ItemInstance item) {
         return true;
     }

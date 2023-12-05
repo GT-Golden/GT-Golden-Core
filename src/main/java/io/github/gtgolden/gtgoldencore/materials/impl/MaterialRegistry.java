@@ -10,10 +10,10 @@ import io.github.gtgolden.gtgoldencore.materials.api.module.ToolMaterialModule;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolMaterial;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Optional;
 
 public class MaterialRegistry {
     public static final HashMap<String, Material> materials = new HashMap<>();
@@ -94,22 +94,26 @@ public class MaterialRegistry {
         return false;
     }
 
-    public static Optional<Material> getMaterial(String materialName) {
+    public static @Nullable Material getMaterial(String materialName) {
         if (materials.containsKey(materialName)) {
-            return Optional.of(materials.get(materialName));
+            return materials.get(materialName);
         } else if (defaultMaterials.containsKey(materialName)) {
             GTGoldenCore.LOGGER.info("Lazy registered default " + materialName + " material.");
             materials.put(materialName, defaultMaterials.get(materialName));
-            return Optional.of(materials.get(materialName));
+            return materials.get(materialName);
         }
-        return Optional.empty();
+        return null;
     }
 
-    public static <T extends Module> Optional<T> getMaterialModule(String materialName, Class<T> moduleName) {
-        return getMaterial(materialName).flatMap(material -> material.getModule(moduleName));
+    public static <T extends Module> @Nullable T getMaterialModule(String materialName, Class<T> module) {
+        var material = getMaterial(materialName);
+        if (material == null) return null;
+        return material.getModule(module);
     }
 
-    public static Optional<ItemInstance> getItemForm(String materialName, String form) {
-        return getMaterialModule(materialName, ItemFormsModule.class).flatMap(formModule -> formModule.getForm(form));
+    public static @Nullable ItemInstance getItemForm(String materialName, String form) {
+        var module = getMaterialModule(materialName, ItemFormsModule.class);
+        if (module == null) return null;
+        return module.getForm(form);
     }
 }

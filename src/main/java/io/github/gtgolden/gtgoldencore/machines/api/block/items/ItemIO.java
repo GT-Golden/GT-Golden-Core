@@ -5,8 +5,8 @@ import io.github.gtgolden.gtgoldencore.machines.impl.ItemRetrievalResult;
 import net.minecraft.inventory.InventoryBase;
 import net.minecraft.item.ItemInstance;
 import net.modificationstation.stationapi.api.util.math.Direction;
-
-import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface ItemIO extends InventoryBase {
     GTSlot[] getSlots();
@@ -15,51 +15,46 @@ public interface ItemIO extends InventoryBase {
         return getSlots()[i];
     }
 
-    default Optional<GTSlot> getSlot(String label) {
+    default @Nullable GTSlot getSlot(@NotNull String label) {
         for (GTSlot slot : getSlots()) {
-            if (slot.getLabel().isPresent()) {
-                if (slot.getLabel().get().equals(label)) return Optional.of(slot);
-            }
+            if (label.equals(slot.getLabel())) return slot;
         }
-
-        return Optional.empty();
+        return null;
     }
+
     @Override
     default int getInventorySize() {
         return getSlots().length;
     }
 
     default ItemRetrievalResult getInventoryItem(String label) {
-        return getSlot(label)
-                .map(
-                        slot -> new ItemRetrievalResult(true, slot.getItem()))
-                .orElseGet(
-                        () -> new ItemRetrievalResult(false, null)
-                );
+        var slot = getSlot(label);
+        if (slot == null) return new ItemRetrievalResult(false, null);
+        return new ItemRetrievalResult(true, slot.getItem());
     }
 
     default boolean setInventoryItem(String label, ItemInstance arg) {
         var slot = getSlot(label);
-        if (slot.isEmpty()) return false;
-        slot.get().setStack(arg);
+        if (slot == null) return false;
+        slot.setStack(arg);
         return true;
     }
 
-    default ItemInstance attemptSendItem(Direction side, ItemInstance inputItem) {
+    default @Nullable ItemInstance attemptSendItem(Direction side, ItemInstance inputItem) {
         if (inputItem == null) return null;
         return attemptSendItem(side, inputItem, inputItem.count);
     }
 
-    default ItemInstance attemptSendItem(Direction side, ItemInstance inputItem, int maxThroughput) {
+    default @Nullable ItemInstance attemptSendItem(Direction side, ItemInstance inputItem, int maxThroughput) {
         return attemptSendItem(inputItem, maxThroughput);
     }
 
-    default ItemInstance attemptSendItem(ItemInstance inputItem) {
+    default @Nullable ItemInstance attemptSendItem(ItemInstance inputItem) {
         if (inputItem == null) return null;
         return attemptSendItem(inputItem, inputItem.count);
     }
 
-    default ItemInstance attemptSendItem(ItemInstance itemInstance, int maxThroughput) {
+    default @Nullable ItemInstance attemptSendItem(ItemInstance itemInstance, int maxThroughput) {
         if (itemInstance == null) return null;
         int startingCount = itemInstance.count;
         int alreadySent = 0;
@@ -75,7 +70,7 @@ public interface ItemIO extends InventoryBase {
         return currentItem;
     }
 
-    default ItemInstance attemptTake(ItemInstance desiredItem) {
+    default @Nullable ItemInstance attemptTake(ItemInstance desiredItem) {
         if (desiredItem == null) return null;
         var response = desiredItem.copy();
         response.count = 0;

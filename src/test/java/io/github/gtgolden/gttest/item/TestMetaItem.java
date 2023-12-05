@@ -19,16 +19,16 @@ public class TestMetaItem extends TemplateItem implements HasNBTBasedGTMaterial,
     @Override
     public ItemInstance use(ItemInstance itemInstance, Level level, PlayerBase player) {
         var material = getGTMaterial(itemInstance);
-        if (material.isEmpty() || Objects.equals(material.get().name, "wood")) {
+        if (material == null || Objects.equals(material.name, "wood")) {
             player.swingHand();
             setGTMaterial(itemInstance, "diamond");
-        } else if (Objects.equals(material.get().name, "diamond")) {
+        } else if (Objects.equals(material.name, "diamond")) {
             player.swingHand();
             setGTMaterial(itemInstance, "redstone");
-        } else if (Objects.equals(material.get().name, "redstone")) {
+        } else if (Objects.equals(material.name, "redstone")) {
             player.swingHand();
             setGTMaterial(itemInstance, "dirt");
-        } else if (Objects.equals(material.get().name, "dirt")) {
+        } else if (Objects.equals(material.name, "dirt")) {
             player.swingHand();
             setGTMaterial(itemInstance, "wood");
         }
@@ -37,12 +37,8 @@ public class TestMetaItem extends TemplateItem implements HasNBTBasedGTMaterial,
 
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
-        return new String[]{
-                getGTMaterial(itemInstance).map(material ->
-                        material.getTranslatedName(originalTooltip, "test_meta_item")
-                ).orElseGet(() ->
-                        String.format(originalTooltip, "(NULL)")
-                )
-        };
+        var material = getGTMaterial(itemInstance);
+        if (material == null) return new String[]{String.format(originalTooltip, "(NULL)")};
+        return new String[]{material.getTranslatedName(originalTooltip, "test_meta_item")};
     }
 }

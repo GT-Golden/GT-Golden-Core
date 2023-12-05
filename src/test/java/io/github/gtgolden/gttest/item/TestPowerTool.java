@@ -24,8 +24,7 @@ import net.modificationstation.stationapi.api.registry.BlockRegistry;
 import net.modificationstation.stationapi.api.tag.TagKey;
 import net.modificationstation.stationapi.api.template.item.TemplateToolItem;
 import net.modificationstation.stationapi.api.util.Identifier;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public class TestPowerTool extends TemplateToolItem implements HasGTMaterial, ItemWithPowerStorage, HasPowerBar, HasPowerTooltip, ItemWithItemStorage {
     private static final GTSlot[] slots = {
@@ -58,9 +57,9 @@ public class TestPowerTool extends TemplateToolItem implements HasGTMaterial, It
     }
 
     @Override
-    public Optional<Material> getGTMaterial(ItemInstance itemInstance) {
+    public @Nullable Material getGTMaterial(ItemInstance itemInstance) {
         var materialItem = getInventoryItem(itemInstance, 0);
-        if (materialItem == null) return Optional.empty();
+        if (materialItem == null) return null;
         var type = materialItem.getType();
         if (type == ItemBase.ironIngot) {
             return MaterialRegistry.getMaterial("iron");
@@ -71,7 +70,7 @@ public class TestPowerTool extends TemplateToolItem implements HasGTMaterial, It
         } else if (materialItem.itemId == BlockBase.WOOD.id) {
             return MaterialRegistry.getMaterial("wood");
         } else {
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -79,10 +78,10 @@ public class TestPowerTool extends TemplateToolItem implements HasGTMaterial, It
     public ToolMaterial getMaterial(ItemInstance itemInstance) {
         if (getPower(itemInstance) < powerPerUse) return GTMaterials.MISSING_TOOL_MATERIAL;
         var material = getGTMaterial(itemInstance);
-        if (material.isEmpty()) return GTMaterials.MISSING_TOOL_MATERIAL;
-        var toolMaterialModule = material.get().getModule(ToolMaterialModule.class);
-        if (toolMaterialModule.isEmpty()) return GTMaterials.MISSING_TOOL_MATERIAL;
-        return toolMaterialModule.get().material;
+        if (material == null) return GTMaterials.MISSING_TOOL_MATERIAL;
+        var toolMaterialModule = material.getModule(ToolMaterialModule.class);
+        if (toolMaterialModule == null) return GTMaterials.MISSING_TOOL_MATERIAL;
+        return toolMaterialModule.material;
     }
 
     @Override

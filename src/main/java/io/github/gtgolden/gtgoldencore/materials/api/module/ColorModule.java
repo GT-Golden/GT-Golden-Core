@@ -1,8 +1,11 @@
 package io.github.gtgolden.gtgoldencore.materials.api.module;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 
 public class ColorModule implements Module {
+    @NotNull
     public static final ColorModule defaultModule = new ColorModule(Color.WHITE);
 
     protected final Color color;

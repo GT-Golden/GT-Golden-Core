@@ -4,10 +4,10 @@ import io.github.gtgolden.gtgoldencore.GTGoldenCore;
 import net.minecraft.block.BlockBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
+import org.jetbrains.annotations.Nullable;
 import uk.co.benjiweber.expressions.tuple.BiTuple;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 // TODO Decide whether this will be moved into Material itself
 // TODO Mixin vanilla classes so we don't have to use raw objects.
@@ -66,7 +66,8 @@ public class ItemFormsModule implements Module {
         return this;
     }
 
-    public Optional<ItemInstance> getForm(String form) {
-        return Optional.ofNullable(forms.get(form)).map(itemForm -> itemForm.getForm().copy());
+    public @Nullable ItemInstance getForm(String form) {
+        if (!forms.containsKey(form)) return null;
+        return forms.get(form).getForm().copy();
     }
 }
